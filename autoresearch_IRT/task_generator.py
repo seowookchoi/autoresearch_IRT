@@ -11,7 +11,7 @@ import re
 import uuid
 from typing import Optional
 
-import anthropic
+import openai
 
 
 # ---------------------------------------------------------------------------
@@ -125,8 +125,8 @@ class TaskGenerator:
 
     def __init__(
         self,
-        client: anthropic.Anthropic,
-        model: str = "claude-sonnet-4-6",
+        client: openai.OpenAI,
+        model: str = "llama-3.3-70b-versatile",
         max_retries: int = 2,
     ) -> None:
         self.client = client
@@ -176,13 +176,15 @@ class TaskGenerator:
         )
 
         try:
-            response = self.client.messages.create(
+            response = self.client.chat.completions.create(
                 model=self.model,
                 max_tokens=1024,
-                system=_SYSTEM,
-                messages=[{"role": "user", "content": prompt}],
+                messages=[
+                    {"role": "system", "content": _SYSTEM},
+                    {"role": "user", "content": prompt},
+                ],
             )
-            raw = response.content[0].text.strip()
+            raw = response.choices[0].message.content.strip()
             task = self._parse_json(raw)
             task = self._validate(task, required_task_id=task_id, domain=domain)
             return task

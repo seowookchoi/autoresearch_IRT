@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(printenv)",
+      "Bash(uv pip:*)",
+      "Bash(curl -s https://api.github.com/repos/ollama/ollama/releases/latest)",
+      "Bash(curl -fsSL \"https://github.com/ollama/ollama/releases/download/v0.20.3/ollama-linux-amd64.tgz\" -o /tmp/ollama.tgz)",
+      "Bash(tar -xzf /tmp/ollama.tgz -C /home/runner/.local)",
+      "Bash(/home/runner/.local/bin/ollama --version)",
+      "Bash(curl -fsSL \"https://github.com/ollama/ollama/releases/download/v0.20.3/ollama-linux-amd64.tar.zst\" -o /tmp/ollama.tar.zst)",
+      "Bash(tar --use-compress-program=unzstd -xf /tmp/ollama.tar.zst -C /home/runner/.local)"
+    ]
+  }
+}

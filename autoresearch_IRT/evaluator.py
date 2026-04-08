@@ -12,7 +12,7 @@ and Augmented solver profiles.
 import re
 from typing import Optional
 
-import anthropic
+import openai
 
 
 _JUDGE_SYSTEM = (
@@ -62,8 +62,8 @@ class Evaluator:
 
     def __init__(
         self,
-        client: anthropic.Anthropic,
-        model: str = "claude-sonnet-4-6",
+        client: openai.OpenAI,
+        model: str = "llama-3.3-70b-versatile",
     ) -> None:
         self.client = client
         self.model = model
@@ -92,13 +92,15 @@ class Evaluator:
         )
 
         try:
-            msg = self.client.messages.create(
+            msg = self.client.chat.completions.create(
                 model=self.model,
                 max_tokens=256,
-                system=_JUDGE_SYSTEM,
-                messages=[{"role": "user", "content": prompt}],
+                messages=[
+                    {"role": "system", "content": _JUDGE_SYSTEM},
+                    {"role": "user", "content": prompt},
+                ],
             )
-            raw = msg.content[0].text.strip()
+            raw = msg.choices[0].message.content.strip()
             return self._parse_verdict(raw)
         except Exception as exc:
             # Fail-safe: treat judge errors as FAIL to avoid false positives

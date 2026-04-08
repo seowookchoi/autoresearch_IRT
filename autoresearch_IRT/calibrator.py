@@ -18,7 +18,7 @@ Evaluator, applies the IRT filtration logic, and returns a result dict
 ready for database persistence.
 """
 
-import anthropic
+import openai
 
 from evaluator import Evaluator
 from irt_parameters import (
@@ -104,9 +104,9 @@ class Calibrator:
 
     def __init__(
         self,
-        client: anthropic.Anthropic,
-        solver_model: str = "claude-sonnet-4-6",
-        judge_model: str  = "claude-sonnet-4-6",
+        client: openai.OpenAI,
+        solver_model: str = "llama-3.3-70b-versatile",
+        judge_model: str  = "llama-3.3-70b-versatile",
         verbose: bool = True,
     ) -> None:
         self.client       = client
@@ -196,13 +196,15 @@ class Calibrator:
         """Zero-shot solver: minimal framing, no scaffolding."""
         prompt = _VANILLA_USER.format(context=context, question=question)
         try:
-            msg = self.client.messages.create(
+            msg = self.client.chat.completions.create(
                 model=self.solver_model,
                 max_tokens=512,
-                system=_VANILLA_SYSTEM,
-                messages=[{"role": "user", "content": prompt}],
+                messages=[
+                    {"role": "system", "content": _VANILLA_SYSTEM},
+                    {"role": "user", "content": prompt},
+                ],
             )
-            return msg.content[0].text.strip()
+            return msg.choices[0].message.content.strip()
         except Exception as exc:
             return f"[Solver error: {exc}]"
 
@@ -213,13 +215,15 @@ class Calibrator:
         """
         prompt = _AUGMENTED_USER.format(context=context, question=question)
         try:
-            msg = self.client.messages.create(
+            msg = self.client.chat.completions.create(
                 model=self.solver_model,
                 max_tokens=1536,
-                system=_AUGMENTED_SYSTEM,
-                messages=[{"role": "user", "content": prompt}],
+                messages=[
+                    {"role": "system", "content": _AUGMENTED_SYSTEM},
+                    {"role": "user", "content": prompt},
+                ],
             )
-            return msg.content[0].text.strip()
+            return msg.choices[0].message.content.strip()
         except Exception as exc:
             return f"[Solver error: {exc}]"
 

@@ -24,3 +24,8 @@ expertMode = true
 [postMerge]
 path = "scripts/post-merge.sh"
 timeoutMs = 20000
+
+[userenv]
+
+[userenv.shared]
+GROQ_API_KEY = "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"

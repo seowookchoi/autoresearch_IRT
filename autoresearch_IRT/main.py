@@ -23,7 +23,7 @@ import sys
 import textwrap
 from pathlib import Path
 
-import anthropic
+import openai
 
 from calibrator import Calibrator
 from database import Database
@@ -107,13 +107,16 @@ def run_pipeline(n: int, db_path: str, verbose: bool) -> None:
     print(_banner("Bio-Compliance IRT Pipeline"))
 
     # -- API client ----------------------------------------------------------
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    api_key = os.environ.get("GROQ_API_KEY")
     if not api_key:
-        print("\n  ERROR: ANTHROPIC_API_KEY environment variable is not set.")
-        print("  Export it before running:  export ANTHROPIC_API_KEY=sk-ant-…")
+        print("\n  ERROR: GROQ_API_KEY environment variable is not set.")
+        print("  Add it to your Replit Secrets and restart.")
         sys.exit(1)
 
-    client = anthropic.Anthropic(api_key=api_key)
+    client = openai.OpenAI(
+        base_url="https://api.groq.com/openai/v1",
+        api_key=api_key,
+    )
 
     # -- Database ------------------------------------------------------------
     db = Database(db_path)
