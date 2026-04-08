@@ -23,50 +23,67 @@ DOMAINS = [
         "key": "21cfr11",
         "label": "FDA 21 CFR Part 11 — Electronic Records & Electronic Signatures",
         "hint": (
-            "Focus on audit trail requirements, system validation, "
-            "access controls, and the distinction between open and closed systems. "
-            "Include a scenario where an SOP or system configuration creates a subtle "
-            "Part 11 gap that a non-expert would miss."
+            "Create a scenario where the OBVIOUS answer is wrong. "
+            "For example: a system appears compliant on the surface (has audit trails, "
+            "validation docs, access controls) but has a single specific gap that only "
+            "someone with deep Part 11 knowledge would catch — e.g., hybrid records "
+            "where paper and electronic coexist, the 'predicate rule' scoping issue, "
+            "or a closed system that performs an operation requiring open-system controls. "
+            "The question should have a COUNTERINTUITIVE correct answer that a general "
+            "compliance professional would likely get wrong."
         ),
     },
     {
         "key": "gcp_deviation",
         "label": "GCP — Clinical Trial Protocol Deviations & IRB/IEC Reporting",
         "hint": (
-            "Focus on classifying deviations as major vs. minor, the timing of "
-            "mandatory reporting to the IRB/IEC, and ICH E6(R2) sponsor obligations. "
-            "Include a realistic scenario involving a missed visit window or "
-            "incorrect IP dispensation with a borderline classification."
+            "Create a scenario where the reporting obligation is COUNTERINTUITIVE. "
+            "For example: a deviation looks minor but crosses a threshold that makes "
+            "it legally major; OR a seemingly serious deviation actually falls under "
+            "a pre-approved exception in the protocol; OR the correct answer hinges on "
+            "whether the deviation was prospective vs. retrospective, or sponsor- vs. "
+            "investigator-initiated. The common-sense classification should be WRONG. "
+            "Cite precise ICH E6(R2) section numbers and FDA 21 CFR obligations."
         ),
     },
     {
         "key": "promo_review",
         "label": "FDA Promotional Material Review — Off-Label Promotion & Fair Balance",
         "hint": (
-            "Focus on OPDP requirements, the fair-balance rule for brief summary "
-            "omission, and the distinction between reminder advertisements and "
-            "product-claim ads. Include a nuanced scenario where a social media "
-            "post or sales aid is borderline non-compliant."
+            "Create a scenario where a promotional piece APPEARS non-compliant but "
+            "actually qualifies for a specific regulatory exception — or vice versa. "
+            "Use one of: the reminder advertisement exception (21 CFR 202.1(e)(2)), "
+            "the help-seeking ad distinction, the reprints safe harbor, or the "
+            "difference between dissemination and promotion for scientific exchange. "
+            "The question answer should hinge on a specific regulatory carve-out that "
+            "a general professional would not know."
         ),
     },
     {
         "key": "gmp_deviation",
         "label": "GMP — Manufacturing Deviation Investigation & CAPA",
         "hint": (
-            "Focus on 21 CFR 211 out-of-specification (OOS) result investigation "
-            "timelines, the Phase I / Phase II investigation structure, and when "
-            "a batch must be rejected vs. conditionally released pending investigation. "
-            "Include a scenario with an ambiguous root cause."
+            "Create a scenario where the batch disposition decision is COUNTERINTUITIVE. "
+            "For example: a batch with an OOS result that seems obvious-reject is actually "
+            "releasable under specific Phase II investigation findings; OR a batch that "
+            "passed all specs must be rejected because of a procedural non-compliance "
+            "discovered during investigation (e.g., unqualified analyst, equipment "
+            "calibration lapse). The correct answer under 21 CFR 211.192 or 211.165 "
+            "should surprise a non-expert."
         ),
     },
     {
         "key": "informed_consent",
         "label": "GCP — Informed Consent Documentation & Re-Consent Requirements",
         "hint": (
-            "Focus on 21 CFR 50, ICH E6(R2) Section 4.8, and 45 CFR 46 "
-            "requirements for re-consent when protocol amendments occur mid-trial. "
-            "Include a scenario where subjects are in a vulnerable population "
-            "or where the amendment changes the risk/benefit assessment."
+            "Create a scenario where re-consent is either NOT required when a "
+            "non-expert would assume it is, or IS required in a situation that seems "
+            "exempt. For example: a protocol amendment that adds a non-invasive "
+            "questionnaire might not require re-consent under 45 CFR 46.116 waiver "
+            "criteria; OR subjects who have completed their last study visit still "
+            "require re-consent for a sample repository addition. The question must "
+            "hinge on a specific regulatory provision (21 CFR 50.25, ICH E6(R2) §4.8.2, "
+            "45 CFR 46) that overrides the intuitive answer."
         ),
     },
 ]
@@ -103,7 +120,8 @@ Required JSON structure (use EXACTLY these keys, no extras):
 Rules:
 - Respond with ONLY valid JSON — no markdown fences, no commentary.
 - The gold_standard must be verifiable against published regulations.
-- The scenario must require domain expertise; a well-read generalist should fail it.
+- CRITICAL: The scenario must be COUNTERINTUITIVE. The common-sense or obvious answer must be WRONG. A knowledgeable professional without specific regulatory training should confidently give the wrong answer.
+- The correct answer must hinge on a specific regulatory provision, exception, or threshold that only deep domain expertise reveals.
 - Do NOT include the answer anywhere in the context or question fields.
 """
 
