@@ -23,14 +23,16 @@ DOMAINS = [
         "key": "21cfr11",
         "label": "FDA 21 CFR Part 11 — Electronic Records & Electronic Signatures",
         "hint": (
-            "Create a scenario where the OBVIOUS answer is wrong. "
-            "For example: a system appears compliant on the surface (has audit trails, "
-            "validation docs, access controls) but has a single specific gap that only "
-            "someone with deep Part 11 knowledge would catch — e.g., hybrid records "
-            "where paper and electronic coexist, the 'predicate rule' scoping issue, "
-            "or a closed system that performs an operation requiring open-system controls. "
-            "The question should have a COUNTERINTUITIVE correct answer that a general "
-            "compliance professional would likely get wrong."
+            "Create a scenario focused specifically on audit trail requirements under "
+            "21 CFR 11.10(e). The system has time-stamped audit trails but a specific "
+            "gap in either: (1) review of audit trails — e.g., SOP does not require "
+            "periodic review of audit trails, only their generation; OR (2) the audit "
+            "trail does not capture all required metadata (e.g., misses system-initiated "
+            "changes, or only captures user ID but not reason for change). "
+            "The compliance gap must be non-obvious: a general professional assumes "
+            "'has audit trails = compliant with 11.10(e)' but the specific obligation "
+            "under 11.10(e) requires both generation AND review AND completeness. "
+            "The gold standard must cite 21 CFR 11.10(e) specifically."
         ),
     },
     {
