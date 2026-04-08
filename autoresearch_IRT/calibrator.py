@@ -58,6 +58,14 @@ _AUGMENTED_SYSTEM = (
 _AUGMENTED_USER = """
 A compliance question requires your expert analysis. Work through it systematically.
 
+--- REGULATORY REFERENCE TOOLKIT ---
+Draw on these key provisions when relevant (not exhaustive):
+• 21 CFR Part 11 (electronic records): §11.10(a) validation, §11.10(b) copies, §11.10(c) retrieval, §11.10(e) audit trails, §11.10(f) authority checks, §11.10(g) sequence checks, §11.10(h) device checks, §11.30 open systems, §11.50 signatures, §11.70 signature linking
+• GCP/ICH E6(R2): §4.8 informed consent, §4.8.2 re-consent, §5.18 monitoring, §5.18.2 deviation reporting, §5.21 non-compliance, 21 CFR 56.108(a)(3) IRB reportable changes, 21 CFR 312.62 investigator records
+• Promotional materials: 21 CFR 202.1(e)(1) brief summary, §202.1(e)(2) reminder ads, §202.1(e)(3)(ii) brief summary exceptions, §202.1(e)(5) black box requirements, OPDP draft guidance on social media
+• GMP manufacturing: 21 CFR 211.25(a) personnel qualification, §211.68 computerized systems, §211.100 production controls, §211.165(a) specifications, §211.192 batch record review, §211.194 OOS investigation
+• Informed consent: 21 CFR 50.25(a)-(b) elements, §50.25(c) additional elements, 45 CFR 46.116(a)-(c) required elements, §46.116(f) waiver criteria, §46.116(f)(3) alteration conditions
+
 --- SCENARIO ---
 {context}
 
@@ -76,11 +84,11 @@ State whether each regulatory requirement is met, violated, or uncertain given t
 
 STEP 3 — CRITICAL REFLECTION
 Identify at least one way your analysis in Step 2 could be wrong or incomplete.
-Consider edge cases, conflicting requirements, or factual ambiguities in the scenario.
+Consider edge cases, exceptions, safe harbors, or regulatory carve-outs that might change your conclusion.
 
 STEP 4 — FINAL COMPLIANCE VERDICT
 Based on the above analysis, state your definitive answer to the question.
-Cite the single most controlling regulation and state the precise obligation or violation.
+Cite the single most controlling regulation SECTION (not just the Part) and state the precise obligation or violation.
 
 Begin your response with "STEP 1 —"
 """
