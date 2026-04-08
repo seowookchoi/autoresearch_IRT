@@ -41,11 +41,11 @@ and satisfies the GOLD STANDARD requirement.
 
 Evaluation criteria:
 1. Does the response reach the correct compliance conclusion (e.g., compliant vs. non-compliant, major vs. minor deviation)?
-2. Does it identify the correct regulatory area and key obligation, even if the exact section number differs slightly?
-3. Is the substantive compliance guidance directionally consistent with the gold standard?
+2. Does it cite at least one specific regulation, section, or guidance document (e.g., "21 CFR 211.25", "ICH E6(R2) §4.8", "45 CFR 46.116") that is relevant to the answer? Generic phrases like "GMP regulations" or "FDA guidelines" without a specific citation do NOT satisfy this criterion.
+3. Is the substantive compliance reasoning consistent with the gold standard's key obligation?
 
-Minor differences in section numbers or wording are acceptable if the core answer is right.
-Mark FAIL only when: the compliance conclusion is wrong, a critical obligation is completely absent, or the response is too vague to be useful.
+Mark PASS only when ALL THREE criteria are met.
+Mark FAIL when: the conclusion is wrong, no specific regulatory citation is provided, or the key obligation is missed.
 
 Respond with EXACTLY this format (two lines, nothing else):
 VERDICT: <PASS or FAIL>

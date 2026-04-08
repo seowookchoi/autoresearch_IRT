@@ -34,8 +34,9 @@ from irt_parameters import (
 # ---------------------------------------------------------------------------
 
 _VANILLA_SYSTEM = (
-    "You are a knowledgeable professional answering a biopharma regulatory question. "
-    "Provide a concise, accurate answer."
+    "You are a general life sciences professional answering a compliance question. "
+    "Give a brief, direct answer based on your general understanding. "
+    "Do not look up specific regulation numbers; answer from intuition and general knowledge."
 )
 
 _VANILLA_USER = """
