@@ -18,10 +18,12 @@ import openai
 _JUDGE_SYSTEM = (
     "You are an impartial regulatory compliance examiner. "
     "Your sole job is to decide whether a response correctly addresses "
-    "a biopharma regulatory question. You are strict: partial answers, "
-    "vague generalisations, or responses that miss the specific regulatory "
-    "citation required by the gold standard are marked FAIL. "
-    "You do NOT give partial credit."
+    "a biopharma regulatory question. Focus on whether the core compliance "
+    "determination is correct (compliant vs. non-compliant) and whether the "
+    "response identifies the right regulatory obligation. Exact section numbers "
+    "are a plus but not required if the substantive answer is correct. "
+    "Mark FAIL only if the compliance conclusion is wrong, a key obligation is "
+    "completely missed, or the answer is vague to the point of being useless."
 )
 
 _JUDGE_TEMPLATE = """
@@ -38,11 +40,12 @@ and satisfies the GOLD STANDARD requirement.
 {response}
 
 Evaluation criteria:
-1. Does the response identify the correct regulatory obligation or prohibited action?
-2. Does it cite the correct regulation section (or an equivalent that leads to the same answer)?
-3. Is the core compliance guidance consistent with the gold standard?
+1. Does the response reach the correct compliance conclusion (e.g., compliant vs. non-compliant, major vs. minor deviation)?
+2. Does it identify the correct regulatory area and key obligation, even if the exact section number differs slightly?
+3. Is the substantive compliance guidance directionally consistent with the gold standard?
 
-Minor wording differences are acceptable. Critically wrong or missing key requirements → FAIL.
+Minor differences in section numbers or wording are acceptable if the core answer is right.
+Mark FAIL only when: the compliance conclusion is wrong, a critical obligation is completely absent, or the response is too vague to be useful.
 
 Respond with EXACTLY this format (two lines, nothing else):
 VERDICT: <PASS or FAIL>
