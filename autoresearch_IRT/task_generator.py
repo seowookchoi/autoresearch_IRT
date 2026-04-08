@@ -50,13 +50,15 @@ DOMAINS = [
         "key": "promo_review",
         "label": "FDA Promotional Material Review — Off-Label Promotion & Fair Balance",
         "hint": (
-            "Create a scenario where a promotional piece APPEARS non-compliant but "
-            "actually qualifies for a specific regulatory exception — or vice versa. "
-            "Use one of: the reminder advertisement exception (21 CFR 202.1(e)(2)), "
-            "the help-seeking ad distinction, the reprints safe harbor, or the "
-            "difference between dissemination and promotion for scientific exchange. "
-            "The question answer should hinge on a specific regulatory carve-out that "
-            "a general professional would not know."
+            "Focus on the fair balance rule under 21 CFR 202.1(e)(1) and the specific "
+            "conditions that trigger or exempt the brief summary requirement. Create a "
+            "scenario with a clearly non-compliant promotional piece where the violation "
+            "is non-obvious — e.g., a piece that includes risk information but fails the "
+            "fair balance test because benefits are presented more prominently; or an ad "
+            "that omits a black box warning in a context where 21 CFR 202.1(e)(3)(ii) "
+            "requires it. The correct answer must require knowing a SPECIFIC subsection "
+            "of 21 CFR 202 or OPDP guidance. General 'fair balance' reasoning should "
+            "point to the wrong conclusion or miss the critical element."
         ),
     },
     {

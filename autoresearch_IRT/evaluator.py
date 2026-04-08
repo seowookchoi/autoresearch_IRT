@@ -41,7 +41,7 @@ and satisfies the GOLD STANDARD requirement.
 
 Evaluation criteria:
 1. Does the response reach the correct compliance conclusion (e.g., compliant vs. non-compliant, major vs. minor deviation)?
-2. Does it cite at least one specific regulation, section, or guidance document (e.g., "21 CFR 211.25", "ICH E6(R2) §4.8", "45 CFR 46.116") that is relevant to the answer? Generic phrases like "GMP regulations" or "FDA guidelines" without a specific citation do NOT satisfy this criterion.
+2. Does it cite at least one specific regulation at the SECTION level (e.g., "21 CFR 11.10", "21 CFR 211.25", "ICH E6(R2) §4.8.2", "45 CFR 46.116") that is relevant to the answer? Citing only a Part or Title (e.g., "21 CFR Part 11", "21 CFR Part 211", "GMP regulations") WITHOUT a specific section number does NOT satisfy this criterion.
 3. Is the substantive compliance reasoning consistent with the gold standard's key obligation?
 
 Mark PASS only when ALL THREE criteria are met.
