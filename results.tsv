@@ -1,0 +1,6 @@
+commit	retained	retention_rate	status	description
+420f598	1	0.200	keep	baseline: relax judge to accept correct compliance conclusion without exact section match
+95c3d80	1	0.200	keep	counterintuitive domain hints — same rate but better task shape
+75b7562	2	0.400	keep	weaken vanilla framing + require specific citation → 0.400
+90b845b	2	0.400	keep	section-level citation in judge + promo hints — same rate, no too-easy
+3907008	2	0.400	keep	regulatory toolkit in augmented — same rate; toolkit helps but counterintuitive hints still cause augmented to fail

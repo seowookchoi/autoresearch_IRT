@@ -47,3 +47,24 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Environment variables (never commit)
+.env
+.env.local
+.env.*.local
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Runtime logs and build output
+nohup.out
+bank_build.log
+bank_build_real.log
+run.log
+run_output.log
+
+# Config
+.config/
