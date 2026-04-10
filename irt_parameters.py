@@ -26,7 +26,7 @@ only estimates b, which IS constrained by the outcome pattern:
 
     Vanilla FAIL, Augmented PASS  → b ∈ (0.0, 2.5)   sampled uniformly
     Both PASS (easy)              → b ∈ (-2.5, 0.0)   sampled uniformly
-    Both FAIL (too hard)          → discarded — b > 2.5, no useful information
+    Both FAIL (too hard)          → b ~ Uniform(2.5, 5.0) — keeps item in θ MLE
     Vanilla PASS, Augmented FAIL  → discarded — anomalous ordering
 
 A deterministic seed from task_id ensures reproducibility.
@@ -101,6 +101,66 @@ def assign_rasch_parameters(task_id: str) -> dict:
     rng  = random.Random(seed)
     b    = round(rng.uniform(0.0, 2.5), 4)
     return {"irt_a": RASCH_A, "irt_b": b}
+
+
+def assign_rasch_parameters_too_hard(task_id: str) -> dict:
+    """
+    Assign Rasch (1PL) parameters for a too-hard item (both solvers fail).
+
+    Option 2 — include too-hard items in the θ MLE response vector.
+    Both solvers fail, so b must lie above θ_augmented = 2.5.
+
+    a = RASCH_A (fixed at 1.0)
+    b ~ Uniform(2.5, 5.0)   — difficulty above both solver θ levels
+    """
+    seed = int(hashlib.md5(("too_hard:" + task_id).encode()).hexdigest(), 16) % (2**32)
+    rng  = random.Random(seed)
+    b    = round(rng.uniform(2.5, 5.0), 4)
+    return {"irt_a": RASCH_A, "irt_b": b}
+
+
+def estimate_b_from_soft_scores(
+    p_vanilla: float,
+    p_augmented: float,
+    theta_vanilla: float = THETA_VANILLA,
+    theta_augmented: float = THETA_AUGMENTED,
+) -> Optional[float]:
+    """
+    Option 4 — empirical b estimation from judge logprob soft scores.
+
+    Under the Rasch model:
+        logit(P(θ)) = θ - b   →   b = θ - logit(P)
+
+    We compute one b estimate from each solver's soft score, then take a
+    precision-weighted average where the weight is the Fisher information
+    at that ability level: w_i = P_i · (1 - P_i).
+
+    Parameters
+    ----------
+    p_vanilla   : soft P(correct) for the vanilla solver (from logprobs)
+    p_augmented : soft P(correct) for the augmented solver (from logprobs)
+
+    Returns
+    -------
+    Estimated b, clipped to [-4.0, 8.0]; or None if both weights are ≈ 0.
+    """
+    # Clip to avoid log(0)
+    eps = 1e-3
+    p_v = max(eps, min(1 - eps, p_vanilla))
+    p_a = max(eps, min(1 - eps, p_augmented))
+
+    b_v = theta_vanilla   - math.log(p_v / (1 - p_v))
+    b_a = theta_augmented - math.log(p_a / (1 - p_a))
+
+    w_v = p_v * (1 - p_v)   # Fisher information weight
+    w_a = p_a * (1 - p_a)
+
+    total_w = w_v + w_a
+    if total_w < 1e-9:
+        return None
+
+    b_est = (w_v * b_v + w_a * b_a) / total_w
+    return round(max(-4.0, min(8.0, b_est)), 4)
 
 
 # Keep old names as aliases so any external callers don't break

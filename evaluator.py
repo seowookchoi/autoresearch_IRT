@@ -5,10 +5,20 @@ Uses an LLM-as-judge approach: the judge receives the task question,
 the gold-standard constraint, and the solver's response, then returns
 a structured PASS or FAIL verdict with a brief rationale.
 
-This keeps the grading objective and consistent across both the Vanilla
-and Augmented solver profiles.
+Option 4 — soft scores via logprobs
+------------------------------------
+When the Groq API returns token-level log-probabilities, we extract
+a soft P(correct) ∈ (0,1) from the logprob of the PASS vs. FAIL token
+at the verdict position.  This continuous signal allows empirical b
+estimation via logit inversion:
+
+    b_i = θ - logit(P_soft(correct | θ))
+
+which is more informative than band-based uniform sampling.
+If logprobs are unavailable, p_correct defaults to 0.5 (uninformative).
 """
 
+import math
 import re
 from typing import Optional
 
@@ -118,17 +128,18 @@ class Evaluator:
         question: str,
         gold_standard: str,
         response: str,
-    ) -> tuple[bool, str]:
+    ) -> tuple[bool, str, float]:
         """
         Grade `response` against `gold_standard`.
 
         Returns
         -------
-        passed : bool  — True = PASS, False = FAIL
-        reason : str   — Judge's one-sentence rationale
+        passed    : bool  — True = PASS, False = FAIL
+        reason    : str   — Judge's one-sentence rationale
+        p_correct : float — Soft probability of correctness from logprobs (0.5 if unavailable)
         """
         if not response or len(response.strip()) < 10:
-            return False, "Response was empty or too short to evaluate."
+            return False, "Response was empty or too short to evaluate.", 0.0
 
         prompt = self._template.format(
             question=question,
@@ -140,20 +151,76 @@ class Evaluator:
             msg = self.client.chat.completions.create(
                 model=self.model,
                 max_tokens=256,
+                logprobs=True,
+                top_logprobs=5,
                 messages=[
                     {"role": "system", "content": self._system},
                     {"role": "user", "content": prompt},
                 ],
             )
             raw = msg.choices[0].message.content.strip()
-            return self._parse_verdict(raw)
+            passed, reason = self._parse_verdict(raw)
+
+            # Extract soft P(correct) from token logprobs
+            lp_content = None
+            try:
+                lp_content = msg.choices[0].logprobs.content
+            except Exception:
+                pass
+            p_correct = self._extract_soft_score(lp_content) if lp_content else 0.5
+
+            return passed, reason, p_correct
+
         except Exception as exc:
             # Fail-safe: treat judge errors as FAIL to avoid false positives
-            return False, f"Judge error: {exc}"
+            return False, f"Judge error: {exc}", 0.0
 
     # ------------------------------------------------------------------
     # Internal
     # ------------------------------------------------------------------
+
+    @staticmethod
+    def _extract_soft_score(logprobs_content) -> float:
+        """
+        Scan token-level logprobs for the PASS/FAIL verdict token and return
+        a soft P(PASS) by normalising the logprobs of both options.
+
+        Falls back to 0.5 when neither token is found in the logprob stream.
+        """
+        for token_data in logprobs_content:
+            token = token_data.token.strip().upper()
+            if token not in ("PASS", "FAIL"):
+                continue
+
+            lp_pass = lp_fail = None
+
+            # The generated token contributes its logprob directly
+            if token == "PASS":
+                lp_pass = token_data.logprob
+            else:
+                lp_fail = token_data.logprob
+
+            # Alternatives may carry the missing verdict token
+            for top in (token_data.top_logprobs or []):
+                t = top.token.strip().upper()
+                if t == "PASS" and lp_pass is None:
+                    lp_pass = top.logprob
+                elif t == "FAIL" and lp_fail is None:
+                    lp_fail = top.logprob
+
+            if lp_pass is not None and lp_fail is not None:
+                # Numerically stable softmax over the two-token vocabulary
+                m = max(lp_pass, lp_fail)
+                ep = math.exp(lp_pass - m)
+                ef = math.exp(lp_fail - m)
+                return ep / (ep + ef)
+            elif lp_pass is not None:
+                return max(0.01, min(0.99, math.exp(lp_pass)))
+            elif lp_fail is not None:
+                return max(0.01, min(0.99, 1.0 - math.exp(lp_fail)))
+            return 0.5  # verdict token found but no usable logprob pair
+
+        return 0.5  # no verdict token in logprob stream
 
     @staticmethod
     def _parse_verdict(raw: str) -> tuple[bool, str]:

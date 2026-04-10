@@ -32,6 +32,8 @@ CREATE TABLE IF NOT EXISTS calibration_results (
     augmented_response  TEXT,
     vanilla_pass        INTEGER NOT NULL CHECK(vanilla_pass   IN (0,1)),
     augmented_pass      INTEGER NOT NULL CHECK(augmented_pass IN (0,1)),
+    p_vanilla           REAL,
+    p_augmented         REAL,
     is_retained         INTEGER NOT NULL CHECK(is_retained    IN (0,1)),
     retention_reason    TEXT,
     irt_a               REAL,
@@ -68,17 +70,30 @@ class Database:
 
     def _migrate(self) -> None:
         """Apply incremental schema migrations for existing databases."""
-        existing = {
+        tasks_cols = {
             row[1]
             for row in self._conn.execute("PRAGMA table_info(tasks)").fetchall()
         }
-        if "source_type" not in existing:
+        if "source_type" not in tasks_cols:
             self._conn.execute(
                 "ALTER TABLE tasks ADD COLUMN source_type TEXT NOT NULL DEFAULT 'synthetic'"
             )
-        if "source_ref" not in existing:
+        if "source_ref" not in tasks_cols:
             self._conn.execute(
                 "ALTER TABLE tasks ADD COLUMN source_ref TEXT"
+            )
+
+        cal_cols = {
+            row[1]
+            for row in self._conn.execute("PRAGMA table_info(calibration_results)").fetchall()
+        }
+        if "p_vanilla" not in cal_cols:
+            self._conn.execute(
+                "ALTER TABLE calibration_results ADD COLUMN p_vanilla REAL"
+            )
+        if "p_augmented" not in cal_cols:
+            self._conn.execute(
+                "ALTER TABLE calibration_results ADD COLUMN p_augmented REAL"
             )
 
     @staticmethod
@@ -118,9 +133,10 @@ class Database:
                 """
                 INSERT INTO calibration_results
                     (task_id, vanilla_response, augmented_response,
-                     vanilla_pass, augmented_pass, is_retained, retention_reason,
+                     vanilla_pass, augmented_pass, p_vanilla, p_augmented,
+                     is_retained, retention_reason,
                      irt_a, irt_b, calibrated_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     result["task_id"],
@@ -128,6 +144,8 @@ class Database:
                     result.get("augmented_response"),
                     int(result["vanilla_pass"]),
                     int(result["augmented_pass"]),
+                    result.get("p_vanilla"),
+                    result.get("p_augmented"),
                     int(result["is_retained"]),
                     result.get("retention_reason", ""),
                     result.get("irt_a"),
@@ -167,9 +185,15 @@ class Database:
     def fetch_response_vectors(self) -> dict:
         """
         Return pass/fail + b-value pairs for each solver, for all items
-        that have an estimated b (i.e., retained hard or easy items).
+        that have an estimated b.
 
-        Used for theta MLE once enough items have accumulated.
+        Includes:
+        - retained hard items  (vanilla FAIL / augmented PASS, b ∈ [0, 2.5])
+        - retained easy items  (both PASS, b ∈ [-2.5, 0])
+        - too-hard items       (both FAIL, b ∈ [2.5, 5.0])  ← Option 2
+
+        Too-hard items add informative FAIL observations at high difficulty,
+        which breaks the all-pass selection bias for the augmented θ estimate.
 
         Returns
         -------

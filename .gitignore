@@ -66,5 +66,8 @@ bank_build_real.log
 run.log
 run_output.log
 
+# autoevolve — keep versioned (do NOT ignore)
+# evolve.log, evolve_history.jsonl, solver_config.json are tracked intentionally
+
 # Config
 .config/
