@@ -305,7 +305,12 @@ class Calibrator:
                     {"role": "user", "content": prompt},
                 ],
             )
-            return msg.choices[0].message.content.strip()
+            raw = msg.choices[0].message.content.strip()
+            # DeepSeek-R1 and similar reasoning models wrap their chain-of-thought
+            # in <think>…</think> tags. Strip those so the judge sees only the answer.
+            import re as _re
+            raw = _re.sub(r"<think>.*?</think>", "", raw, flags=_re.DOTALL).strip()
+            return raw
         except Exception as exc:
             return f"[Solver error: {exc}]"
 

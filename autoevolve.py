@@ -197,10 +197,16 @@ Rules:
 - Do not change the judge prompts or Rasch math — only the solver config.
 - If a past proposal failed, do not repeat it.
 - Be self-critical: state what assumption might be wrong about your proposal.
+- IMPORTANT: If multiple prompt-only changes have already been tried with no improvement,
+  escalate to a model swap or a structural reasoning change (e.g., adding explicit
+  self-verification, adding more regulatory detail to the toolkit, increasing max_tokens).
+  Prompt tweaks alone may be insufficient if the model has hit a knowledge ceiling.
 
 Available Groq models (if suggesting a model swap):
-  llama-3.3-70b-versatile, deepseek-r1-distill-llama-70b, qwen-qwq-32b,
-  llama-3.1-8b-instant, gemma2-9b-it
+  llama-3.3-70b-versatile  (current baseline)
+  deepseek-r1-distill-llama-70b  (reasoning model — good for multi-step compliance analysis;
+                                   note: its output may include <think> tags which are stripped)
+  qwen-qwq-32b  (reasoning model — strong at structured step-by-step analysis)
 
 Respond in EXACTLY this JSON format (no markdown, no extra text):
 {
@@ -286,14 +292,28 @@ def generate_proposal(
 def build_test_config(proposal: dict, current_config: dict) -> dict:
     """Apply the proposed changes on top of the current config."""
     cfg = dict(current_config)
-    if proposal.get("new_system_prompt"):
-        cfg["system_prompt"] = proposal["new_system_prompt"]
-    if proposal.get("new_user_template"):
-        cfg["user_template"] = proposal["new_user_template"]
-    if proposal.get("new_model"):
-        cfg["model"] = proposal["new_model"]
-    if proposal.get("new_max_tokens"):
-        cfg["max_tokens"] = int(proposal["new_max_tokens"])
+
+    def _str_or_none(v):
+        return v if isinstance(v, str) and v.strip().lower() not in ("null", "none", "") else None
+
+    def _int_or_none(v):
+        try:
+            return int(v) if v is not None and str(v).strip().lower() not in ("null", "none") else None
+        except (ValueError, TypeError):
+            return None
+
+    new_sys  = _str_or_none(proposal.get("new_system_prompt"))
+    new_tmpl = _str_or_none(proposal.get("new_user_template"))
+    new_mdl  = _str_or_none(proposal.get("new_model"))
+    new_tok  = _int_or_none(proposal.get("new_max_tokens"))
+
+    if new_sys:  cfg["system_prompt"] = new_sys
+    if new_tmpl: cfg["user_template"]  = new_tmpl
+    if new_mdl and new_mdl in GROQ_MODELS:
+        cfg["model"] = new_mdl
+    elif new_mdl:
+        log(f"  [Config] Proposed model '{new_mdl}' not in GROQ_MODELS — ignoring.")
+    if new_tok:  cfg["max_tokens"] = new_tok
     return cfg
 
 
