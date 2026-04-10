@@ -309,8 +309,12 @@ class Calibrator:
             # DeepSeek-R1 and similar reasoning models wrap their chain-of-thought
             # in <think>…</think> tags. Strip those so the judge sees only the answer.
             import re as _re
-            raw = _re.sub(r"<think>.*?</think>", "", raw, flags=_re.DOTALL).strip()
-            return raw
+            stripped = _re.sub(r"<think>.*?</think>", "", raw, flags=_re.DOTALL).strip()
+            # If stripping left almost nothing (< 80 chars), the model put all its
+            # reasoning inside <think> and the visible answer is too sparse to pass
+            # the strict judge. Fall back to the raw output in that case so the judge
+            # at least sees the full reasoning content.
+            return stripped if len(stripped) >= 80 else raw
         except Exception as exc:
             return f"[Solver error: {exc}]"
 
