@@ -3,7 +3,8 @@
 Persistent context for Claude Code sessions. Update this file when significant decisions change.
 
 ---
-
+**CORE DIRECTIVE: SELF-DOCUMENTATION**
+Whenever you are asked to fix a bug, change a mathematical formula, or alter the architecture of this project, you MUST independently update this `CLAUDE.md` file to reflect the new state of the project before you commit the changes to git. Do not wait for the user to explicitly ask you to update the documentation.
 ## 1. Project Overview
 
 This project builds an **automated bio-compliance Item Response Theory (IRT) question bank** for evaluating AI systems (and potentially human experts) on biopharma regulatory knowledge.
