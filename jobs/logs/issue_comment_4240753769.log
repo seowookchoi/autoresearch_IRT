@@ -1,0 +1,9 @@
+Command: ./venv/bin/python3 main.py --n 1 --easy-n 1 --quiet
+------------------------------
+
+╔════════════════════════════════════════════════════════════════╗
+║  Bio-Compliance IRT Pipeline                                   ║
+╚════════════════════════════════════════════════════════════════╝
+
+  ERROR: GROQ_API_KEY environment variable is not set.
+  Add it to your Replit Secrets and restart.
