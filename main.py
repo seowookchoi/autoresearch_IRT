@@ -162,7 +162,7 @@ def run_pipeline(n: int, db_path: str, verbose: bool, theta_min_items: int = 10,
     # ========================================================================
     # STAGE 2 — Calibration
     # ========================================================================
-    print(_section("Stage 2 — Calibration (Vanilla vs. Augmented)"))
+    print(_section("Stage 2 — Calibration (15-Profile Synthetic Population)"))
     calibrator = Calibrator(client, verbose=verbose)
 
     results        : list[dict] = []
@@ -178,7 +178,7 @@ def run_pipeline(n: int, db_path: str, verbose: bool, theta_min_items: int = 10,
     # ========================================================================
     # STAGE 3 — Filtration & IRT Report
     # ========================================================================
-    print(_section("Stage 3 — Filtration & 2PL Parameter Summary"))
+    print(_section("Stage 3 — Filtration & IRT Parameter Summary"))
 
     print("\n  Per-item outcome:")
     for result in results:

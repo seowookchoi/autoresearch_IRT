@@ -151,8 +151,6 @@ class Evaluator:
             msg = self.client.chat.completions.create(
                 model=self.model,
                 max_tokens=256,
-                logprobs=True,
-                top_logprobs=5,
                 messages=[
                     {"role": "system", "content": self._system},
                     {"role": "user", "content": prompt},
@@ -161,10 +159,14 @@ class Evaluator:
             raw = msg.choices[0].message.content.strip()
             passed, reason = self._parse_verdict(raw)
 
-            # Extract soft P(correct) from token logprobs
+            # Attempt to extract soft P(correct) from token logprobs if available.
+            # Many inference backends (including Groq llama-3.3-70b-versatile) do not
+            # support logprobs; we fall back to 0.5 (uninformative prior) gracefully.
+            # In the 15-profile architecture, b is derived from the population pass
+            # rate rather than from individual logprobs, so 0.5 is acceptable here.
             lp_content = None
             try:
-                lp_content = msg.choices[0].logprobs.content
+                lp_content = getattr(msg.choices[0].logprobs, "content", None)
             except Exception:
                 pass
             p_correct = self._extract_soft_score(lp_content) if lp_content else 0.5

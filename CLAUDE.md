@@ -11,11 +11,12 @@ This project builds an **automated bio-compliance Item Response Theory (IRT) que
 
 The core loop:
 1. An LLM **generates** compliance scenarios across 5 regulatory domains (FDA 21 CFR Part 11, GCP deviations, promotional review, GMP, informed consent)
-2. Two AI **solver profiles** attempt each scenario — zero-shot "Vanilla" and chain-of-thought "Augmented"
+2. **15 synthetic AI solver profiles** attempt each scenario — spanning a spectrum from "general layperson" (temp 0.1–0.7) to "senior FDA auditor" (temp 0.1–0.7) across 5 expertise tiers
 3. An LLM **judge** grades each response PASS or FAIL
-4. Items are **filtered** by outcome pattern and assigned Rasch difficulty parameters (`b`)
-5. Results persist to **SQLite** for cumulative calibration across runs
-6. Once enough items accumulate (configurable threshold), solver **ability (θ) is estimated via MLE**
+4. Item difficulty `b` is estimated directly from the empirical **pass rate P** using `b = ln((1−P)/P)` (logit formula, P clipped to [0.01, 0.99])
+5. Items are classified by pass-rate thresholds: P < 0.10 → too hard, P > 0.90 → easy, else retained
+6. Results persist to **SQLite** for cumulative calibration across runs
+7. Once enough items accumulate (configurable threshold), solver **ability (θ) is estimated via MLE**
 
 A parallel **real-world track** ingests actual FDA warning letters and converts them into calibration items, tagged `source_type="real"`. This grounds the synthetic bank in actual regulatory enforcement findings.
 
@@ -34,7 +35,7 @@ A parallel **real-world track** ingests actual FDA warning letters and converts 
 autoresearch_irt/               ← repo root, everything lives here
   main.py                       ← CLI entry point, orchestrates all stages
   task_generator.py             ← Stage 1: LLM generates compliance tasks
-  calibrator.py                 ← Stage 2: runs Vanilla + Augmented solvers, grades them
+  calibrator.py                 ← Stage 2: runs 15 solver profiles, grades them, computes pass rate → b
   evaluator.py                  ← LLM-as-judge (strict and lenient modes)
   irt_parameters.py             ← Rasch model math, outcome classification, theta MLE
   database.py                   ← SQLite persistence (tasks + calibration_results tables)
@@ -122,25 +123,35 @@ tail -f bank_build_real.log
 - **Easy synthetic**: `easy_training`, `easy_consent`, `easy_batch_record`, `easy_irb`, `easy_backup`
 - **Real-world**: domain assigned by LLM during extraction, same keys as hard synthetic
 
-### Outcome classification
-| Pattern | retention_reason | b assigned? | is_retained |
+### Outcome classification (15-profile pass rate)
+| Pass rate P | retention_reason | b formula | is_retained |
 |---|---|---|---|
-| V:FAIL, A:PASS | `retained` | Yes, soft est. or Uniform(0.0, 2.5) | True |
-| V:PASS, A:PASS | `retained_easy` | Yes, soft est. or Uniform(-2.5, 0.0) | True |
-| V:FAIL, A:FAIL | `discarded_too_hard` | Yes, soft est. or Uniform(2.5, 5.0) ← Option 2 | False |
-| V:PASS, A:FAIL | `discarded_anomalous` | No | False |
+| 0.10 ≤ P ≤ 0.90 | `retained` | `ln((1−P)/P)` | True |
+| P > 0.90 | `retained_easy` | `ln((1−P)/P)` (negative) | True |
+| P < 0.10 | `discarded_too_hard` | `ln((1−P)/P)` (large positive) | False |
 
+`b = ln((1−P_clipped)/P_clipped)` with `P_clipped = clip(P, 0.01, 0.99)`.
 `is_retained = True` for both `retained` and `retained_easy` only.
-Too-hard items get a b value for theta MLE purposes but remain `is_retained = False` and are excluded from the retained item bank.
+Too-hard items (P < 0.10) still get a b value and enter the θ MLE response vector.
+
+**DB backward compat**: `vanilla_pass`/`vanilla_response`/`p_vanilla` = profile index 0 (layperson_t0.1);
+`augmented_pass`/`augmented_response`/`p_augmented` = profile index 14 (fda_auditor_t0.7).
 
 ---
 
 ## 5. Important Decisions
 
-### Rasch (1PL) not 2PL
-With only 2 solver profiles (θ_vanilla ≈ 0, θ_augmented ≈ 2.5), the discrimination `a` is not identifiable — infinitely many (a, b) pairs fit any binary (FAIL, PASS) observation. Fixed `a = RASCH_A = 1.0` globally. Only `b` varies per item.
+### Rasch (1PL) with 15-profile population
+`a = RASCH_A = 1.0` fixed for all items. `b` is estimated from the empirical pass rate across the 15 synthetic profiles using the population-logit formula:
+
+    b = ln((1 − P) / P)    where P = pass_count / 15, clipped to [0.01, 0.99]
+
+This assumes the 15 profiles are centered at θ = 0 (THETA_POPULATION_MEAN). The formula is derived from the Rasch model: at θ = 0, P(correct) = 1/(1 + exp(b)), so b = −logit(P).
+
+Range: P=0.01 → b ≈ +4.60 (extremely hard); P=0.99 → b ≈ −4.60 (trivially easy).
 
 **Legacy**: Some early DB rows have `a != 1.0` from a 2PL design phase. Identifiable by `a != 1.0`.
+**Legacy**: DB rows from the 2-profile era have `vanilla_pass` and `augmented_pass` from the original Vanilla/Augmented solvers. In the 15-profile architecture, these columns are populated from profile index 0 (layperson) and index 14 (expert) respectively for backward compatibility.
 
 ### Two judge modes
 - **Strict** (`strict=True`): requires section-level citation (e.g., "21 CFR 11.10(e)"). Used for hard synthetic and all real-world items.
@@ -157,8 +168,10 @@ Synthetic items are generated by the same LLM that solves them — a closed loop
 ### Theta MLE
 Newton-Raphson on the Rasch score equation. Triggers once `--theta-min-items` (default 10) items with known b are in the DB.
 
-- Vanilla θ: **-0.74** (converging — vanilla fails most hard items, consistent)
-- Augmented θ: previously at +6.0 boundary due to selection bias (all retained items are augmented-pass by definition). **Fixed by Option 2**: too-hard items now get a b value and enter the response vector as augmented failures at high difficulty, giving the MLE finite negative terms. Augmented θ will now converge to a value above 2.5 rather than diverging.
+In the 15-profile architecture, θ MLE is still computed for the layperson (profile 0, stored as "vanilla") and expert (profile 14, stored as "augmented") using the same DB response vectors. Too-hard items (P < 0.10) have large positive b values and enter the MLE vector as failures for both — this prevents augmented θ from diverging to +∞.
+
+- Vanilla θ (profile 0): estimated at ≈ −0.74 (layperson fails most regulatory items)
+- Augmented θ (profile 14): converges above 0 now that too-hard items provide finite negative MLE terms
 
 ### Single persistent SQLite connection
 `Database` opens one connection in `__init__` and reuses it. The `with self._connect()` pattern returns the same connection — does NOT open/close per call.
@@ -174,13 +187,13 @@ Newton-Raphson on the Rasch score equation. Triggers once `--theta-min-items` (d
 macOS Python 3.12 (Homebrew) is externally managed. Always `source venv/bin/activate` first.
 
 ### Don't generate easy items with strict judge
-Easy domain items + strict judge = Vanilla always fails = no easy retained items = theta MLE can't converge for vanilla.
+Easy domain items + strict judge = layperson always fails = no easy retained items = θ MLE can't converge for the low-ability profiles.
 
 ### Don't confuse `is_retained` with difficulty band
 `is_retained = True` for both hard and easy items. Check `retention_reason` to distinguish.
 
-### Don't use 2PL with 2 solvers
-`a` is not identifiable from 2 binary observations. Old DB rows with `a != 1.0` are pre-Rasch legacy.
+### Don't mix profile-population b values with legacy band-sampled b values
+Pre-refactor DB rows have `b` values sampled from Uniform bands. Post-refactor rows have `b = ln((1−P)/P)` from pass rate. Identifiable: old rows also have `a != 1.0` (2PL era) or may have `b` falling exactly at Uniform boundaries. Do not average them without acknowledging the different estimation methods.
 
 ### Experiment history (from git log)
 - Exp 1: Lenient judge → Vanilla passed everything → no hard items
@@ -188,30 +201,32 @@ Easy domain items + strict judge = Vanilla always fails = no easy retained items
 - Exp 3: Strict citation requirement in judge → current design
 - Exp 4: Section-level citation required + simplified promo hints
 - Exp 5: Regulatory reference toolkit in augmented prompt → reduced too-hard rate
+- Exp 6 (this refactor): 15-profile synthetic population + logit pass-rate b formula
 
 ---
 
 ## 7. Current State
 
 ### Working
-- Full pipeline: generate → calibrate → filter → Rasch b assignment → persist
+- Full pipeline: generate → calibrate (15 profiles) → filter by pass rate → logit b → persist
 - Hard domains (5): counterintuitive scenarios, strict judge
 - Easy domains (5): obvious scenarios, lenient judge
+- 15-profile synthetic population: 5 expertise tiers × 3 temperatures (0.1–0.8)
+- b estimation: `b = ln((1−P)/P)` from empirical pass rate P, P clipped to [0.01, 0.99]
+- Retention thresholds: P < 0.10 → discarded_too_hard, P > 0.90 → retained_easy, else retained
+- DB backward compat: profile 0 (layperson) → vanilla_*, profile 14 (expert) → augmented_*
 - Real-world track: `fda_importer.py` fetches FDA warning letters, extracts items, calibrates
 - `source_type` tagging: `synthetic` vs `real` in DB
 - Real vs synthetic b-distribution comparison (`print_comparison`)
-- Theta MLE via Newton-Raphson (vanilla converging; augmented now finite via Option 2)
-- Soft b estimation via judge logprobs (Option 4): `evaluate()` returns `(passed, reason, p_correct)`; b estimated by Fisher-information-weighted logit inversion across both solvers
-- Too-hard items get `b ~ Uniform(2.5, 5.0)` (or soft estimate if logprobs are available); included in theta MLE response vectors
-- `p_vanilla`, `p_augmented` columns in `calibration_results` (migrated on existing DB)
+- Theta MLE via Newton-Raphson for layperson (≈ −0.74) and expert profiles
 - CLI: `--n`, `--easy-n`, `--db`, `--quiet`, `--theta-min-items`, `--compare`
 - Background build scripts: `build_bank.sh`, `build_real.sh`
 
 ### Known issues
-- Legacy DB rows with `a != 1.0` from 2PL era
+- Legacy DB rows with `a != 1.0` from 2PL era; legacy rows also have band-sampled b, not logit b
 - Promo_review domain underrepresented in real items (OPDP letters use different URL structure)
-- Judge logprobs reflect judge confidence in its verdict, not solver's true P(correct) — the soft b estimation assumes these are equivalent, which is an approximation
-- b values still primarily informed by band membership, not a true psychometric estimation
+- 15 solver calls + 15 judge calls = 30 API calls per task — significantly slower than the 4-call 2-profile design; mitigated by Groq's fast inference
+- fda_importer.py still uses the 2-profile Calibrator interface (backward compat shim in place)
 
 ### Gaps
 - No promotional material real items retained yet (0 in real bank)
@@ -222,7 +237,7 @@ Easy domain items + strict judge = Vanilla always fails = no easy retained items
 
 ---
 
-## 8. Honest Assessment (Updated 2026-04-09)
+## 8. Honest Assessment (Updated 2026-04-13)
 
 This section documents an objective, critical evaluation of what has been built and what it is not.
 
@@ -247,26 +262,27 @@ This section documents an objective, critical evaluation of what has been built 
 - Strict/lenient judge design and its effect on vanilla pass rate is a practical engineering insight
 
 **Critical methodological problems:**
-- **Two-solver IRT is not IRT.** IRT calibration requires many test-takers (typically 200–1000+) to estimate item parameters. With two binary observations per item, b is assigned to a Uniform band — this is a classification scheme, not psychometric estimation.
-- **b values have no statistical meaning within their band.** Option 4 (logprobs) improves this but introduces a different problem: judge logprob ≠ P(solver correct). `b = θ − logit(P_judge)` is only valid if the judge is a perfectly calibrated Rasch evaluator, which it is not.
+- **15-profile IRT is better but still not psychometric IRT.** IRT calibration requires many independent test-takers (typically 200–1000+). 15 profiles all running the same base model with different system prompts and temperatures are not independent — they are highly correlated. b values from this procedure are more informative than 2-profile band sampling but lack standard errors or item fit statistics.
+- **The logit b formula assumes profiles are centered at θ=0.** This is an untested assumption. If the 15 profiles systematically lean expert (mean θ > 0), b will be biased downward (items appear easier than they are).
 - **Closed evaluation loop with no external validity.** Same model family generates, solves, and judges. No measurement of whether the difficulty ranking matches human expert judgments, real exam difficulty, or regulatory enforcement complexity.
-- **Selection bias is structural.** Retained items are by construction items the augmented solver passes. Option 2 moves the augmented θ from ±∞ to finite, but the band-sampled b values are not empirical.
+- **Selection bias is reduced but not eliminated.** With 15 profiles, too-hard items (P < 0.10) are retained in the θ MLE vector, reducing augmented θ divergence. But items still must have P > 0 to enter the calibrated bank.
 
 **Realistic publication target:**
-- Workshop/short paper (not main venue) on automated benchmark construction in regulated domains, framed around the pipeline design and FDA grounding mechanism, with limitations section that explicitly names the above. A full venue paper requires ≥5 solver profiles, human expert grading of a stratified subset, and item fit statistics.
+- Workshop/short paper (not main venue) on automated benchmark construction in regulated domains, framed around the pipeline design and FDA grounding mechanism, with limitations section that explicitly names the above. A full venue paper now requires human expert grading of a stratified subset and item fit statistics (profile-to-profile consistency).
 
 ---
 
 ## 9. Next Steps (priority-ordered)
 
 ### To make academic contribution credible
-1. **Add solver profiles** — need ≥5 distinct profiles (different models: GPT-4o, Claude Sonnet, Mistral; different prompting: zero-shot, few-shot, RAG) to have enough calibration data points per item for meaningful b estimation
+1. ~~**Add solver profiles**~~ ✓ Done — 15 synthetic profiles spanning layperson → senior FDA auditor
 2. **Human expert review** — have 2–3 compliance professionals label a random sample (50 items) correct/incorrect to validate LLM gold standards and provide external anchor for the difficulty scale
 3. **Mann-Whitney U test** — formally test the real vs. synthetic b-distribution difference; currently only a descriptive comparison
+4. **Cross-model profiles** — add profiles using different base models (not just llama-3.3-70b) to reduce within-population correlation and improve b estimation reliability
 
 ### To improve current pipeline
-4. **Promo_review real items** — OPDP warning letters are at a different URL pattern; need targeted search
-5. **Feed estimated θ back into band bounds** — use MLE θ estimates as Uniform interval endpoints instead of hardcoded (0.0, 2.5)
+5. **Promo_review real items** — OPDP warning letters are at a different URL pattern; need targeted search
+6. **Re-calibrate existing DB items** — legacy items have band-sampled b values; re-run calibration with 15-profile logit formula for consistency
 
 ### Longer term
 - Adaptive item selection: given solver θ, pick item with b closest to θ (maximum Fisher information)

@@ -1,127 +1,173 @@
 """
 calibrator.py — Stage 2: IRT Calibration Engine.
 
-Two solver profiles
--------------------
-Vanilla   : Zero-shot LLM.  Receives only the scenario context and question.
-            No scaffolding, no system prompt beyond minimal framing.
+15-Profile Synthetic Population
+---------------------------------
+Items are calibrated against a population of 15 AI solver profiles spanning
+a spectrum of regulatory expertise and temperature settings:
 
-Augmented : Simulated chain-of-thought + rule-checking agent.
-            A structured multi-step prompt forces the model to:
-              Step 1 — Identify and quote the potentially applicable regulation(s).
-              Step 2 — Apply each regulation to the specific facts in the scenario.
-              Step 3 — Critically reflect: what could go wrong in the analysis?
-              Step 4 — State a final, precise compliance verdict.
+  Tier 0  — General Layperson          (temps 0.1, 0.4, 0.7)
+  Tier 1  — Life Sciences Professional  (temps 0.2, 0.5, 0.8)
+  Tier 2  — Regulatory Affairs Coordinator (temps 0.1, 0.4, 0.7)
+  Tier 3  — Regulatory Affairs Specialist  (temps 0.2, 0.5, 0.8)
+  Tier 4  — Senior FDA Auditor          (temps 0.1, 0.4, 0.7)
 
-The Calibrator runs both profiles against each task, grades them with the
-Evaluator, applies the IRT filtration logic, and returns a result dict
-ready for database persistence.
+All profiles use the same simple user template; the system prompt encodes
+the expertise level.  Difficulty b is computed from the empirical pass rate P:
+
+    b = ln((1 − P) / P)   with P clipped to [0.01, 0.99]
+
+The layperson profile (index 0) is stored as "vanilla" and the expert profile
+(index 14) as "augmented" for backward compatibility with the DB schema and
+fda_importer.py.
 """
 
-import json
 import os
+import re as _re
 
 import openai
 
 from evaluator import Evaluator
 from irt_parameters import (
     RetentionOutcome,
-    assign_2pl_parameters,
-    assign_2pl_parameters_easy,
-    assign_rasch_parameters_too_hard,
-    classify_item,
+    classify_item_from_pass_rate,
+    compute_b_from_pass_rate,
     describe_item,
-    estimate_b_from_soft_scores,
 )
+
+RASCH_A = 1.0
 
 
 # ---------------------------------------------------------------------------
-# Solver prompts
+# 15-Profile solver population
+# Each entry: (profile_name, temperature, system_prompt)
 # ---------------------------------------------------------------------------
 
-_VANILLA_SYSTEM = (
-    "You are a general life sciences professional answering a compliance question. "
-    "Give a brief, direct answer based on your general understanding. "
-    "Do not look up specific regulation numbers; answer from intuition and general knowledge."
-)
+SOLVER_PROFILES: list[tuple[str, float, str]] = [
+    # ── Tier 0: General Layperson ──────────────────────────────────────────
+    (
+        "layperson_t0.1", 0.1,
+        "You are a general member of the public with no background in "
+        "pharmaceutical or medical regulations. Answer questions using common "
+        "sense and general knowledge only. Do not cite specific regulation numbers.",
+    ),
+    (
+        "layperson_t0.4", 0.4,
+        "You are a general member of the public with no background in "
+        "pharmaceutical or medical regulations. Answer questions using common "
+        "sense and general knowledge only. Do not cite specific regulation numbers.",
+    ),
+    (
+        "layperson_t0.7", 0.7,
+        "You are a general member of the public with no background in "
+        "pharmaceutical or medical regulations. Answer questions using common "
+        "sense and general knowledge only. Do not cite specific regulation numbers.",
+    ),
+    # ── Tier 1: Life Sciences Professional ────────────────────────────────
+    (
+        "lifesci_t0.2", 0.2,
+        "You are a life sciences professional (e.g., lab scientist or clinical "
+        "research coordinator) with general knowledge of good scientific "
+        "practices but limited formal regulatory training. Answer based on "
+        "your scientific background and general understanding of quality systems.",
+    ),
+    (
+        "lifesci_t0.5", 0.5,
+        "You are a life sciences professional (e.g., lab scientist or clinical "
+        "research coordinator) with general knowledge of good scientific "
+        "practices but limited formal regulatory training. Answer based on "
+        "your scientific background and general understanding of quality systems.",
+    ),
+    (
+        "lifesci_t0.8", 0.8,
+        "You are a life sciences professional (e.g., lab scientist or clinical "
+        "research coordinator) with general knowledge of good scientific "
+        "practices but limited formal regulatory training. Answer based on "
+        "your scientific background and general understanding of quality systems.",
+    ),
+    # ── Tier 2: Regulatory Affairs Coordinator ────────────────────────────
+    (
+        "ra_coord_t0.1", 0.1,
+        "You are a regulatory affairs coordinator with 2–3 years of experience "
+        "in biopharma compliance. You are familiar with FDA regulations at a "
+        "high level but sometimes need to look up specific section numbers. "
+        "Answer from your working knowledge of 21 CFR and GCP basics.",
+    ),
+    (
+        "ra_coord_t0.4", 0.4,
+        "You are a regulatory affairs coordinator with 2–3 years of experience "
+        "in biopharma compliance. You are familiar with FDA regulations at a "
+        "high level but sometimes need to look up specific section numbers. "
+        "Answer from your working knowledge of 21 CFR and GCP basics.",
+    ),
+    (
+        "ra_coord_t0.7", 0.7,
+        "You are a regulatory affairs coordinator with 2–3 years of experience "
+        "in biopharma compliance. You are familiar with FDA regulations at a "
+        "high level but sometimes need to look up specific section numbers. "
+        "Answer from your working knowledge of 21 CFR and GCP basics.",
+    ),
+    # ── Tier 3: Regulatory Affairs Specialist ─────────────────────────────
+    (
+        "ra_spec_t0.2", 0.2,
+        "You are a senior regulatory affairs specialist with 8+ years of "
+        "experience in FDA compliance. You are well-versed in 21 CFR Parts 11, "
+        "50, 56, 211, GCP ICH E6(R2), and GMP regulations. Provide thorough, "
+        "citation-backed answers citing specific section numbers where relevant.",
+    ),
+    (
+        "ra_spec_t0.5", 0.5,
+        "You are a senior regulatory affairs specialist with 8+ years of "
+        "experience in FDA compliance. You are well-versed in 21 CFR Parts 11, "
+        "50, 56, 211, GCP ICH E6(R2), and GMP regulations. Provide thorough, "
+        "citation-backed answers citing specific section numbers where relevant.",
+    ),
+    (
+        "ra_spec_t0.8", 0.8,
+        "You are a senior regulatory affairs specialist with 8+ years of "
+        "experience in FDA compliance. You are well-versed in 21 CFR Parts 11, "
+        "50, 56, 211, GCP ICH E6(R2), and GMP regulations. Provide thorough, "
+        "citation-backed answers citing specific section numbers where relevant.",
+    ),
+    # ── Tier 4: Senior FDA Auditor ─────────────────────────────────────────
+    (
+        "fda_auditor_t0.1", 0.1,
+        "You are a senior FDA auditor with 15+ years of experience conducting "
+        "GMP, GCP, and 21 CFR Part 11 compliance inspections. You have deep "
+        "expertise in FDA enforcement actions, warning letters, and regulatory "
+        "nuance. Provide precise, section-level regulatory analysis citing "
+        "exact CFR provisions and ICH guidelines.",
+    ),
+    (
+        "fda_auditor_t0.4", 0.4,
+        "You are a senior FDA auditor with 15+ years of experience conducting "
+        "GMP, GCP, and 21 CFR Part 11 compliance inspections. You have deep "
+        "expertise in FDA enforcement actions, warning letters, and regulatory "
+        "nuance. Provide precise, section-level regulatory analysis citing "
+        "exact CFR provisions and ICH guidelines.",
+    ),
+    (
+        "fda_auditor_t0.7", 0.7,
+        "You are a senior FDA auditor with 15+ years of experience conducting "
+        "GMP, GCP, and 21 CFR Part 11 compliance inspections. You have deep "
+        "expertise in FDA enforcement actions, warning letters, and regulatory "
+        "nuance. Provide precise, section-level regulatory analysis citing "
+        "exact CFR provisions and ICH guidelines.",
+    ),
+]
 
-_VANILLA_USER = """
-{context}
+# Indexes into SOLVER_PROFILES used for backward-compat DB columns
+_IDX_VANILLA   = 0   # layperson_t0.1  → vanilla_*
+_IDX_AUGMENTED = 14  # fda_auditor_t0.7 → augmented_*
+
+assert len(SOLVER_PROFILES) == 15, "SOLVER_PROFILES must have exactly 15 entries"
+
+# Single user template shared by all 15 profiles
+_PROFILE_USER = """{context}
 
 Question: {question}
 
-Answer directly and concisely.
-"""
-
-# ------------------------------------
-# Augmented solver config — loaded from solver_config.json if present,
-# otherwise falls back to the hardcoded baseline below.
-
-_SOLVER_CONFIG_PATH = os.path.join(os.path.dirname(__file__), "solver_config.json")
-
-_AUGMENTED_SYSTEM_DEFAULT = (
-    "You are a senior biopharma regulatory affairs expert. "
-    "You answer compliance questions through rigorous, structured analysis. "
-    "You never skip steps, even when the answer seems obvious."
-)
-
-_AUGMENTED_USER_DEFAULT = """
-A compliance question requires your expert analysis. Work through it systematically.
-
---- REGULATORY REFERENCE TOOLKIT ---
-Draw on these key provisions when relevant (not exhaustive):
-\u2022 21 CFR Part 11 (electronic records): \u00a711.10(a) validation, \u00a711.10(b) copies, \u00a711.10(c) retrieval, \u00a711.10(e) audit trails, \u00a711.10(f) authority checks, \u00a711.10(g) sequence checks, \u00a711.10(h) device checks, \u00a711.30 open systems, \u00a711.50 signatures, \u00a711.70 signature linking
-\u2022 GCP/ICH E6(R2): \u00a74.8 informed consent, \u00a74.8.2 re-consent, \u00a75.18 monitoring, \u00a75.18.2 deviation reporting, \u00a75.21 non-compliance, 21 CFR 56.108(a)(3) IRB reportable changes, 21 CFR 312.62 investigator records
-\u2022 Promotional materials: 21 CFR 202.1(e)(1) brief summary, \u00a7202.1(e)(2) reminder ads, \u00a7202.1(e)(3)(ii) brief summary exceptions, \u00a7202.1(e)(5) black box requirements, OPDP draft guidance on social media
-\u2022 GMP manufacturing: 21 CFR 211.25(a) personnel qualification, \u00a7211.68 computerized systems, \u00a7211.100 production controls, \u00a7211.165(a) specifications, \u00a7211.192 batch record review, \u00a7211.194 OOS investigation
-\u2022 Informed consent: 21 CFR 50.25(a)-(b) elements, \u00a750.25(c) additional elements, 45 CFR 46.116(a)-(c) required elements, \u00a746.116(f) waiver criteria, \u00a746.116(f)(3) alteration conditions
-
---- SCENARIO ---
-{context}
-
---- QUESTION ---
-{question}
-
-Follow this EXACT four-step process before giving your final answer:
-
-STEP 1 \u2014 REGULATION IDENTIFICATION
-List every regulation, guideline, or guidance document that might apply to this scenario.
-For each, quote the specific section number and its core obligation.
-
-STEP 2 \u2014 FACTUAL APPLICATION
-For each regulation identified, explicitly map it to the facts in the scenario.
-State whether each regulatory requirement is met, violated, or uncertain given the facts.
-
-STEP 3 \u2014 CRITICAL REFLECTION
-Identify at least one way your analysis in Step 2 could be wrong or incomplete.
-Consider edge cases, exceptions, safe harbors, or regulatory carve-outs that might change your conclusion.
-
-STEP 4 \u2014 FINAL COMPLIANCE VERDICT
-Based on the above analysis, state your definitive answer to the question.
-Cite the single most controlling regulation SECTION (not just the Part) and state the precise obligation or violation.
-
-Begin your response with "STEP 1 \u2014"
-"""
-
-
-def _load_solver_config() -> dict:
-    """Load augmented solver config from solver_config.json, or return defaults."""
-    try:
-        with open(_SOLVER_CONFIG_PATH) as f:
-            cfg = json.load(f)
-        return {
-            "model":         cfg.get("model", "llama-3.3-70b-versatile"),
-            "max_tokens":    cfg.get("max_tokens", 1536),
-            "system_prompt": cfg.get("system_prompt", _AUGMENTED_SYSTEM_DEFAULT),
-            "user_template": cfg.get("user_template", _AUGMENTED_USER_DEFAULT),
-        }
-    except (FileNotFoundError, json.JSONDecodeError):
-        return {
-            "model":         "llama-3.3-70b-versatile",
-            "max_tokens":    1536,
-            "system_prompt": _AUGMENTED_SYSTEM_DEFAULT,
-            "user_template": _AUGMENTED_USER_DEFAULT,
-        }
+Answer directly and concisely."""
 
 
 # ---------------------------------------------------------------------------
@@ -130,15 +176,17 @@ def _load_solver_config() -> dict:
 
 class Calibrator:
     """
-    Runs the Vanilla and Augmented solver profiles against a compliance task,
-    grades both responses, applies 2PL filtration, and returns a result dict.
+    Runs all 15 synthetic AI solver profiles against a compliance task, grades
+    each response with the Evaluator, derives item difficulty b from the
+    empirical pass rate, and returns a result dict ready for DB persistence.
 
     Parameters
     ----------
-    client         : anthropic.Anthropic
-    solver_model   : Claude model used for both solver profiles
-    judge_model    : Claude model used by the Evaluator (can be the same)
-    verbose        : Print per-step progress to stdout
+    client           : openai.OpenAI (Groq-compatible endpoint)
+    solver_model     : model used for all 15 solver profiles
+    judge_model      : model used by the Evaluator
+    verbose          : print per-step progress to stdout
+    augmented_config : accepted but ignored (backward-compat shim)
     """
 
     def __init__(
@@ -149,17 +197,11 @@ class Calibrator:
         verbose: bool = True,
         augmented_config: dict | None = None,
     ) -> None:
-        self.client            = client
-        self.solver_model      = solver_model
-        self.evaluator_strict  = Evaluator(client, model=judge_model, strict=True)
-        self.evaluator_lenient = Evaluator(client, model=judge_model, strict=False)
-        self.verbose           = verbose
-        # Augmented solver config: explicit override > solver_config.json > defaults
-        cfg = augmented_config or _load_solver_config()
-        self._aug_model     = cfg["model"]
-        self._aug_max_tok   = cfg["max_tokens"]
-        self._aug_system    = cfg["system_prompt"]
-        self._aug_user_tmpl = cfg["user_template"]
+        self.client       = client
+        self.solver_model = solver_model
+        self.verbose      = verbose
+        self._evaluator_strict  = Evaluator(client, model=judge_model, strict=True)
+        self._evaluator_lenient = Evaluator(client, model=judge_model, strict=False)
 
     # ------------------------------------------------------------------
     # Public API
@@ -167,160 +209,125 @@ class Calibrator:
 
     def calibrate(self, task: dict) -> dict:
         """
-        Calibrate a single task.
+        Calibrate a single task against all 15 solver profiles.
 
-        Returns a result dict containing:
+        Returns a result dict with:
             task_id, vanilla_response, augmented_response,
-            vanilla_pass, augmented_pass, is_retained,
-            retention_reason, irt_a (or None), irt_b (or None)
+            vanilla_pass, augmented_pass, p_vanilla, p_augmented,
+            pass_rate, is_retained, retention_reason, irt_a, irt_b,
+            _vanilla_reason, _augmented_reason,
+            _profile_passes  (list[bool], 15 entries)
         """
         task_id       = task["task_id"]
         context       = task["context"]
         question      = task["question"]
         gold_standard = task["gold_standard"]
         is_easy       = task.get("is_easy", False)
-        evaluator     = self.evaluator_lenient if is_easy else self.evaluator_strict
+        evaluator     = self._evaluator_lenient if is_easy else self._evaluator_strict
 
         self._log(f"\n  {'─'*60}")
-        self._log(f"  Calibrating: {task_id}  [{'easy' if is_easy else 'hard'}]")
-        self._log(f"  Domain     : {task.get('domain', 'unknown')}")
-
-        # -- Vanilla solver --------------------------------------------------
-        self._log("  [Vanilla]   Running zero-shot solver…")
-        vanilla_response = self._run_vanilla(context, question)
-        vanilla_pass, vanilla_reason, p_vanilla = evaluator.evaluate(
-            question, gold_standard, vanilla_response
-        )
         self._log(
-            f"  [Vanilla]   Verdict: {'PASS' if vanilla_pass else 'FAIL'} "
-            f"(p={p_vanilla:.3f}) — {vanilla_reason}"
+            f"  Calibrating : {task_id}  [{'easy' if is_easy else 'hard'}]"
         )
+        self._log(f"  Domain      : {task.get('domain', 'unknown')}")
+        self._log(f"  Profiles    : {len(SOLVER_PROFILES)}")
 
-        # -- Augmented solver ------------------------------------------------
-        self._log("  [Augmented] Running chain-of-thought agent…")
-        augmented_response = self._run_augmented(context, question)
-        augmented_pass, augmented_reason, p_augmented = evaluator.evaluate(
-            question, gold_standard, augmented_response
-        )
-        self._log(
-            f"  [Augmented] Verdict: {'PASS' if augmented_pass else 'FAIL'} "
-            f"(p={p_augmented:.3f}) — {augmented_reason}"
-        )
+        profile_responses : list[str]   = []
+        profile_passes    : list[bool]  = []
+        profile_soft_p    : list[float] = []
 
-        # -- Filtration & IRT parameters -------------------------------------
-        outcome     = classify_item(vanilla_pass, augmented_pass)
+        profile_reasons: list[str] = []
+
+        for idx, (name, temperature, system_prompt) in enumerate(SOLVER_PROFILES):
+            response = self._run_profile(context, question, system_prompt, temperature)
+            passed, reason, p_soft = evaluator.evaluate(
+                question, gold_standard, response
+            )
+            profile_responses.append(response)
+            profile_passes.append(passed)
+            profile_soft_p.append(p_soft)
+            profile_reasons.append(reason)
+            self._log(
+                f"  [{idx:02d}] {name:<22}  "
+                f"{'PASS' if passed else 'FAIL'}  (p={p_soft:.3f})  {reason}"
+            )
+
+        # -- Pass rate and b estimation -----------------------------------
+        n_pass    = sum(profile_passes)
+        pass_rate = n_pass / len(SOLVER_PROFILES)
+        irt_b     = compute_b_from_pass_rate(pass_rate)
+        irt_a     = RASCH_A
+
+        # -- Retention classification -------------------------------------
+        outcome     = classify_item_from_pass_rate(pass_rate)
         is_retained = outcome in (RetentionOutcome.RETAINED, RetentionOutcome.RETAINED_EASY)
 
-        irt_a = irt_b = None
+        self._log(
+            f"\n  Pass rate   : {n_pass}/{len(SOLVER_PROFILES)} = {pass_rate:.3f}  "
+            f"→  b = {irt_b:.4f}  ({outcome})"
+        )
+        if is_retained:
+            self._log(f"  [IRT]       {describe_item(task_id, irt_a, irt_b)}")
 
-        if outcome == RetentionOutcome.RETAINED:
-            # Prefer soft b estimate (Option 4); fall back to uniform band
-            b_soft = estimate_b_from_soft_scores(p_vanilla, p_augmented)
-            if b_soft is not None and 0.0 <= b_soft <= 2.5:
-                irt_a, irt_b = 1.0, b_soft
-            else:
-                params = assign_2pl_parameters(task_id)
-                irt_a, irt_b = params["irt_a"], params["irt_b"]
-            self._log(
-                f"  [IRT]       RETAINED (hard) — {describe_item(task_id, irt_a, irt_b)}"
-            )
-
-        elif outcome == RetentionOutcome.RETAINED_EASY:
-            # Prefer soft b estimate; fall back to uniform band
-            b_soft = estimate_b_from_soft_scores(p_vanilla, p_augmented)
-            if b_soft is not None and -2.5 <= b_soft <= 0.0:
-                irt_a, irt_b = 1.0, b_soft
-            else:
-                params = assign_2pl_parameters_easy(task_id)
-                irt_a, irt_b = params["irt_a"], params["irt_b"]
-            self._log(
-                f"  [IRT]       RETAINED (easy) — {describe_item(task_id, irt_a, irt_b)}"
-            )
-
-        elif outcome == RetentionOutcome.TOO_HARD:
-            # Option 2 — assign b above θ_augmented so both-fail items enter θ MLE.
-            # Prefer soft b estimate; fall back to uniform(2.5, 5.0) band.
-            b_soft = estimate_b_from_soft_scores(p_vanilla, p_augmented)
-            if b_soft is not None and b_soft >= 2.5:
-                irt_a, irt_b = 1.0, b_soft
-            else:
-                params = assign_rasch_parameters_too_hard(task_id)
-                irt_a, irt_b = params["irt_a"], params["irt_b"]
-            self._log(
-                f"  [IRT]       TOO_HARD (b assigned) — {describe_item(task_id, irt_a, irt_b)}"
-            )
-
-        else:
-            self._log(f"  [IRT]       Discarded ({outcome})")
+        # -- Backward-compat DB fields ------------------------------------
+        vanilla_response   = profile_responses[_IDX_VANILLA]
+        augmented_response = profile_responses[_IDX_AUGMENTED]
+        vanilla_pass       = profile_passes[_IDX_VANILLA]
+        augmented_pass     = profile_passes[_IDX_AUGMENTED]
+        p_vanilla          = profile_soft_p[_IDX_VANILLA]
+        p_augmented        = profile_soft_p[_IDX_AUGMENTED]
 
         return {
-            "task_id":            task_id,
-            "vanilla_response":   vanilla_response,
-            "augmented_response": augmented_response,
-            "vanilla_pass":       vanilla_pass,
-            "augmented_pass":     augmented_pass,
-            "p_vanilla":          p_vanilla,
-            "p_augmented":        p_augmented,
-            "is_retained":        is_retained,
-            "retention_reason":   outcome,
-            "irt_a":              irt_a,
-            "irt_b":              irt_b,
-            # Evaluation rationales (not persisted to DB but useful for debugging)
-            "_vanilla_reason":   vanilla_reason,
-            "_augmented_reason": augmented_reason,
+            "task_id":             task_id,
+            # Legacy two-profile fields (required by DB schema)
+            "vanilla_response":    vanilla_response,
+            "augmented_response":  augmented_response,
+            "vanilla_pass":        vanilla_pass,
+            "augmented_pass":      augmented_pass,
+            "p_vanilla":           p_vanilla,
+            "p_augmented":         p_augmented,
+            # Population-level calibration
+            "pass_rate":           pass_rate,
+            "_profile_passes":     profile_passes,
+            # Retention
+            "is_retained":         is_retained,
+            "retention_reason":    outcome,
+            "irt_a":               irt_a,
+            "irt_b":               irt_b,
+            # Rationales for layperson (idx 0) and expert (idx 14)
+            "_vanilla_reason":     profile_reasons[_IDX_VANILLA],
+            "_augmented_reason":   profile_reasons[_IDX_AUGMENTED],
         }
 
     # ------------------------------------------------------------------
-    # Solver implementations
+    # Internal helpers
     # ------------------------------------------------------------------
 
-    def _run_vanilla(self, context: str, question: str) -> str:
-        """Zero-shot solver: minimal framing, no scaffolding."""
-        prompt = _VANILLA_USER.format(context=context, question=question)
+    def _run_profile(
+        self,
+        context: str,
+        question: str,
+        system_prompt: str,
+        temperature: float,
+    ) -> str:
+        """Call the LLM for one solver profile with its specific system prompt and temperature."""
+        prompt = _PROFILE_USER.format(context=context, question=question)
         try:
             msg = self.client.chat.completions.create(
                 model=self.solver_model,
                 max_tokens=512,
+                temperature=temperature,
                 messages=[
-                    {"role": "system", "content": _VANILLA_SYSTEM},
-                    {"role": "user", "content": prompt},
-                ],
-            )
-            return msg.choices[0].message.content.strip()
-        except Exception as exc:
-            return f"[Solver error: {exc}]"
-
-    def _run_augmented(self, context: str, question: str) -> str:
-        """
-        Multi-step augmented agent. Config loaded from solver_config.json so
-        the autoevolve loop can hot-swap prompts and models without code changes.
-        """
-        prompt = self._aug_user_tmpl.format(context=context, question=question)
-        try:
-            msg = self.client.chat.completions.create(
-                model=self._aug_model,
-                max_tokens=self._aug_max_tok,
-                messages=[
-                    {"role": "system", "content": self._aug_system},
-                    {"role": "user", "content": prompt},
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user",   "content": prompt},
                 ],
             )
             raw = msg.choices[0].message.content.strip()
-            # DeepSeek-R1 and similar reasoning models wrap their chain-of-thought
-            # in <think>…</think> tags. Strip those so the judge sees only the answer.
-            import re as _re
+            # Strip <think>…</think> reasoning blocks (DeepSeek-R1 style)
             stripped = _re.sub(r"<think>.*?</think>", "", raw, flags=_re.DOTALL).strip()
-            # If stripping left almost nothing (< 80 chars), the model put all its
-            # reasoning inside <think> and the visible answer is too sparse to pass
-            # the strict judge. Fall back to the raw output in that case so the judge
-            # at least sees the full reasoning content.
             return stripped if len(stripped) >= 80 else raw
         except Exception as exc:
             return f"[Solver error: {exc}]"
-
-    # ------------------------------------------------------------------
-    # Helpers
-    # ------------------------------------------------------------------
 
     def _log(self, message: str) -> None:
         if self.verbose:

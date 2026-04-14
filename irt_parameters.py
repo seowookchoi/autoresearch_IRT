@@ -11,25 +11,34 @@ Parameters
     a  : discrimination — FIXED at 1.0 for all items (Rasch model assumption)
     b  : difficulty     — the θ level at which P(correct) = 0.50; varies per item
 
-Why 1PL instead of 2PL?
-------------------------
-We observe only two solver profiles per item:
+15-Profile Population Architecture
+------------------------------------
+Items are calibrated against a synthetic population of 15 AI solver profiles
+spanning a spectrum from "general layperson" (low ability, θ ≈ -2) to
+"senior FDA auditor" (high ability, θ ≈ +2).  Each profile has a distinct
+system prompt encoding its expertise level and a temperature in [0.1, 0.8].
 
-    Vanilla   → θ_vanilla  ≈ 0.0   (baseline zero-shot LLM)
-    Augmented → θ_augmented ≈ 2.5  (chain-of-thought + rule-checking agent)
+Difficulty is estimated directly from the empirical pass rate P across all 15
+profiles using the logit formula (assuming a population centered at θ=0):
 
-With only 2 binary observations (pass/fail at two fixed θ levels), the
-discrimination parameter `a` is NOT identifiable — infinitely many (a, b) pairs
-are consistent with any observed (FAIL, PASS) pattern. Assigning a random `a`
-per item would be statistically meaningless. The Rasch model fixes a=1.0 and
-only estimates b, which IS constrained by the outcome pattern:
+    b = ln((1 − P) / P)           (negative logit of P)
 
-    Vanilla FAIL, Augmented PASS  → b ∈ (0.0, 2.5)   sampled uniformly
-    Both PASS (easy)              → b ∈ (-2.5, 0.0)   sampled uniformly
-    Both FAIL (too hard)          → b ~ Uniform(2.5, 5.0) — keeps item in θ MLE
-    Vanilla PASS, Augmented FAIL  → discarded — anomalous ordering
+with P clipped to [ε, 1−ε] (ε = 0.01) so b remains finite when all profiles
+pass or all fail.
 
-A deterministic seed from task_id ensures reproducibility.
+    P = 0.50  →  b = 0.00   (half the population passes — medium difficulty)
+    P = 0.10  →  b ≈ +2.20  (hard — only the strongest profiles pass)
+    P = 0.90  →  b ≈ −2.20  (easy — almost all profiles pass)
+    P = 0.01  →  b ≈ +4.60  (extremely hard; epsilon floor)
+    P = 0.99  →  b ≈ −4.60  (trivially easy; epsilon ceiling)
+
+Retention thresholds (based on pass rate):
+    P < 0.10 (0–1 out of 15 pass)   → discarded_too_hard   is_retained=False
+    P > 0.90 (14–15 out of 15 pass) → retained_easy        is_retained=True
+    0.10 ≤ P ≤ 0.90                  → retained             is_retained=True
+
+Legacy 2-profile aliases (assign_2pl_parameters etc.) are kept for backward
+compatibility with fda_importer.py.
 """
 
 import hashlib
@@ -39,13 +48,24 @@ from typing import Optional
 
 
 # ---------------------------------------------------------------------------
-# Solver θ constants (mock ability levels for the two profiles)
+# Solver θ constants
 # ---------------------------------------------------------------------------
 
-THETA_VANILLA   = 0.0   # zero-shot baseline
-THETA_AUGMENTED = 2.5   # chain-of-thought + rule-checking agent
+# Legacy two-profile constants (used in theta MLE and describe_item)
+THETA_VANILLA   = 0.0   # layperson profile (profile index 0) — approximate
+THETA_AUGMENTED = 2.5   # expert profile (profile index 14) — approximate
+
+# 15-profile population assumed to be centered at θ=0, so b = -logit(P)
+THETA_POPULATION_MEAN = 0.0
 
 RASCH_A = 1.0           # fixed discrimination for all items (Rasch / 1PL model)
+
+# Epsilon for P clipping so b stays finite at pass rate extremes
+B_EPSILON = 0.01
+
+# Pass-rate thresholds for retention classification
+PASS_RATE_TOO_HARD_THRESHOLD = 0.10   # P < this → discarded_too_hard
+PASS_RATE_EASY_THRESHOLD     = 0.90   # P > this → retained_easy
 
 
 # ---------------------------------------------------------------------------
@@ -65,7 +85,8 @@ class RetentionOutcome:
 
 def classify_item(vanilla_pass: bool, augmented_pass: bool) -> str:
     """
-    Apply the filtration rule and return a RetentionOutcome string.
+    Legacy two-profile filtration rule. Returns a RetentionOutcome string.
+    Kept for backward compatibility with fda_importer.py.
     """
     if vanilla_pass and augmented_pass:
         return RetentionOutcome.RETAINED_EASY
@@ -75,6 +96,52 @@ def classify_item(vanilla_pass: bool, augmented_pass: bool) -> str:
         return RetentionOutcome.ANOMALOUS
     # not vanilla_pass and augmented_pass
     return RetentionOutcome.RETAINED
+
+
+def classify_item_from_pass_rate(pass_rate: float) -> str:
+    """
+    Classify an item based on its empirical pass rate across the 15-profile
+    synthetic population.
+
+    Parameters
+    ----------
+    pass_rate : fraction of profiles that passed (0.0 – 1.0)
+
+    Returns
+    -------
+    RetentionOutcome string
+    """
+    if pass_rate < PASS_RATE_TOO_HARD_THRESHOLD:
+        return RetentionOutcome.TOO_HARD
+    if pass_rate > PASS_RATE_EASY_THRESHOLD:
+        return RetentionOutcome.RETAINED_EASY
+    return RetentionOutcome.RETAINED
+
+
+def compute_b_from_pass_rate(pass_rate: float, epsilon: float = B_EPSILON) -> float:
+    """
+    Estimate item difficulty b from the empirical pass rate P across the
+    synthetic solver population (assumed to be centered at θ = 0).
+
+    Under the Rasch model with population mean θ = 0:
+
+        P(correct | θ=0, b) = 1 / (1 + exp(b))
+        ⟹  b = ln((1 − P) / P)   (negative logit of P)
+
+    P is clipped to [epsilon, 1 − epsilon] so that b remains finite when
+    all profiles pass (P→1) or all fail (P→0).
+
+    Parameters
+    ----------
+    pass_rate : empirical fraction of profiles that passed (0.0 – 1.0)
+    epsilon   : clipping bound (default 0.01 → b range ≈ [−4.60, +4.60])
+
+    Returns
+    -------
+    Estimated b, rounded to 4 decimal places.
+    """
+    p = max(epsilon, min(1.0 - epsilon, pass_rate))
+    return round(math.log((1.0 - p) / p), 4)
 
 
 def assign_rasch_parameters_easy(task_id: str) -> dict:
