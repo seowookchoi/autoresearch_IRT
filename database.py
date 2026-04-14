@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS calibration_results (
     augmented_pass      INTEGER NOT NULL CHECK(augmented_pass IN (0,1)),
     p_vanilla           REAL,
     p_augmented         REAL,
+    pass_rate           REAL,
     is_retained         INTEGER NOT NULL CHECK(is_retained    IN (0,1)),
     retention_reason    TEXT,
     irt_a               REAL,
@@ -95,6 +96,10 @@ class Database:
             self._conn.execute(
                 "ALTER TABLE calibration_results ADD COLUMN p_augmented REAL"
             )
+        if "pass_rate" not in cal_cols:
+            self._conn.execute(
+                "ALTER TABLE calibration_results ADD COLUMN pass_rate REAL"
+            )
 
     @staticmethod
     def _now() -> str:
@@ -134,9 +139,9 @@ class Database:
                 INSERT INTO calibration_results
                     (task_id, vanilla_response, augmented_response,
                      vanilla_pass, augmented_pass, p_vanilla, p_augmented,
-                     is_retained, retention_reason,
+                     pass_rate, is_retained, retention_reason,
                      irt_a, irt_b, calibrated_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     result["task_id"],
@@ -146,6 +151,7 @@ class Database:
                     int(result["augmented_pass"]),
                     result.get("p_vanilla"),
                     result.get("p_augmented"),
+                    result.get("pass_rate"),
                     int(result["is_retained"]),
                     result.get("retention_reason", ""),
                     result.get("irt_a"),
@@ -153,6 +159,19 @@ class Database:
                     self._now(),
                 ),
             )
+
+    def delete_calibration_results_for_task(self, task_id: str) -> int:
+        """
+        Delete all calibration_results rows for the given task_id.
+        Used by recalibration to replace stale rows with fresh ones.
+        Returns the number of rows deleted.
+        """
+        with self._connect() as conn:
+            cursor = conn.execute(
+                "DELETE FROM calibration_results WHERE task_id = ?",
+                (task_id,),
+            )
+            return cursor.rowcount
 
     # ------------------------------------------------------------------
     # Read operations

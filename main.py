@@ -146,7 +146,7 @@ def run_pipeline(n: int, db_path: str, verbose: bool, theta_min_items: int = 10,
 
     tasks = hard_tasks + easy_tasks
 
-    if not tasks:
+    if not tasks and (n > 0 or n_easy > 0):
         print("\n  No tasks were generated. Check your API key and try again.")
         sys.exit(1)
 
@@ -229,6 +229,116 @@ def run_pipeline(n: int, db_path: str, verbose: bool, theta_min_items: int = 10,
 
 
 # ---------------------------------------------------------------------------
+# Targeted 21 CFR Part 11 generation
+# ---------------------------------------------------------------------------
+
+def run_targeted_21cfr11(n: int, db_path: str, verbose: bool) -> None:
+    """
+    Generate `n` targeted 21 CFR Part 11 items (Hybrid Systems + Legacy
+    System Validation sub-domains), calibrate each against the 15-profile
+    population, and persist to the DB.
+    """
+    print(_banner(f"Targeted 21 CFR Part 11 Generation — {n} items"))
+
+    api_key = os.environ.get("GROQ_API_KEY")
+    if not api_key:
+        print("\n  ERROR: GROQ_API_KEY environment variable is not set.")
+        sys.exit(1)
+
+    client = openai.OpenAI(base_url="https://api.groq.com/openai/v1", api_key=api_key)
+    db        = Database(db_path)
+    generator = TaskGenerator(client)
+    calibrator_inst = Calibrator(client, verbose=verbose)
+
+    print(_section(f"Stage 1 — Generating {n} Targeted 21 CFR Part 11 Items"))
+    tasks = generator.generate_targeted_21cfr11(n=n)
+    print(f"\n  Generated {len(tasks)} task(s).")
+    for task in tasks:
+        _print_task_card(task)
+        db.insert_task(task)
+
+    print(_section("Stage 2 — Calibration (15-Profile Synthetic Population)"))
+    retained_count = 0
+    for task in tasks:
+        result = calibrator_inst.calibrate(task)
+        db.insert_calibration_result(result)
+        if result["is_retained"]:
+            retained_count += 1
+
+    print(_section("Stage 3 — Results"))
+    print(f"\n  Retained {retained_count}/{len(tasks)} targeted 21 CFR Part 11 items.")
+    _print_db_summary(db)
+    print(_banner("Targeted Generation Complete"))
+
+
+# ---------------------------------------------------------------------------
+# Full-bank recalibration (Rescue Mission)
+# ---------------------------------------------------------------------------
+
+def run_recalibration(db_path: str, verbose: bool) -> None:
+    """
+    Re-evaluate EVERY task in the DB against the current 15-profile population
+    using the logit pass-rate b formula and widened retention thresholds
+    (P ∈ [0.05, 0.95]).
+
+    For each task:
+      1. Delete all existing calibration_results rows for that task.
+      2. Run the 15-profile calibrator (respecting is_easy flag from domain key).
+      3. Insert a fresh calibration_results row.
+
+    WARNING: This makes ~30 API calls per task. For 1,000+ items expect
+    several hours of runtime. Run via `nohup` or `build_bank.sh`-style script.
+    """
+    print(_banner("Full-Bank Recalibration — All Tasks"))
+
+    api_key = os.environ.get("GROQ_API_KEY")
+    if not api_key:
+        print("\n  ERROR: GROQ_API_KEY environment variable is not set.")
+        sys.exit(1)
+
+    client = openai.OpenAI(base_url="https://api.groq.com/openai/v1", api_key=api_key)
+    db             = Database(db_path)
+    calibrator_inst = Calibrator(client, verbose=verbose)
+
+    tasks = db.fetch_all_tasks()
+    total = len(tasks)
+    print(f"\n  Tasks to recalibrate : {total}")
+    print(f"  Retention thresholds  : P ∈ [0.05, 0.95]")
+    print(f"  API calls (est.)      : {total * 30:,}")
+    print(f"\n  Starting recalibration…\n")
+
+    retained_new = 0
+    for i, task in enumerate(tasks, 1):
+        # Infer is_easy from domain key (not stored in tasks table)
+        task["is_easy"] = task.get("domain", "").startswith("easy_")
+
+        if not verbose:
+            print(f"  [{i:>4}/{total}] {task['task_id']}  ", end="", flush=True)
+
+        result = calibrator_inst.calibrate(task)
+
+        # Replace stale calibration data
+        deleted = db.delete_calibration_results_for_task(task["task_id"])
+        db.insert_calibration_result(result)
+
+        retained = "RETAINED" if result["is_retained"] else "DISCARDED"
+        if not verbose:
+            print(
+                f"P={result['pass_rate']:.3f}  b={result['irt_b']:+.3f}  "
+                f"{retained}  (replaced {deleted} old row(s))"
+            )
+        if result["is_retained"]:
+            retained_new += 1
+
+        if i % 50 == 0:
+            print(f"\n  ── Checkpoint {i}/{total}: {retained_new} retained so far ──\n")
+
+    print(_banner("Recalibration Complete"))
+    print(f"\n  Newly retained items : {retained_new}/{total}")
+    _print_db_summary(db)
+
+
+# ---------------------------------------------------------------------------
 # CLI entry-point
 # ---------------------------------------------------------------------------
 
@@ -270,11 +380,37 @@ def _parse_args() -> argparse.Namespace:
         action="store_true",
         help="Print real vs. synthetic difficulty distribution after pipeline completes",
     )
+    parser.add_argument(
+        "--gen-21cfr11",
+        type=int,
+        default=0,
+        metavar="N",
+        help=(
+            "Generate N targeted 21 CFR Part 11 items focusing on Hybrid Systems "
+            "and Legacy System Validation. Skips the normal hard/easy generation. "
+            "Example: --gen-21cfr11 50"
+        ),
+    )
+    parser.add_argument(
+        "--recalibrate-all",
+        action="store_true",
+        help=(
+            "Re-evaluate ALL tasks in the DB with the current 15-profile population "
+            "and new retention thresholds (P ∈ [0.05, 0.95]). Replaces old calibration "
+            "rows. WARNING: ~30 API calls per task — very long for large banks."
+        ),
+    )
     return parser.parse_args()
 
 
 if __name__ == "__main__":
     args = _parse_args()
-    run_pipeline(n=args.n, db_path=args.db, verbose=not args.quiet,
-                 theta_min_items=args.theta_min_items, n_easy=args.easy_n,
-                 compare=args.compare)
+
+    if args.recalibrate_all:
+        run_recalibration(db_path=args.db, verbose=not args.quiet)
+    elif args.gen_21cfr11 > 0:
+        run_targeted_21cfr11(n=args.gen_21cfr11, db_path=args.db, verbose=not args.quiet)
+    else:
+        run_pipeline(n=args.n, db_path=args.db, verbose=not args.quiet,
+                     theta_min_items=args.theta_min_items, n_easy=args.easy_n,
+                     compare=args.compare)

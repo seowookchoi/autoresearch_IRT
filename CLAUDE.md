@@ -14,16 +14,17 @@ The core loop:
 2. **15 synthetic AI solver profiles** attempt each scenario — spanning a spectrum from "general layperson" (temp 0.1–0.7) to "senior FDA auditor" (temp 0.1–0.7) across 5 expertise tiers
 3. An LLM **judge** grades each response PASS or FAIL
 4. Item difficulty `b` is estimated directly from the empirical **pass rate P** using `b = ln((1−P)/P)` (logit formula, P clipped to [0.01, 0.99])
-5. Items are classified by pass-rate thresholds: P < 0.10 → too hard, P > 0.90 → easy, else retained
+5. Items are classified by pass-rate thresholds: P < 0.05 → too hard, P > 0.95 → easy, else retained (widened 2026-04-14)
 6. Results persist to **SQLite** for cumulative calibration across runs
 7. Once enough items accumulate (configurable threshold), solver **ability (θ) is estimated via MLE**
 
 A parallel **real-world track** ingests actual FDA warning letters and converts them into calibration items, tagged `source_type="real"`. This grounds the synthetic bank in actual regulatory enforcement findings.
 
 **Current bank size (as of last build):**
-- Synthetic retained: 78 items
+- Synthetic retained: 78 items (pre-recalibration count; High-Subtlety recalibration pending)
 - Real-world retained: 54 items (from 19 FDA warning letters)
 - Total calibrated: 139+ items with known b values
+- +50 targeted 21 CFR Part 11 items (Hybrid Systems + Legacy Validation) in generation as of 2026-04-14
 
 ---
 
@@ -124,11 +125,15 @@ tail -f bank_build_real.log
 - **Real-world**: domain assigned by LLM during extraction, same keys as hard synthetic
 
 ### Outcome classification (15-profile pass rate)
+Thresholds widened 2026-04-14 (High-Subtlety bank) to capture near-extreme items.
+
 | Pass rate P | retention_reason | b formula | is_retained |
 |---|---|---|---|
-| 0.10 ≤ P ≤ 0.90 | `retained` | `ln((1−P)/P)` | True |
-| P > 0.90 | `retained_easy` | `ln((1−P)/P)` (negative) | True |
-| P < 0.10 | `discarded_too_hard` | `ln((1−P)/P)` (large positive) | False |
+| 0.05 ≤ P ≤ 0.95 | `retained` | `ln((1−P)/P)` | True |
+| P > 0.95 | `retained_easy` | `ln((1−P)/P)` (negative) | True |
+| P < 0.05 | `discarded_too_hard` | `ln((1−P)/P)` (large positive) | False |
+
+*Previous thresholds (pre-2026-04-14): P < 0.10 → too_hard, P > 0.90 → easy.*
 
 `b = ln((1−P_clipped)/P_clipped)` with `P_clipped = clip(P, 0.01, 0.99)`.
 `is_retained = True` for both `retained` and `retained_easy` only.
@@ -158,6 +163,30 @@ Range: P=0.01 → b ≈ +4.60 (extremely hard); P=0.99 → b ≈ −4.60 (trivia
 - **Lenient** (`strict=False`): requires only correct conclusion + reasoning. Used for easy synthetic items so Vanilla can pass them.
 
 Without the lenient judge, easy items would still get Vanilla FAIL (it never cites sections), defeating the purpose.
+
+### High-Subtlety generation model (2026-04-14)
+All hard synthetic items now require:
+1. **Red Herring**: at least one compliant process that looks suspicious (e.g., a legacy system correctly running read-only, a delayed but permissible timestamp, a deviation log correctly handled). The Red Herring should misdirect solvers toward flagging a non-violation.
+2. **Subtle violation**: the actual compliance gap must be a procedural lapse, signature timing issue, or system-to-system data integrity gap — NOT a blatant, obvious non-compliance.
+3. Gold standard must briefly explain why the Red Herring is not the violation.
+
+This is encoded in `_USER_TEMPLATE` (task_generator.py). Easy items use `_USER_TEMPLATE_EASY` which is unchanged (no Red Herring, straightforward).
+
+### Targeted 21 CFR Part 11 generation
+`DOMAINS_21CFR11_TARGETED` in `task_generator.py` contains 10 sub-domain prompts focusing on:
+- Hybrid Systems (predicate record designation, wet-ink scan signatures, open-system encryption)
+- Legacy System Validation (post-1997 modifications, OS patch change control, role access gaps)
+- Audit trail completeness (system-initiated changes, migration field-level traceability)
+- Electronic signature components (missing meaning field per 21 CFR 11.50(a))
+- Predicate rule interplay (21 CFR 58 GLP archive accessibility)
+
+CLI: `python3 main.py --gen-21cfr11 50`
+
+### Full-bank recalibration
+`python3 main.py --recalibrate-all` re-evaluates every task in the DB with the current
+15-profile population and new 0.05/0.95 thresholds. Deletes old calibration_results rows
+for each task and inserts fresh ones. ~30 API calls per task — expect several hours for
+large banks. Progress checkpoints every 50 items.
 
 ### `is_easy` not persisted
 Added in `main.py` before calibration, not stored in DB. Easy-ness is inferred from `retention_reason = 'retained_easy'` or domain key prefix `easy_`.
@@ -209,24 +238,29 @@ Pre-refactor DB rows have `b` values sampled from Uniform bands. Post-refactor r
 
 ### Working
 - Full pipeline: generate → calibrate (15 profiles) → filter by pass rate → logit b → persist
-- Hard domains (5): counterintuitive scenarios, strict judge
-- Easy domains (5): obvious scenarios, lenient judge
+- **High-Subtlety generation model**: all hard items require Red Herrings + subtle violations
+- Hard domains (5): counterintuitive scenarios with mandatory Red Herring, strict judge
+- Easy domains (5): obvious scenarios, lenient judge (unchanged)
+- 10 targeted 21 CFR Part 11 sub-domains (Hybrid Systems + Legacy Validation)
 - 15-profile synthetic population: 5 expertise tiers × 3 temperatures (0.1–0.8)
 - b estimation: `b = ln((1−P)/P)` from empirical pass rate P, P clipped to [0.01, 0.99]
-- Retention thresholds: P < 0.10 → discarded_too_hard, P > 0.90 → retained_easy, else retained
+- Retention thresholds: P < 0.05 → discarded_too_hard, P > 0.95 → retained_easy, else retained
 - DB backward compat: profile 0 (layperson) → vanilla_*, profile 14 (expert) → augmented_*
+- `pass_rate` column now persisted in `calibration_results` (migrated automatically)
 - Real-world track: `fda_importer.py` fetches FDA warning letters, extracts items, calibrates
 - `source_type` tagging: `synthetic` vs `real` in DB
 - Real vs synthetic b-distribution comparison (`print_comparison`)
 - Theta MLE via Newton-Raphson for layperson (≈ −0.74) and expert profiles
-- CLI: `--n`, `--easy-n`, `--db`, `--quiet`, `--theta-min-items`, `--compare`
+- CLI: `--n`, `--easy-n`, `--db`, `--quiet`, `--theta-min-items`, `--compare`, `--gen-21cfr11`, `--recalibrate-all`
 - Background build scripts: `build_bank.sh`, `build_real.sh`
 
 ### Known issues
 - Legacy DB rows with `a != 1.0` from 2PL era; legacy rows also have band-sampled b, not logit b
+- Legacy rows calibrated with old thresholds (0.10/0.90) have stale `is_retained` flags — use `--recalibrate-all` to fix
 - Promo_review domain underrepresented in real items (OPDP letters use different URL structure)
 - 15 solver calls + 15 judge calls = 30 API calls per task — significantly slower than the 4-call 2-profile design; mitigated by Groq's fast inference
 - fda_importer.py still uses the 2-profile Calibrator interface (backward compat shim in place)
+- Red Herring quality not graded — items are generated with the Red Herring mandate but no automated check verifies a Red Herring was actually embedded
 
 ### Gaps
 - No promotional material real items retained yet (0 in real bank)
@@ -282,7 +316,8 @@ This section documents an objective, critical evaluation of what has been built 
 
 ### To improve current pipeline
 5. **Promo_review real items** — OPDP warning letters are at a different URL pattern; need targeted search
-6. **Re-calibrate existing DB items** — legacy items have band-sampled b values; re-run calibration with 15-profile logit formula for consistency
+6. ~~**Re-calibrate existing DB items**~~ ✓ Implemented — run `python3 main.py --recalibrate-all` to replace all stale rows with 15-profile logit b values and 0.05/0.95 thresholds
+7. **Red Herring audit** — sample 20 items and manually verify that a genuine Red Herring is present and correctly described in the gold standard
 
 ### Longer term
 - Adaptive item selection: given solver θ, pick item with b closest to θ (maximum Fisher information)

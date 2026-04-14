@@ -154,6 +154,206 @@ EASY_DOMAINS = [
 
 
 # ---------------------------------------------------------------------------
+# Targeted 21 CFR Part 11 sub-domains (Hybrid Systems + Legacy Validation)
+# 10 entries; generate_targeted_21cfr11() cycles through them.
+# ---------------------------------------------------------------------------
+
+DOMAINS_21CFR11_TARGETED: list[dict] = [
+    {
+        "key": "21cfr11",
+        "label": "FDA 21 CFR Part 11 — Hybrid Systems: Predicate Record Designation",
+        "hint": (
+            "Create a scenario where a company uses BOTH paper and electronic records "
+            "for the same data (a 'hybrid system') but has never formally designated which "
+            "record is the official 'predicate record' under 21 CFR 11.2(a). "
+            "Red Herring: the company has both records and believes having two copies "
+            "provides extra compliance coverage — an auditor reviewing the records sees "
+            "a complete paper binder AND a validated LIMS with matching data. "
+            "Actual gap: 21 CFR 11.2(a) requires a formal SOP designation of which "
+            "record is the predicate; without it, there is no regulatory basis for relying "
+            "on the electronic record as the official record, even if the data matches. "
+            "Gold standard must cite 21 CFR 11.2(a) and the predicate rule designation "
+            "requirement. Explain that data match does not substitute for formal designation."
+        ),
+    },
+    {
+        "key": "21cfr11",
+        "label": "FDA 21 CFR Part 11 — Legacy System: Post-1997 Modifications and Re-validation",
+        "hint": (
+            "Create a scenario where a system was deployed before August 1997 (the 21 CFR "
+            "Part 11 effective date) and the company believes it is exempt from Part 11 "
+            "under the legacy exemption — BUT the system has since undergone three major "
+            "software patches and an operating system migration, all post-1997. "
+            "Red Herring: the original system installation predates Part 11, and the "
+            "company has a thick binder of IQ/OQ/PQ documentation from 1996. "
+            "Actual gap: the FDA's 2003 Part 11 guidance states that substantial "
+            "modifications to a legacy system after the effective date bring it under "
+            "Part 11 scope; the original pre-date status does not carry forward through "
+            "material changes. Each post-1997 upgrade required a fresh impact assessment. "
+            "Gold standard must cite FDA's 2003 Part 11 Guidance (Section III, 'Scope') "
+            "and 21 CFR 11.10(a) continuous validation obligation."
+        ),
+    },
+    {
+        "key": "21cfr11",
+        "label": "FDA 21 CFR Part 11 — Audit Trail: System-Initiated Changes Not Captured",
+        "hint": (
+            "Create a scenario where a validated LIMS captures audit trails for all "
+            "operator-initiated entries but routes all automated batch import jobs and "
+            "scheduled calculation updates through a service account that bypasses the "
+            "audit trigger — so system-initiated changes are invisible in the log. "
+            "Red Herring: the audit trail is voluminous (thousands of entries), a recent "
+            "internal audit reviewed a 200-record sample and found zero gaps, and the "
+            "system was validated for audit trail completeness at deployment. "
+            "Actual gap: 21 CFR 11.10(e) requires audit trails to capture ALL changes to "
+            "electronic records, not only operator-initiated ones; system-initiated changes "
+            "from batch jobs are within scope. "
+            "Gold standard must cite 21 CFR 11.10(e) and state that the obligation covers "
+            "automated/system-initiated changes, not only manual operator entries."
+        ),
+    },
+    {
+        "key": "21cfr11",
+        "label": "FDA 21 CFR Part 11 — Electronic Signature: Missing Meaning Component",
+        "hint": (
+            "Create a scenario where a validated system captures a login credential event "
+            "as the signature for document approval, but the signature record does not "
+            "display the human-readable meaning (e.g., 'reviewed and approved', 'authored') "
+            "alongside the signer's name and timestamp, as required by 21 CFR 11.50(a)(2). "
+            "Red Herring: every approved record has a timestamp and the approver's user ID "
+            "clearly linked. An auditor traces each record to its approver with certainty. "
+            "Actual gap: 21 CFR 11.50(a) requires each electronic signature to include "
+            "(1) printed name, (2) date/time, and (3) the MEANING of the signature — all "
+            "displayed on the record. The absence of the meaning component is a direct "
+            "Part 11 violation even when the timestamp and name are present. "
+            "Gold standard must cite 21 CFR 11.50(a)(1)-(3) and name all three required "
+            "components."
+        ),
+    },
+    {
+        "key": "21cfr11",
+        "label": "FDA 21 CFR Part 11 — Open System: Encryption and Integrity Controls",
+        "hint": (
+            "Create a scenario where a company stores validated electronic records in a "
+            "cloud SaaS platform (an 'open system' under 21 CFR 11.3(b)(9)) that uses "
+            "TLS in transit and SOC 2 Type II access controls, but does NOT encrypt "
+            "records at rest and has no cryptographic mechanism to detect unauthorized "
+            "record alteration. "
+            "Red Herring: the vendor holds SOC 2 Type II, ISO 27001, and HIPAA certifications "
+            "and all data transmissions are TLS-encrypted — an IT security review marks the "
+            "system as 'fully secured'. "
+            "Actual gap: 21 CFR 11.30 requires open systems to employ additional controls "
+            "including document encryption and digital signatures to ensure record "
+            "authenticity and integrity. Transport encryption (TLS) satisfies neither; "
+            "third-party security certifications do not substitute for CFR compliance. "
+            "Gold standard must cite 21 CFR 11.30 and distinguish closed-system (11.10) "
+            "from open-system (11.30) requirements."
+        ),
+    },
+    {
+        "key": "21cfr11",
+        "label": "FDA 21 CFR Part 11 — Hybrid System: Wet-Ink Signature on Printed Electronic Record",
+        "hint": (
+            "Create a scenario where a company captures data electronically, prints a "
+            "formatted report, obtains a handwritten signature on the printout, then "
+            "scans the signed page back into the EDMS. The company treats the scanned "
+            "image as an equivalent to a handwritten signature on a paper record. "
+            "Red Herring: every finalized record has a visible ink signature and a scan "
+            "date stamp. An auditor confirms every batch record was 'signed'. "
+            "Actual gap: a scanned image of a handwritten signature attached to an "
+            "electronic record constitutes an 'electronic signature' under 21 CFR "
+            "11.3(b)(7) — it must therefore satisfy all Part 11 e-signature requirements "
+            "(11.50 for displayed attributes, 11.70 for cryptographic linkage to the record). "
+            "A JPEG scan cannot meet 11.70 linkage requirements. If the intent is paper "
+            "as the predicate record, the paper original must be retained as the official "
+            "record and the EDMS copy treated as a copy only. "
+            "Gold standard must cite 21 CFR 11.3(b)(7) and 11.70."
+        ),
+    },
+    {
+        "key": "21cfr11",
+        "label": "FDA 21 CFR Part 11 — CSV Change Control: OS Patch Without Impact Assessment",
+        "hint": (
+            "Create a scenario where IT applies a 'security-only' OS patch to the server "
+            "hosting a validated EDMS. IT classifies the patch as 'low risk, no functional "
+            "change'. Post-patch, all user acceptance tests pass and no functionality is "
+            "altered. QA closes the event as 'validated state unaffected — no re-validation "
+            "required.' No formal impact assessment or change control record is generated. "
+            "Red Herring: the patch changes nothing the user sees; all smoke tests pass "
+            "and the vendor's release notes confirm 'no application changes'. "
+            "Actual gap: 21 CFR 11.10(a) and FDA's 2003 Part 11 guidance require that ANY "
+            "change to a validated system — including infrastructure changes — undergo a "
+            "documented impact assessment. The DECISION not to re-validate must be "
+            "documented and justified; absent that record, the validation status is "
+            "unsubstantiated regardless of the outcome. "
+            "Gold standard must cite 21 CFR 11.10(a) and FDA's 2003 guidance Section IV."
+        ),
+    },
+    {
+        "key": "21cfr11",
+        "label": "FDA 21 CFR Part 11 — Data Migration: Bulk Audit Entry vs. Field-Level Traceability",
+        "hint": (
+            "Create a scenario where historical data is migrated from a legacy system to "
+            "a new LIMS. The migration reformats date fields, normalizes units, and maps "
+            "old column names to new schema. The audit trail records a single entry: "
+            "'Batch migration from LegacyLIMS v2.3 on [date]' per task — not a field-level "
+            "record of original vs. new value for each transformed field. "
+            "Red Herring: post-migration reconciliation scripts verified record counts, "
+            "checksums, and a 5% random sample spot-check — all matching. The QA lead "
+            "certifies the migration as 'validated and fully traceable.' "
+            "Actual gap: 21 CFR 11.10(e) requires audit trail entries to capture the "
+            "original value, the new value, who made the change, when, and why — at the "
+            "individual record/field level. A bulk migration log entry does not allow "
+            "reconstruction of what any individual field contained before migration. "
+            "Gold standard must cite 21 CFR 11.10(e) and specify the field-level granularity "
+            "requirement for audit trail entries."
+        ),
+    },
+    {
+        "key": "21cfr11",
+        "label": "FDA 21 CFR Part 11 — Predicate Rule Primacy: GLP Archive Accessibility (21 CFR 58)",
+        "hint": (
+            "Create a scenario where a GLP laboratory has a fully Part 11-compliant "
+            "electronic study management system, but all raw data is archived only as "
+            "proprietary binary files (.esm format) within the active LIMS. The vendor "
+            "contract includes a 5-year support window ending next year. No plan exists "
+            "to export data to a human-readable or open format before decommissioning. "
+            "Red Herring: the system has robust Part 11 controls — validated backup, "
+            "access controls, audit trails, and 21 CFR 11.10(c) backup procedures all "
+            "in place. A compliance reviewer concludes the system is fully compliant. "
+            "Actual gap: 21 CFR 58.130(e) (the GLP predicate rule) requires that raw "
+            "data remain readily retrievable for the retention period — including AFTER "
+            "the originating system is decommissioned. Part 11 compliance does not "
+            "satisfy the predicate rule's archive accessibility obligation. "
+            "Gold standard must cite 21 CFR 58.130(e) as the controlling predicate rule "
+            "and explain that Part 11 does not substitute for predicate rule requirements."
+        ),
+    },
+    {
+        "key": "21cfr11",
+        "label": "FDA 21 CFR Part 11 — Hybrid System: Access Control Gaps for Post-Validation Roles",
+        "hint": (
+            "Create a scenario where a system was validated in 2018 with access roles "
+            "for QA Analyst, QA Manager, and Administrator. Since then, two new roles "
+            "have been added operationally (Regulatory Liaison and External Auditor Read-Only) "
+            "by modifying the system configuration — but no formal validation addendum, "
+            "role-based access re-validation, or updated User Requirements Specification "
+            "was generated for these additions. "
+            "Red Herring: all five roles are actively enforced in the system and the "
+            "External Auditor role is genuinely read-only; an IT security review confirms "
+            "no privilege escalation. The system behaves as intended. "
+            "Actual gap: adding new user roles to a validated system is a system change "
+            "under 21 CFR 11.10(a) and (d) that requires formal change control and "
+            "validation addendum — the correct behavior of the roles does not validate "
+            "the change; the absence of documented validation for the new roles means "
+            "access controls for those roles are unvalidated per Part 11. "
+            "Gold standard must cite 21 CFR 11.10(a) and 11.10(d) (access privilege controls)."
+        ),
+    },
+]
+
+
+# ---------------------------------------------------------------------------
 # Prompts
 # ---------------------------------------------------------------------------
 
@@ -176,15 +376,17 @@ Required JSON structure (use EXACTLY these keys, no extras):
 {{
   "task_id": "{task_id}",
   "domain": "{domain_key}",
-  "context": "<3-5 sentences. A specific, realistic situation at a named fictional company (e.g., NovaBio Inc., Helix Pharma). Include concrete details: system names, dates, staff roles, quantities. Make the compliance challenge non-obvious.>",
+  "context": "<4-6 sentences. A specific, realistic situation at a named fictional company (e.g., NovaBio Inc., Helix Pharma). Include concrete details: system names, software versions, dates, staff roles, quantities. MUST include at least one RED HERRING — a process or element that appears suspicious or non-compliant on the surface but is actually fully compliant (e.g., a legacy system running correctly in read-only mode, a delayed but permissible timestamp, a deviation log entry that was properly handled). The actual compliance gap must be a SUBTLE PROCEDURAL LAPSE, SIGNATURE TIMING ISSUE, or SYSTEM-TO-SYSTEM DATA INTEGRITY GAP that is easy to overlook when the red herring draws attention elsewhere.>",
   "question": "<One precise question that has a single defensible correct answer grounded in regulation. Avoid opinion questions.>",
-  "gold_standard": "<The exact compliance requirement that constitutes the correct answer. MUST cite the specific regulation section(s) (e.g., 21 CFR 11.10(e), ICH E6(R2) §4.8.2) and state the precise obligation or prohibited action.>"
+  "gold_standard": "<The exact compliance requirement that constitutes the correct answer. MUST cite the specific regulation section(s) (e.g., 21 CFR 11.10(e), ICH E6(R2) §4.8.2) and state the precise obligation or prohibited action. Explain briefly why the Red Herring is NOT the violation.>"
 }}
 
 Rules:
 - Respond with ONLY valid JSON — no markdown fences, no commentary.
 - The gold_standard must be verifiable against published regulations.
-- CRITICAL: The scenario must be COUNTERINTUITIVE. The common-sense or obvious answer must be WRONG. A knowledgeable professional without specific regulatory training should confidently give the wrong answer.
+- HIGH COMPLEXITY REQUIREMENT — Red Herring: embed at least one compliant process that looks non-compliant. The solver should be pulled toward incorrectly flagging the Red Herring as the violation.
+- HIGH COMPLEXITY REQUIREMENT — Subtle Violation: the actual violation must be a procedural lapse, signature timing issue, or system-to-system data integrity gap. NOT a blatant, obvious non-compliance.
+- CRITICAL: The common-sense or obvious answer must be WRONG. A knowledgeable professional without specific regulatory training should confidently identify the Red Herring as the problem and miss the actual subtle violation.
 - The correct answer must hinge on a specific regulatory provision, exception, or threshold that only deep domain expertise reveals.
 - Do NOT include the answer anywhere in the context or question fields.
 """
@@ -261,6 +463,30 @@ class TaskGenerator:
                 print(
                     f"  [TaskGenerator] WARNING: failed to generate task "
                     f"for domain '{domain['key']}' after {self.max_retries + 1} attempts"
+                )
+        return tasks
+
+    def generate_targeted_21cfr11(self, n: int = 50) -> list[dict]:
+        """
+        Generate `n` targeted 21 CFR Part 11 items cycling through
+        DOMAINS_21CFR11_TARGETED (Hybrid Systems + Legacy System Validation).
+        All items use the High-Complexity hard template with Red Herring mandate.
+        """
+        tasks: list[dict] = []
+        for i in range(n):
+            domain = DOMAINS_21CFR11_TARGETED[i % len(DOMAINS_21CFR11_TARGETED)]
+            task = self._generate_one(domain, attempt=0, easy=False)
+            if task is not None:
+                tasks.append(task)
+                print(
+                    f"  [TaskGenerator] [{i + 1}/{n}] Generated 21CFR11 targeted task "
+                    f"{task['task_id']}  ({domain['label'][-50:]})"
+                )
+            else:
+                print(
+                    f"  [TaskGenerator] WARNING: failed to generate 21CFR11 targeted task "
+                    f"for sub-domain '{domain['label'][-50:]}' after "
+                    f"{self.max_retries + 1} attempts"
                 )
         return tasks
 

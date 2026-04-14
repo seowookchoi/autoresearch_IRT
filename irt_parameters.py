@@ -32,10 +32,10 @@ pass or all fail.
     P = 0.01  →  b ≈ +4.60  (extremely hard; epsilon floor)
     P = 0.99  →  b ≈ −4.60  (trivially easy; epsilon ceiling)
 
-Retention thresholds (based on pass rate):
-    P < 0.10 (0–1 out of 15 pass)   → discarded_too_hard   is_retained=False
-    P > 0.90 (14–15 out of 15 pass) → retained_easy        is_retained=True
-    0.10 ≤ P ≤ 0.90                  → retained             is_retained=True
+Retention thresholds (based on pass rate) — widened 2026-04-14 for High-Subtlety bank:
+    P < 0.05 (0 out of 15 pass)     → discarded_too_hard   is_retained=False
+    P > 0.95 (15 out of 15 pass)    → retained_easy        is_retained=True
+    0.05 ≤ P ≤ 0.95                  → retained             is_retained=True
 
 Legacy 2-profile aliases (assign_2pl_parameters etc.) are kept for backward
 compatibility with fda_importer.py.
@@ -63,9 +63,11 @@ RASCH_A = 1.0           # fixed discrimination for all items (Rasch / 1PL model)
 # Epsilon for P clipping so b stays finite at pass rate extremes
 B_EPSILON = 0.01
 
-# Pass-rate thresholds for retention classification
-PASS_RATE_TOO_HARD_THRESHOLD = 0.10   # P < this → discarded_too_hard
-PASS_RATE_EASY_THRESHOLD     = 0.90   # P > this → retained_easy
+# Pass-rate thresholds for retention classification (High-Subtlety bank, 2026-04-14)
+# Widened from 0.10/0.90 to 0.05/0.95 to capture near-extreme items that carry
+# IRT signal while still excluding pure noise (all-fail or all-pass).
+PASS_RATE_TOO_HARD_THRESHOLD = 0.05   # P < this → discarded_too_hard  (was 0.10)
+PASS_RATE_EASY_THRESHOLD     = 0.95   # P > this → retained_easy       (was 0.90)
 
 
 # ---------------------------------------------------------------------------
