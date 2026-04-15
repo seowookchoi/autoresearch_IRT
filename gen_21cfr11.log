@@ -21,3 +21,1813 @@
   [TaskGenerator] [13/50] Generated 21CFR11 targeted task TASK-21CFR11-54267513  (Audit Trail: System-Initiated Changes Not Captured)
   [TaskGenerator] [14/50] Generated 21CFR11 targeted task TASK-21CFR11-72CCFA15  ( — Electronic Signature: Missing Meaning Component)
   [TaskGenerator] [15/50] Generated 21CFR11 targeted task TASK-21CFR11-D20BABB3  (1 — Open System: Encryption and Integrity Controls)
+  [TaskGenerator] [16/50] Generated 21CFR11 targeted task TASK-21CFR11-7D7810CA  (em: Wet-Ink Signature on Printed Electronic Record)
+  [TaskGenerator] [17/50] Generated 21CFR11 targeted task TASK-21CFR11-5B6AF60B  (Change Control: OS Patch Without Impact Assessment)
+  [TaskGenerator] [18/50] Generated 21CFR11 targeted task TASK-21CFR11-E33269E6  (ion: Bulk Audit Entry vs. Field-Level Traceability)
+  [TaskGenerator] [19/50] Generated 21CFR11 targeted task TASK-21CFR11-CEC8FED3  (ule Primacy: GLP Archive Accessibility (21 CFR 58))
+  [TaskGenerator] [20/50] Generated 21CFR11 targeted task TASK-21CFR11-5C548E0F  (tem: Access Control Gaps for Post-Validation Roles)
+  [TaskGenerator] [21/50] Generated 21CFR11 targeted task TASK-21CFR11-95A49269  ( 11 — Hybrid Systems: Predicate Record Designation)
+  [TaskGenerator] [22/50] Generated 21CFR11 targeted task TASK-21CFR11-9301674F  ( System: Post-1997 Modifications and Re-validation)
+  [TaskGenerator] [23/50] Generated 21CFR11 targeted task TASK-21CFR11-6ADDEC71  (Audit Trail: System-Initiated Changes Not Captured)
+  [TaskGenerator] [24/50] Generated 21CFR11 targeted task TASK-21CFR11-53ACDADF  ( — Electronic Signature: Missing Meaning Component)
+  [TaskGenerator] [25/50] Generated 21CFR11 targeted task TASK-21CFR11-B5BF891F  (1 — Open System: Encryption and Integrity Controls)
+  [TaskGenerator] [26/50] Generated 21CFR11 targeted task TASK-21CFR11-63691EF9  (em: Wet-Ink Signature on Printed Electronic Record)
+  [TaskGenerator] [27/50] Generated 21CFR11 targeted task TASK-21CFR11-8B1DC9A4  (Change Control: OS Patch Without Impact Assessment)
+  [TaskGenerator] [28/50] Generated 21CFR11 targeted task TASK-21CFR11-34ADE578  (ion: Bulk Audit Entry vs. Field-Level Traceability)
+  [TaskGenerator] [29/50] Generated 21CFR11 targeted task TASK-21CFR11-DC2C7FA8  (ule Primacy: GLP Archive Accessibility (21 CFR 58))
+  [TaskGenerator] [30/50] Generated 21CFR11 targeted task TASK-21CFR11-53446315  (tem: Access Control Gaps for Post-Validation Roles)
+  [TaskGenerator] [31/50] Generated 21CFR11 targeted task TASK-21CFR11-537F9534  ( 11 — Hybrid Systems: Predicate Record Designation)
+  [TaskGenerator] [32/50] Generated 21CFR11 targeted task TASK-21CFR11-FEC723D2  ( System: Post-1997 Modifications and Re-validation)
+  [TaskGenerator] [33/50] Generated 21CFR11 targeted task TASK-21CFR11-23332F63  (Audit Trail: System-Initiated Changes Not Captured)
+  [TaskGenerator] [34/50] Generated 21CFR11 targeted task TASK-21CFR11-EF5B4A3B  ( — Electronic Signature: Missing Meaning Component)
+  [TaskGenerator] [35/50] Generated 21CFR11 targeted task TASK-21CFR11-6B093406  (1 — Open System: Encryption and Integrity Controls)
+  [TaskGenerator] [36/50] Generated 21CFR11 targeted task TASK-21CFR11-D5E910CC  (em: Wet-Ink Signature on Printed Electronic Record)
+  [TaskGenerator] [37/50] Generated 21CFR11 targeted task TASK-21CFR11-72C7FB8B  (Change Control: OS Patch Without Impact Assessment)
+  [TaskGenerator] [38/50] Generated 21CFR11 targeted task TASK-21CFR11-DD036611  (ion: Bulk Audit Entry vs. Field-Level Traceability)
+  [TaskGenerator] [39/50] Generated 21CFR11 targeted task TASK-21CFR11-04CD46A3  (ule Primacy: GLP Archive Accessibility (21 CFR 58))
+  [TaskGenerator] [40/50] Generated 21CFR11 targeted task TASK-21CFR11-F8763114  (tem: Access Control Gaps for Post-Validation Roles)
+  [TaskGenerator] [41/50] Generated 21CFR11 targeted task TASK-21CFR11-8BA4D363  ( 11 — Hybrid Systems: Predicate Record Designation)
+  [TaskGenerator] [42/50] Generated 21CFR11 targeted task TASK-21CFR11-B58E3F01  ( System: Post-1997 Modifications and Re-validation)
+  [TaskGenerator] [43/50] Generated 21CFR11 targeted task TASK-21CFR11-3328D542  (Audit Trail: System-Initiated Changes Not Captured)
+  [TaskGenerator] [44/50] Generated 21CFR11 targeted task TASK-21CFR11-6737F095  ( — Electronic Signature: Missing Meaning Component)
+  [TaskGenerator] [45/50] Generated 21CFR11 targeted task TASK-21CFR11-D8FC5B45  (1 — Open System: Encryption and Integrity Controls)
+  [TaskGenerator] [46/50] Generated 21CFR11 targeted task TASK-21CFR11-C6A8B29D  (em: Wet-Ink Signature on Printed Electronic Record)
+  [TaskGenerator] [47/50] Generated 21CFR11 targeted task TASK-21CFR11-0136B9C2  (Change Control: OS Patch Without Impact Assessment)
+  [TaskGenerator] [48/50] Generated 21CFR11 targeted task TASK-21CFR11-70AD7641  (ion: Bulk Audit Entry vs. Field-Level Traceability)
+  [TaskGenerator] [49/50] Generated 21CFR11 targeted task TASK-21CFR11-459EE22B  (ule Primacy: GLP Archive Accessibility (21 CFR 58))
+  [TaskGenerator] [50/50] Generated 21CFR11 targeted task TASK-21CFR11-1749CC26  (tem: Access Control Gaps for Post-Validation Roles)
+
+  Generated 50 task(s).
+
+  Task ID  : TASK-21CFR11-CFC59123
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the Quality Assurance department uses a hybrid system for
+    recording batch release data, consisting of both paper records in a binder
+    and electronic records in a validated Laboratory Information Management
+    System (LIMS), version 3.2. The company believes that maintaining both paper
+    and electronic records provides extra compliance coverage. Notably, the LIMS
+    system is properly validated, and all electronic signatures are timestamped
+    correctly. However, the company has never formally designated which record
+    is the official 'predicate record' under the relevant regulations. Recently,
+    an external auditor reviewed the records for a specific batch released on
+    February 10, 2023, and found that the data in the paper binder and the LIMS
+    matched perfectly. The auditor also observed that NovaBio Inc. correctly
+    followed a compliant process for a delayed timestamp in one of the entries,
+    which was properly documented and approved by the Quality Assurance Manager
+    on February 15, 2023.
+  Question :
+    What regulatory requirement is NovaBio Inc. failing to meet with its current
+    hybrid system for batch release data, despite the matching data in both the
+    paper and electronic records?
+  Gold Std :
+    NovaBio Inc. is failing to meet the regulatory requirement under 21 CFR
+    11.2(a), which states that for hybrid systems, the predicate rule record
+    must be formally designated. The fact that the data in both the paper and
+    electronic records match does not substitute for this formal designation.
+    The compliant process observed for the delayed timestamp is a Red Herring
+    and does not constitute a violation. The actual violation is the lack of
+    formal designation of the predicate record, as required by 21 CFR 11.2(a).
+
+  Task ID  : TASK-21CFR11-1B928510
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the legacy Laboratory Information Management System (LIMS),
+    'LabWizard,' was first installed in 1995, well before the August 1997
+    effective date of 21 CFR Part 11. Despite this, the system has undergone
+    significant changes, including three major software patches (Versions 2.1 in
+    1999, 3.0 in 2002, and 4.2 in 2005) and an operating system migration from
+    Windows NT to Windows Server 2008 in 2008. The original installation and
+    these upgrades were meticulously documented, including a comprehensive
+    binder of Installation Qualification (IQ), Operational Qualification (OQ),
+    and Performance Qualification (PQ) records from 1996, which have been
+    diligently maintained and updated. Interestingly, the PQ records show a
+    slightly delayed validation timeline due to resource constraints, but all
+    validation steps were eventually completed and signed off by the appropriate
+    personnel. The system's audit trails have been reviewed regularly by the
+    Quality Assurance team, and no discrepancies have been found. However, the
+    validation documents for the post-1997 upgrades primarily focus on the
+    functional aspects rather than the Part 11 compliance aspects, given the
+    belief that LabWizard, as a pre-1997 system, falls under the legacy system
+    exemption.
+  Question :
+    Does NovaBio Inc.'s approach to validating the LabWizard LIMS after its
+    post-1997 modifications comply with FDA's requirements for legacy systems
+    under 21 CFR Part 11, and if not, what specific regulatory provision is not
+    being met?
+  Gold Std :
+    The approach does not comply because, according to the FDA's 2003 Part 11
+    Guidance (Section III, 'Scope'), substantial modifications to a legacy
+    system after the effective date of Part 11 bring the system under Part 11
+    scope, requiring re-validation. Specifically, 21 CFR 11.10(a) mandates that
+    validation of computer systems be conducted 'to ensure accuracy,
+    reliability, consistent intended performance, and the ability to discern
+    invalid or altered records.' The red herring of the comprehensive binder of
+    IQ/OQ/PQ documentation from 1996 and the slightly delayed but properly
+    completed validation timeline distracts from the key issue: the failure to
+    conduct a fresh impact assessment and re-validation under Part 11 for each
+    post-1997 upgrade, as required by the regulation. The original pre-1997
+    installation date does not exempt the system from Part 11 requirements after
+    significant post-1997 modifications.
+
+  Task ID  : TASK-21CFR11-B9A967DF
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the LIMS system (version 5.2.1) has been in use since 2018
+    for managing laboratory data. Recently, an internal audit sampled 200
+    records from the thousands of audit trail entries generated daily and found
+    no gaps in the log. The system was validated for audit trail completeness at
+    deployment. However, the LIMS routes all automated batch import jobs and
+    scheduled calculation updates through a service account that bypasses the
+    audit trigger. Meanwhile, a legacy chromatography system (running in read-
+    only mode since 2020) has been correctly generating electronic records that
+    are periodically imported into the LIMS. The internal audit focused on the
+    manual operator-initiated entries and found the audit trail to be complete
+    for those actions. The LIMS system administrator, Ms. Johnson, confirmed
+    that the system's automated jobs run without operator intervention, and the
+    service account is used to minimize the security risk of having multiple
+    user accounts with elevated privileges.
+  Question :
+    Does the LIMS system at NovaBio Inc. comply with FDA regulations regarding
+    audit trails for electronic records, given its handling of automated batch
+    import jobs and scheduled calculation updates?
+  Gold Std :
+    The LIMS system does not comply with 21 CFR 11.10(e), which requires that
+    audit trails capture all changes to electronic records, including system-
+    initiated changes. The regulation explicitly states that audit trails must
+    be able to record 'the date and time of operator entries and actions that
+    create, modify, or delete electronic records.' This obligation covers not
+    only manual operator-initiated changes but also automated or system-
+    initiated changes, such as those from batch jobs. The fact that the internal
+    audit found no gaps in the sampled manual operator-initiated entries and
+    that the legacy chromatography system is correctly generating electronic
+    records in read-only mode is a red herring, distracting from the actual
+    issue of the LIMS system's failure to capture system-initiated changes in
+    the audit trail.
+
+  Task ID  : TASK-21CFR11-74851820
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the Quality Assurance team uses a validated electronic
+    document management system, EDMS v3.2, to approve and manage SOPs and study
+    protocols. Every morning, the system administrator runs a script to verify
+    user logins and ensure all access is properly time-stamped. This process has
+    been in place since January 2022, and audit trails confirm that every
+    approver's user ID is correctly linked to their approved records. The
+    system's login credentials are used as electronic signatures, and each
+    record displays the approver's name and a timestamp. However, an audit
+    revealed that while every record has a timestamp and the approver's user ID,
+    the system does not display the human-readable meaning of the electronic
+    signature (e.g., 'reviewed and approved') alongside the signer's name and
+    timestamp. Interestingly, the system's audit log shows a slight delay of up
+    to 2 minutes between when a user logs in and when their electronic signature
+    is captured, but this delay is within the system's specified parameters and
+    has been properly documented in the validation report. The QA team is
+    confident that this delay does not impact the system's compliance with 21
+    CFR Part 11, especially since the system correctly links each approver to
+    their approved document through their unique user ID and timestamp.
+  Question :
+    What specific requirement of 21 CFR Part 11 is not met by NovaBio Inc.'s
+    electronic document management system, despite the system's ability to link
+    each approver to their approved documents through their unique user ID and
+    timestamp?
+  Gold Std :
+    21 CFR 11.50(a) requires that each electronic signature include (1) the
+    printed name of the signer, (2) the date and time of the signature, and (3)
+    the meaning (such as review, approval, etc.) associated with the signing.
+    The absence of the meaning component (e.g., 'reviewed and approved')
+    alongside the signer's name and timestamp is a direct violation of 21 CFR
+    11.50(a)(1)-(3), even though the timestamp and name are present. The Red
+    Herring of a slight delay in capturing the electronic signature does not
+    constitute a violation since it is within specified parameters and properly
+    documented, thus the focus should be on the missing 'meaning' component of
+    the electronic signature.
+
+  Task ID  : TASK-21CFR11-80DBBCBA
+  Domain   : 21cfr11
+  Context  :
+    NovaBio Inc., a biopharmaceutical company, utilizes a cloud-based SaaS
+    platform, 'Eclipse', for storing and managing their electronic records,
+    including clinical trial data and study reports. The system uses TLS
+    encryption for all data transmissions and has obtained SOC 2 Type II, ISO
+    27001, and HIPAA certifications, which the IT security review team considers
+    as 'fully secured'. The company's IT manager, John, has confirmed that the
+    system's access controls, including user authentication and authorization,
+    are in compliance with the SOC 2 Type II requirements. However, a recent
+    audit revealed that the Eclipse system does not employ encryption for
+    records at rest and lacks a cryptographic mechanism to detect unauthorized
+    record alteration. Meanwhile, the company's legacy system, 'Genesis',
+    running in read-only mode, was noted to have a delayed timestamp, but this
+    was properly documented and addressed in the deviation log, as per the
+    company's SOPs. The Eclipse system has been in use since January 2022, and
+    approximately 500 electronic records have been stored on the platform. The
+    system's software version is 3.1.2, which was updated in June 2022. The
+    company's quality assurance team, led by Emily, has been monitoring the
+    system's performance and has not reported any significant issues.
+  Question :
+    What specific regulatory requirement is NovaBio Inc. failing to meet with
+    respect to the storage of electronic records in the Eclipse system, despite
+    the system's SOC 2 Type II, ISO 27001, and HIPAA certifications?
+  Gold Std :
+    NovaBio Inc. is failing to meet the requirements of 21 CFR 11.30, which
+    mandates that open systems, such as the Eclipse platform, employ additional
+    controls, including document encryption and digital signatures, to ensure
+    record authenticity and integrity. The use of TLS encryption for data
+    transmissions does not satisfy this requirement, as it only ensures
+    transport encryption and not the security of records at rest. The SOC 2 Type
+    II, ISO 27001, and HIPAA certifications, although indicative of a secure
+    system, do not substitute for compliance with 21 CFR 11.30. The Red Herring,
+    in this case, is the delayed timestamp in the legacy Genesis system, which,
+    although initially suspicious, was properly handled and documented, and
+    thus, is not the compliance gap. In contrast, the lack of encryption for
+    records at rest and the absence of a cryptographic mechanism to detect
+    unauthorized record alteration in the Eclipse system are subtle procedural
+    lapses that violate 21 CFR 11.30, distinguishing it from the closed-system
+    requirements outlined in 21 CFR 11.10.
+
+  Task ID  : TASK-21CFR11-597C62CF
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the quality control team uses an electronic data management
+    system (EDMS) to capture batch record data. The team prints a formatted
+    report, obtains a handwritten signature from the quality control manager on
+    the printout, and then scans the signed page back into the EDMS. Every
+    finalized record has a visible ink signature and a scan date stamp. The
+    auditor confirms every batch record was 'signed' and notes that the legacy
+    Laboratory Information Management System (LIMS), running in read-only mode
+    since 2018, correctly generates a secondary timestamp for each record, which
+    is properly documented in the deviation log. The EDMS software, version
+    3.2.1, is set to automatically purge unnecessary system logs after 30 days,
+    a setting that was properly validated and documented during the initial
+    installation in 2020.
+  Question :
+    Is the process used by NovaBio Inc. for capturing and storing electronic
+    batch records compliant with 21 CFR Part 11 requirements for electronic
+    signatures?
+  Gold Std :
+    No, the process is not compliant because the scanned image of a handwritten
+    signature attached to an electronic record constitutes an 'electronic
+    signature' under 21 CFR 11.3(b)(7), requiring it to satisfy all Part 11
+    e-signature requirements, including 11.70 for cryptographic linkage to the
+    record. A JPEG scan cannot meet 11.70 linkage requirements. The red herring,
+    the legacy LIMS running in read-only mode, is actually compliant as it is
+    properly documented and validated. The subtle violation lies in treating the
+    scanned signature as equivalent to a handwritten signature on a paper record
+    without meeting the electronic signature requirements, specifically the
+    cryptographic linkage specified in 21 CFR 11.70.
+
+  Task ID  : TASK-21CFR11-6C5E0F60
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the IT department applied a 'security-only' OS patch to the
+    server hosting the validated Electronic Document Management System (EDMS) on
+    February 10, 2023. The patch, classified as 'low risk, no functional
+    change,' was implemented without generating a formal impact assessment or
+    change control record. Post-patch, all user acceptance tests passed, and no
+    functionality was altered, prompting QA to close the event as 'validated
+    state unaffected — no re-validation required.' The vendor's release notes
+    confirmed 'no application changes,' and all smoke tests passed. Notably, the
+    EDMS has a read-only legacy module that has been correctly functioning in a
+    segregated environment since its implementation in 2018, with regular review
+    and verification that it does not pose any compliance risk. The OS patch did
+    change the underlying security protocol version from 1.2 to 1.3, but this
+    change was not considered significant enough to warrant a full re-
+    validation.
+  Question :
+    Does the approach taken by NovaBio Inc. regarding the OS patch application
+    to the EDMS server comply with the regulatory requirements for change
+    control under 21 CFR Part 11?
+  Gold Std :
+    The approach does not comply with 21 CFR 11.10(a) and FDA's 2003 Part 11
+    guidance Section IV, which require that any change to a validated system,
+    including infrastructure changes, undergo a documented impact assessment.
+    The decision not to re-validate must be documented and justified. The fact
+    that the patch was classified as 'low risk' and did not alter functionality,
+    as confirmed by vendor release notes and passing smoke tests, does not
+    exempt it from this requirement. The read-only legacy module, correctly
+    managed and reviewed, is not the compliance issue here; the lack of a
+    documented impact assessment for the OS patch is the violation. 21 CFR
+    11.10(a) explicitly states that validation shall ensure accuracy,
+    reliability, consistent intended performance, and the ability to discern
+    invalid or altered records, which necessitates a formal evaluation of any
+    changes, regardless of their perceived risk or impact.
+
+  Task ID  : TASK-21CFR11-70E77590
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the QA team led by Rachel Lee, completed a data migration
+    from the legacy LIMS v2.3 to a new LIMS system on February 10, 2023. The
+    migration reformatted date fields, normalized units, and mapped old column
+    names to the new schema. Post-migration reconciliation scripts verified
+    record counts, checksums, and a 5% random sample spot-check — all matching
+    the source data. The legacy system was left in read-only mode to ensure data
+    integrity. The QA lead certified the migration as 'validated and fully
+    traceable.' However, the audit trail records a single entry: 'Batch
+    migration from LegacyLIMS v2.3 on 02/10/2023' per task, without a field-
+    level record of original vs. new value for each transformed field.
+    Meanwhile, the IT department had properly logged and addressed a minor
+    deviation in the system clocks between the legacy and new LIMS, adjusting
+    timestamps accordingly to ensure data consistency.
+  Question :
+    Does the audit trail meet the regulatory requirements for data migration as
+    per 21 CFR Part 11, considering the single bulk entry and the post-migration
+    verification process?
+  Gold Std :
+    21 CFR 11.10(e) requires that audit trail entries capture the original
+    value, the new value, who made the change, when, and why at the individual
+    record/field level. The single bulk migration log entry does not allow
+    reconstruction of what any individual field contained before migration, thus
+    violating this requirement. The post-migration reconciliation and the proper
+    handling of the system clock deviation are compliant processes but do not
+    compensate for the lack of field-level granularity in the audit trail
+    entries. Therefore, the migration does not meet the regulatory requirements
+    due to the absence of detailed audit trail entries for each changed field.
+
+  Task ID  : TASK-21CFR11-25716E8C
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the GLP laboratory uses a fully Part 11-compliant
+    electronic study management system called 'LabGenius' version 4.2.1. The
+    system has robust controls, including validated backup procedures, access
+    controls, audit trails, and follows 21 CFR 11.10(c) for backup and recovery.
+    Recently, the laboratory completed a large preclinical study, 'NB-001', with
+    over 10,000 raw data points archived in the system's native '.esm' format.
+    The vendor contract for LabGenius includes a 5-year support window, which
+    ends next year. Although the IT team performs daily backups and the system
+    has an automated Archiver module that ensures data integrity, there is no
+    plan in place to export the raw data to a human-readable or open format
+    before decommissioning the system. The compliance reviewer, after conducting
+    an audit, noted that the system's timestamp mechanism shows a 2-minute delay
+    between user actions and the audit trail log, which, upon investigation, was
+    found to be due to a correctly configured, yet legacy, network time protocol
+    (NTP) implementation that periodically syncs with an external atomic clock,
+    and thus, concluded that this delay is permissible under the existing IT
+    infrastructure. With all these features and controls in place, the reviewer
+    concluded that the system is fully compliant with Part 11 regulations,
+    despite the data being stored only in the proprietary binary format.
+  Question :
+    Is the GLP laboratory at NovaBio Inc. in compliance with the regulatory
+    requirements for raw data archiving and retention, considering the current
+    setup and controls in place for the LabGenius system?
+  Gold Std :
+    The laboratory is not in compliance because, although the system is Part 11
+    compliant, it fails to meet the requirements of 21 CFR 58.130(e), which
+    mandates that raw data must remain readily retrievable for the retention
+    period, including after the originating system is decommissioned. The fact
+    that the raw data is archived only in a proprietary '.esm' format without a
+    plan for export to a human-readable format before the system's
+    decommissioning violates this predicate rule. The compliance reviewer's
+    focus on Part 11 controls and the NTP delay being permissible does not
+    address the gap in meeting the 21 CFR 58.130(e) requirement for GLP raw data
+    archiving. Part 11 compliance does not substitute for the obligations under
+    the predicate rule.
+
+  Task ID  : TASK-21CFR11-60213430
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the electronic quality management system (EQMS), named
+    'NovaGuard', was fully validated in 2018 with access roles for QA Analyst,
+    QA Manager, and Administrator. The system, running on software version
+    3.4.2, has been performing as intended, with all users adhering to the
+    assigned roles without any observed privilege escalation. An IT security
+    review in February 2022 confirmed that the system's access controls are
+    enforced correctly, and the External Auditor role, added in 2020, indeed has
+    read-only access as intended. The addition of the Regulatory Liaison role in
+    2021 also seems to have been properly implemented, with no reports of
+    unauthorized access. Notably, an audit trail review showed that all system
+    activities are properly timestamped and attributable to their respective
+    users, which initially suggested a high level of compliance. However, a
+    recent internal audit revealed that the addition of these two new roles was
+    done through system configuration changes without generating a formal
+    validation addendum or updating the User Requirements Specification.
+  Question :
+    Does the current state of the NovaGuard system at NovaBio Inc. comply with
+    the requirements for electronic records and signatures as specified under 21
+    CFR Part 11, specifically regarding access controls and system changes?
+  Gold Std :
+    The system does not comply with 21 CFR 11.10(a) and 21 CFR 11.10(d), which
+    require that access to systems holding electronic records be controlled and
+    that changes to a validated system, including the addition of new user
+    roles, be subject to formal change control and validation addendum. The fact
+    that the roles are enforced correctly and there is no observed privilege
+    escalation does not negate the requirement for formal validation of system
+    changes. The red herring of the properly implemented External Auditor role
+    and the absence of reported unauthorized access draw attention away from the
+    actual violation, which is the lack of documented validation for the new
+    roles added to the system.
+
+  Task ID  : TASK-21CFR11-61B51877
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the Quality Assurance team, led by Senior QA Specialist,
+    Rachel Lee, has been conducting regular audits of the company's hybrid
+    system for managing clinical trial data. The system consists of both paper
+    records and an electronic Laboratory Information Management System (LIMS),
+    version 3.2.1, which has been validated according to FDA guidelines.
+    Interestingly, the LIMS is set to append a delayed timestamp 30 minutes
+    after each electronic signature, a practice that was grandfathered in from a
+    previous system and is still compliant under the current regulation. The
+    audit revealed that for every paper record, there is a matching electronic
+    record in the LIMS, suggesting a high level of data integrity. However,
+    during the review, it was noted that while the company has a well-documented
+    SOP for managing electronic signatures and has implemented a two-factor
+    authentication process for accessing the LIMS, there is no formal
+    designation of which record - paper or electronic - serves as the official
+    'predicate record' as required for hybrid systems.
+  Question :
+    What specific regulatory requirement is NovaBio Inc. failing to meet by not
+    designating an official predicate record in their hybrid system, despite
+    having matching data in both paper and electronic formats?
+  Gold Std :
+    NovaBio Inc. is failing to meet the requirement of 21 CFR 11.2(a), which
+    necessitates the formal designation of the predicate record for hybrid
+    systems. The presence of matching data in both paper and electronic records
+    does not substitute for the formal designation of the predicate record. The
+    delayed timestamp in the LIMS, although potentially misleading, is not the
+    compliance gap, as it is part of a grandfathered practice that remains
+    compliant. The lack of formal predicate record designation is the subtle
+    violation, as 21 CFR 11.2(a) explicitly requires such a designation for
+    hybrid systems to ensure regulatory compliance.
+
+  Task ID  : TASK-21CFR11-F3AA57D7
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the legacy Laboratory Information Management System (LIMS),
+    installed in 1995 with extensive IQ/OQ/PQ documentation, was considered
+    exempt from 21 CFR Part 11 due to its pre-August 1997 deployment. However,
+    since then, the system has undergone three major software patches (in 1999,
+    2001, and 2005) and an operating system migration from Windows NT to Windows
+    Server 2008 in 2009. The IT staff, in collaboration with the QA department,
+    ensured that each upgrade was thoroughly tested, and a detailed record of
+    these activities, including successful re-validation, was maintained.
+    Notably, the system's audit trail feature was always enabled, even during a
+    brief period of read-only mode in 2002 for a database optimization project,
+    which was properly documented and approved by the QA manager. Meanwhile, the
+    company's compliance officer regularly reviews system access logs, which
+    show consistent, secure access patterns among authorized personnel.
+  Question :
+    Does NovaBio Inc.'s LIMS, with its history of patches and migration, fall
+    under the scope of 21 CFR Part 11, and if so, what specific regulatory
+    obligation does the company need to fulfill?
+  Gold Std :
+    According to the FDA's 2003 Part 11 Guidance (Section III, 'Scope'),
+    substantial modifications to a legacy system after the effective date bring
+    it under Part 11 scope. Therefore, NovaBio Inc.'s LIMS, having undergone
+    significant changes post-1997, is subject to Part 11. The original pre-date
+    status does not carry forward through material changes. The company must
+    comply with 21 CFR 11.10(a), which requires continuous validation, including
+    re-validation after each modification. The red herring of the system's
+    initial exemption and thorough IQ/OQ/PQ documentation from 1996 does not
+    negate the need for continuous validation post-modifications. The fact that
+    the audit trail was always enabled, even during the read-only mode, is
+    compliant and not the issue; the violation lies in not recognizing the
+    legacy system's post-1997 modifications as bringing it under Part 11 scope,
+    necessitating a fresh impact assessment and validation after each
+    significant change.
+
+  Task ID  : TASK-21CFR11-54267513
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the laboratory information management system (LIMS),
+    version 8.2, was validated for audit trail completeness during its initial
+    deployment in 2018. Recently, the internal audit team reviewed a 200-record
+    sample of the audit trail and found zero gaps, which seemed to confirm the
+    system's integrity. However, the LIMS processes approximately 5,000 entries
+    daily, with the bulk being automated batch import jobs and scheduled
+    calculation updates that run through a service account, bypassing the audit
+    trigger. The service account was set up to improve system efficiency, as
+    recommended by the LIMS vendor. The IT team regularly reviews the system
+    logs to ensure proper functioning, and all operator-initiated changes are
+    captured in the audit trail. The system was last updated in 2020 to comply
+    with the latest security patches, and it has been operating smoothly since
+    then, with no reported errors or deviations. The internal audit team also
+    verified that all deviations, including one instance where a user
+    accidentally entered an incorrect value, which was promptly corrected and
+    documented, were properly handled and recorded.
+  Question :
+    Does the current configuration of NovaBio Inc.'s LIMS, which captures all
+    operator-initiated changes but bypasses the audit trigger for automated
+    batch import jobs and scheduled calculation updates, meet the requirements
+    for audit trails as specified by 21 CFR Part 11?
+  Gold Std :
+    The obligation to capture all changes to electronic records, as required by
+    21 CFR 11.10(e), covers not only manual operator entries but also automated
+    or system-initiated changes, such as those resulting from batch jobs. The
+    fact that the LIMS was validated for audit trail completeness at deployment
+    and that a recent internal audit found no gaps in a sample of the audit
+    trail does not compensate for the lack of audit trails for system-initiated
+    changes. The bypassing of the audit trigger for automated processes
+    constitutes a violation of 21 CFR 11.10(e), despite the compliant handling
+    of deviations and the efficient system operation, because it fails to
+    provide a complete record of all changes to electronic records, including
+    those made by the system itself.
+
+  Task ID  : TASK-21CFR11-72CCFA15
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the IT department has implemented an electronic document
+    management system, 'ElectroDoc', version 3.2, to manage GxP documentation.
+    The system captures a login credential event as the signature for document
+    approval. Every approved record has a timestamp and the approver's user ID
+    clearly linked, allowing the auditor to trace each record to its approver
+    with certainty. The system also includes a 'delayed signing' feature, where
+    approvers can sign documents up to 24 hours after the initial review, which
+    has been properly validated and documented. However, during a recent audit,
+    it was noted that while the signature record displays the signer's name and
+    timestamp, it does not include the human-readable meaning of the signature,
+    such as 'reviewed and approved' or 'authored'. The IT department argues that
+    since the approver's user ID is linked to their role and responsibilities,
+    the meaning of the signature is implied. Meanwhile, the audit trail shows
+    that two legacy systems, 'OldSys' and 'Archiver', are still in use but
+    operate in read-only mode and have been properly grandfathered in, posing no
+    compliance risk.
+  Question :
+    Is the electronic signature process implemented in ElectroDoc compliant with
+    21 CFR Part 11 requirements, and if not, what specific regulatory provision
+    is being violated?
+  Gold Std :
+    The electronic signature process is not compliant with 21 CFR Part 11
+    requirements because it violates 21 CFR 11.50(a), which requires each
+    electronic signature to include three components: (1) the printed name of
+    the signer, (2) the date and time of the signature, and (3) the meaning
+    (such as review, approval, etc.) associated with the signature. The absence
+    of the human-readable meaning of the signature, as required by 21 CFR
+    11.50(a)(2) and (3), is a direct Part 11 violation. The Red Herring, the
+    delayed signing feature, is actually compliant as it has been properly
+    validated and documented. The legacy systems, 'OldSys' and 'Archiver',
+    operating in read-only mode, also pose no compliance risk as they have been
+    properly grandfathered in. Therefore, the violation is specifically due to
+    the lack of the signature's meaning component, as mandated by 21 CFR
+    11.50(a).
+
+  Task ID  : TASK-21CFR11-D20BABB3
+  Domain   : 21cfr11
+  Context  :
+    NovaBio Inc. uses a cloud-based SaaS platform, BioDataCloud version 3.1, to
+    store and manage validated electronic records for their clinical trials. The
+    system has SOC 2 Type II, ISO 27001, and HIPAA certifications, and all data
+    transmissions are TLS-encrypted. The IT security review marks the system as
+    'fully secured' because of its robust access controls and encryption in
+    transit. However, the system does not encrypt records at rest and lacks a
+    cryptographic mechanism to detect unauthorized record alteration. Despite
+    this, NovaBio's IT department argues that the system meets 21 CFR 11
+    requirements because it is 'access-controlled' and 'secured' according to
+    their understanding of the regulations. Meanwhile, NovaBio's QA team
+    discovered that an old, legacy system, BioArchive 2.0, running in read-only
+    mode, was still in use for storing certain historical records, but it was
+    properly documented and maintained as a legacy system, with a clear
+    justification for its continued use.
+  Question :
+    What is the specific regulatory requirement that NovaBio Inc. fails to meet
+    with their current implementation of BioDataCloud for storing validated
+    electronic records?
+  Gold Std :
+    21 CFR 11.30 requires that open systems, such as BioDataCloud, employ
+    additional controls, including document encryption and digital signatures,
+    to ensure record authenticity and integrity. NovaBio fails to meet this
+    requirement because BioDataCloud does not encrypt records at rest and lacks
+    a cryptographic mechanism to detect unauthorized record alteration. The Red
+    Herring, the legacy system BioArchive 2.0 running in read-only mode, is
+    actually compliant because it is properly documented and maintained as a
+    legacy system, satisfying the requirements for closed systems under 21 CFR
+    11.10.
+
+  Task ID  : TASK-21CFR11-7D7810CA
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the Quality Assurance team uses an Electronic Data
+    Management System (EDMS) to capture and store batch records electronically.
+    The system, EDMS Pro Version 3.1, is validated and compliant with 21 CFR
+    Part 11 requirements. However, due to a regulatory requirement for a wet-ink
+    signature, the team prints out the electronically captured data as a
+    formatted report, which is then signed by the Production Supervisor, Jane
+    Smith, and the Quality Control Manager, John Lee. The signed printouts are
+    scanned back into the EDMS and saved as a JPEG image, which includes a
+    visible timestamp of when the scan occurred. Every finalized batch record
+    has a visible ink signature and a scan date stamp, which, according to the
+    QA team, satisfies the regulatory requirements for signature and timestamp.
+    Notably, NovaBio Inc. has a legacy system, the 'OldVault,' which is a read-
+    only database that stores historical batch records from before the
+    implementation of EDMS Pro. Although it appears suspicious that OldVault is
+    still accessible, it has been properly validated and is only used for
+    reference purposes, with all new data being captured and stored in EDMS Pro.
+    The EDMS Pro system also generates an automated email notification to the QA
+    team whenever a new batch record is finalized, which is promptly reviewed
+    and verified. The company treats the scanned image as an equivalent to a
+    handwritten signature on a paper record.
+  Question :
+    Does the process used by NovaBio Inc. to capture, sign, and store batch
+    records comply with the requirements of 21 CFR Part 11 regarding electronic
+    signatures?
+  Gold Std :
+    The process does not comply with 21 CFR Part 11 because the scanned image of
+    a handwritten signature attached to an electronic record constitutes an
+    'electronic signature' under 21 CFR 11.3(b)(7), which must satisfy all Part
+    11 e-signature requirements, including 11.70 for cryptographic linkage to
+    the record. A JPEG scan of a signature cannot meet the cryptographic linkage
+    requirements of 11.70. The Red Herring, the legacy 'OldVault' system, is
+    actually compliant since it is used in read-only mode and has been properly
+    validated. The visible ink signature and scan date stamp are misleading
+    because they relate to the electronic storage of a scanned image of a
+    signature, not the electronic record itself, highlighting the necessity of
+    adhering to 21 CFR 11.3(b)(7) and 11.70 for electronic signatures.
+
+  Task ID  : TASK-21CFR11-5B6AF60B
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the IT department applied a security-only OS patch to the
+    server hosting the validated Electronic Document Management System (EDMS),
+    version 3.2.1, on February 10, 2023. The patch was classified as 'low risk,
+    no functional change' and was installed without generating a formal change
+    control record or conducting an impact assessment. The EDMS users, including
+    QA staff, performed post-patch smoke tests and user acceptance tests, which
+    all passed without issues. The vendor's release notes for the OS patch
+    explicitly stated 'no application changes.' Additionally, the EDMS system
+    has a redundant, read-only mirror site that was not patched, providing
+    continued access to all documents. The QA team, after verifying the smoke
+    tests and user acceptance tests, documented that 'the validated state of the
+    EDMS is unaffected' and closed the event without requiring re-validation.
+    However, the decision not to re-validate was based on an informal review and
+    was not formally documented or justified in the change control records.
+  Question :
+    Is NovaBio Inc. in compliance with 21 CFR Part 11 requirements for change
+    control and validation after applying the OS patch to the EDMS server?
+  Gold Std :
+    No, NovaBio Inc. is not in compliance. According to 21 CFR 11.10(a) and
+    FDA's 2003 Part 11 guidance Section IV, any change to a validated system,
+    including infrastructure changes like OS patches, requires a documented
+    impact assessment. The decision not to re-validate must be documented and
+    justified. The absence of a formal impact assessment and a documented
+    justification for not re-validating means the validation status of the EDMS
+    is unsubstantiated, despite the patch being classified as 'low risk' and the
+    successful smoke and user acceptance tests. The Red Herring of the
+    redundant, read-only mirror site, which was not patched and continued to
+    provide access to documents, is compliant as it ensures continued access to
+    documents but does not address the validation and change control
+    requirements for the patched server.
+
+  Task ID  : TASK-21CFR11-E33269E6
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., a team led by QA Lead, Rachel Lee, migrated 10,000
+    historical batch records from LegacyLIMS v2.3 to a new Laboratory
+    Information Management System (LIMS) on February 10, 2023. The migration
+    included reformatting date fields from DD/MM/YYYY to YYYY-MM-DD, normalizing
+    units from mL to L, and mapping old column names to the new schema. Post-
+    migration, reconciliation scripts verified record counts, checksums, and a
+    5% random sample spot-check, all of which matched the legacy system's data.
+    The LIMS v2.3 was run in read-only mode during the migration to prevent any
+    concurrent modifications. The audit trail recorded a single entry for each
+    migration task: 'Batch migration from LegacyLIMS v2.3 on 2023-02-10.' The QA
+    lead certified the migration as 'validated and fully traceable' based on the
+    successful verification scripts and the single audit trail entry per task.
+    However, the legacy system had been upgraded from v2.2 to v2.3 just a week
+    before the migration, with the upgrade including a patch for a previously
+    known bug that caused discrepancies in the legacy system's time stamps, but
+    this was not considered relevant to the migration by the team.
+  Question :
+    Does the approach taken by NovaBio Inc. for migrating historical data and
+    maintaining audit trail entries meet the requirements of 21 CFR Part 11?
+  Gold Std :
+    The approach does not meet the requirements of 21 CFR Part 11 because it
+    fails to capture the original and new values for each transformed field at
+    the individual record/field level as required by 21 CFR 11.10(e). The
+    regulation specifically states that audit trail entries must capture the
+    original value, the new value, who made the change, when, and why, which is
+    not achieved by a single bulk migration log entry. The Red Herring of the
+    legacy system's previous upgrade and potential time stamp discrepancies is
+    not the violation; the issue lies in the failure to provide field-level
+    granularity in the audit trail entries as mandated by 21 CFR 11.10(e).
+
+  Task ID  : TASK-21CFR11-CEC8FED3
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the GLP laboratory utilizes a fully Part 11-compliant
+    electronic study management system, 'Eclipse' version 3.2, to manage all raw
+    data. The system has robust access controls, audit trails, and validated
+    backup procedures, including 21 CFR 11.10(c) backup protocols. The
+    laboratory staff, led by Dr. Rachel Kim, has thoroughly validated the
+    system, which archives all raw data in the proprietary '.esm' format within
+    the active LIMS. Notably, the Eclipse system has a 'legacy mode' that allows
+    it to interact with an older, read-only system that is still used for
+    historical data reference, but all new data is stored in Eclipse. The vendor
+    contract for Eclipse includes a 5-year support window, which is set to
+    expire next year, but the contract explicitly permits NovaBio to continue
+    using the system after support ends, as long as it remains in a read-only
+    state. However, there is no plan in place to export the archived data to a
+    human-readable or open format before decommissioning the system.
+  Question :
+    What specific regulatory requirement is not being met by NovaBio Inc.'s
+    current practices regarding the archiving of raw data in the Eclipse system?
+  Gold Std :
+    21 CFR 58.130(e) requires that raw data remain readily retrievable for the
+    retention period, including after the originating system is decommissioned.
+    Part 11 compliance does not satisfy the predicate rule's archive
+    accessibility obligation. The robust Part 11 controls, including validated
+    backup and access controls, are not the violation; the issue is the lack of
+    a plan to ensure the data remains accessible in a human-readable format
+    after the system is decommissioned, which is a requirement of the GLP
+    predicate rule, not Part 11.
+
+  Task ID  : TASK-21CFR11-5C548E0F
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the Quality Management System (QMS) was validated in 2018
+    with roles for QA Analyst, QA Manager, and Administrator. Since then, two
+    new roles, Regulatory Liaison and External Auditor Read-Only, were added to
+    the system by modifying the configuration. Despite this, all five roles are
+    enforced correctly, and an IT security review confirmed no privilege
+    escalation, with the External Auditor role functioning as genuinely read-
+    only, having access only to view audit logs and system documentation without
+    any ability to modify. The system, running on custom software version 3.2,
+    behaves as intended, with all users adhering to their designated access
+    levels. Notably, the system's access controls were thoroughly reviewed and
+    found to be functioning as specified during a recent IT audit, where it was
+    observed that all role-based access is strictly enforced, and the system's
+    change control process is meticulously followed for all updates, except for
+    the addition of the new roles which seemed minor at the time.
+  Question :
+    What compliance issue arises from the addition of new roles to the validated
+    QMS at NovaBio Inc., given that all roles function correctly and no security
+    breaches have been identified?
+  Gold Std :
+    The addition of new roles to a validated system constitutes a system change
+    under 21 CFR 11.10(a) and (d), requiring formal change control and a
+    validation addendum. The fact that all roles, including the new ones,
+    function correctly and that the External Auditor role is genuinely read-only
+    does not negate the requirement for formal validation of the changes. The
+    lack of documented validation for the new roles means that the access
+    controls for those roles are unvalidated, violating 21 CFR 11.10(a) and (d)
+    which mandate that access privilege controls be in place and validated for
+    all users. The compliant IT security review and correct functioning of
+    roles, including the read-only External Auditor, serve as a red herring,
+    drawing attention away from the procedural lapse of not validating the
+    addition of new roles through a formal validation addendum.
+
+  Task ID  : TASK-21CFR11-95A49269
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the Quality Assurance (QA) team utilizes a hybrid system
+    for maintaining batch release records, consisting of a paper binder and a
+    validated Laboratory Information Management System (LIMS), LabWare 8.0. The
+    QA team believes that having both the paper and electronic records provides
+    extra compliance coverage, as evidenced by a complete paper binder and a
+    matching, validated LIMS dataset for each batch. Notably, NovaBio has been
+    using an older, read-only legacy system, 'Archivus,' to store historical
+    batch data, which, although not validated for current use, has been
+    correctly configured to prevent any modifications to archived records.
+    However, despite having both records, NovaBio has never formally designated
+    which record is the 'predicate record' as per regulatory requirements. An
+    external auditor has reviewed the records and noticed that the data in both
+    the paper binder and the LIMS matches exactly, but has raised concerns
+    regarding the lack of a formal designation of the predicate record.
+  Question :
+    What specific regulatory obligation is NovaBio Inc. failing to meet
+    regarding their hybrid record-keeping system, despite the data in both the
+    paper and electronic records matching exactly?
+  Gold Std :
+    NovaBio Inc. is failing to meet the regulatory obligation under 21 CFR
+    11.2(a), which requires that for hybrid systems, where both paper and
+    electronic records are used for the same data, one must be designated as the
+    'predicate record' through a formal Standard Operating Procedure (SOP). The
+    fact that the data in both the paper binder and the LIMS matches does not
+    substitute for the formal designation of the predicate record as required by
+    21 CFR 11.2(a). The auditor's concern is valid because, without this
+    designation, there is no regulatory basis for relying on the electronic
+    record as the official record. The use of the read-only legacy system,
+    'Archivus,' for storing historical data, although it may appear suspicious
+    due to its age and read-only status, is actually compliant as it has been
+    correctly configured to prevent modifications, thus it is not the violation.
+    The key issue is the lack of formal designation of the predicate record,
+    which is a subtle procedural lapse that could easily be overlooked.
+
+  Task ID  : TASK-21CFR11-9301674F
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the legacy Laboratory Information Management System (LIMS),
+    'NovaLab,' was initially installed in 1995, well before the August 1997
+    effective date of 21 CFR Part 11. The company maintains a comprehensive
+    binder of Installation Qualification (IQ), Operational Qualification (OQ),
+    and Performance Qualification (PQ) documentation from 1996, which seems to
+    validate its exempt status. However, since 1997, NovaLab has undergone three
+    significant software patches (in 2001, 2005, and 2010) and was migrated to a
+    new operating system in 2012. Each of these updates involved a thorough risk
+    assessment and was approved by the Quality Assurance (QA) department.
+    Interestingly, the 2005 patch included an update to allow for electronic
+    signatures, but it was configured to operate in a 'read-only' mode for all
+    users except the system administrator, seemingly minimizing its Part 11
+    impact. The QA team, led by Ms. Johnson, a seasoned professional with over
+    10 years of experience, oversees the system's compliance. Despite these
+    changes, NovaBio believes NovaLab remains exempt from Part 11 requirements
+    due to its pre-1997 deployment. The IT department diligently documents all
+    updates and changes, including a detailed deviation log that was last
+    reviewed and cleared by QA in 2018.
+  Question :
+    Does NovaBio's NovaLab system, with its post-1997 modifications and current
+    operational state, fall under the scope of 21 CFR Part 11, and if so, what
+    specific regulatory obligation does the company fail to meet?
+  Gold Std :
+    According to the FDA's 2003 Part 11 Guidance (Section III, 'Scope'),
+    substantial modifications to a legacy system after the effective date of
+    Part 11 bring it under Part 11 scope. The original pre-date status does not
+    carry forward through material changes. Furthermore, 21 CFR 11.10(a)
+    requires that 'validation of systems to ensure accuracy, reliability,
+    consistent intended performance, and the ability to discern invalid or
+    altered records' be maintained continuously. The Red Herring of the system's
+    initial pre-1997 deployment and its read-only configuration for most users
+    does not exempt it from these requirements. The actual compliance gap is the
+    failure to re-validate the system after each significant modification
+    post-1997, as mandated by the FDA's guidance and 21 CFR 11.10(a), not the
+    existence of the deviation log or the read-only mode, which are compliant
+    practices.
+
+  Task ID  : TASK-21CFR11-6ADDEC71
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the validated Laboratory Information Management System
+    (LIMS), version 5.2.1, captures audit trails for all operator-initiated
+    entries. Recently, an internal audit reviewed a 200-record sample of the
+    audit trail and found zero gaps. The system was initially validated for
+    audit trail completeness at deployment in 2018. However, it was discovered
+    that all automated batch import jobs and scheduled calculation updates are
+    routed through a service account that bypasses the audit trigger, making
+    system-initiated changes invisible in the log. The IT department assured
+    that this setup was to 'improve system performance and reduce log clutter.'
+    Meanwhile, NovaBio's legacy system, 'OldLab,' runs in read-only mode and is
+    used only for accessing historical data, which seems to be a potential issue
+    but was deemed compliant during the last inspection. The voluminous audit
+    trail, comprising thousands of entries, seems to be a testament to the
+    system's effectiveness. The recent internal audit did not flag any issues,
+    leading the team to believe that the system is fully compliant.
+  Question :
+    Does the current setup of NovaBio Inc.'s LIMS, which bypasses audit triggers
+    for system-initiated changes, comply with the requirements for audit trails
+    as specified in 21 CFR Part 11?
+  Gold Std :
+    The correct answer is no, the setup does not comply. According to 21 CFR
+    11.10(e), audit trails must capture all changes to electronic records,
+    including system-initiated changes. This regulation explicitly states that
+    audit trails must be used to record changes, making the bypassing of audit
+    triggers for automated batch import jobs and scheduled calculation updates
+    non-compliant. The Red Herring, the legacy system 'OldLab' running in read-
+    only mode, is actually compliant as it does not generate new electronic
+    records and thus does not require audit trails for changes. The key
+    obligation is that 21 CFR 11.10(e) covers both manual and automated changes,
+    emphasizing the need for complete capture of all electronic record
+    alterations, not just those initiated by operators.
+
+  Task ID  : TASK-21CFR11-53ACDADF
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the quality assurance team uses an electronic document
+    management system (EDMS) called 'DocuPro' version 8.2.1 to manage and
+    approve documents. The system captures a login credential event as the
+    signature for document approval and links each approved record to its
+    approver with certainty through a unique user ID and timestamp. Recently, an
+    external auditor reviewed records from January 2022 to June 2022 and found
+    that every approved record had a timestamp and the approver's user ID
+    clearly linked, allowing the auditor to trace each record to its approver
+    without issue. However, the auditor also noted that DocuPro's system
+    administrator, John Doe, had delayed updating the system's software for
+    three months due to a pending compatibility issue with a legacy system,
+    'LegacyLab', which is running in read-only mode. Despite this, all records
+    were approved and timestamped correctly, with the LegacyLab's data being
+    manually verified by the QA team. The EDMS does display the name of the
+    signer and the date/time of the signature but does not include the meaning
+    of the signature, such as 'reviewed and approved' or 'authored', alongside
+    these details.
+  Question :
+    Does the electronic signature process used by NovaBio Inc. for document
+    approval in their EDMS comply with 21 CFR Part 11 requirements, given the
+    presence of a timestamp, user ID, and the system's ability to trace
+    documents to their approver?
+  Gold Std :
+    21 CFR 11.50(a)(1)-(3) requires that each electronic signature include the
+    printed name of the signer (a)(1), the date and time of the signature
+    (a)(2), and the meaning (such as review, approval, etc.) associated with the
+    signature (a)(3). The absence of the meaning component in the electronic
+    signature record is a direct Part 11 violation. The fact that every approved
+    record has a timestamp and the approver's user ID is not sufficient to meet
+    the regulatory requirements. The delay in updating the DocuPro system and
+    the use of the LegacyLab system in read-only mode are red herrings and do
+    not constitute the compliance gap. The actual violation is the failure to
+    include the meaning of the signature in the electronic signature record, as
+    mandated by 21 CFR 11.50(a)(3).
+
+  Task ID  : TASK-21CFR11-B5BF891F
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the clinical operations team, led by Senior Manager, Rachel
+    Lee, has implemented a cloud-based SaaS platform, Clin Trial Pro v3.2, to
+    store and manage electronic records for an ongoing Phase III trial. The
+    system uses TLS 1.3 encryption for all data transmissions and the vendor,
+    ClinTrial Pro Inc., holds SOC 2 Type II, ISO 27001, and HIPAA
+    certifications. An IT security review conducted by NovaBio's internal audit
+    team on February 10, 2023, marked the system as 'fully secured' due to these
+    credentials and the fact that all data transmissions are TLS-encrypted.
+    However, during a recent compliance audit, it was noted that while the
+    system has robust access controls, including multi-factor authentication and
+    role-based permissions, the electronic records themselves are not encrypted
+    at rest within the cloud storage. Additionally, there is no cryptographic
+    mechanism in place to detect unauthorized alterations to the records. The
+    audit team did observe that the system correctly handles deviations, with a
+    deviation log entry for a minor issue on January 20, 2023, being properly
+    documented and addressed within the required 3-day window, with a follow-up
+    review confirming the issue's resolution on January 23, 2023. NovaBio's
+    Quality Assurance department, under the guidance of QA Specialist, Michael
+    Chen, utilizes a separate, legacy system for tracking and managing these
+    deviations, which, although outdated, operates correctly in read-only mode
+    and has been deemed compliant by previous audits.
+  Question :
+    Does NovaBio Inc.'s implementation of Clin Trial Pro v3.2 for storing
+    electronic records comply with the requirements for open systems under 21
+    CFR Part 11, given the system's use of TLS encryption for data
+    transmissions, its SOC 2 Type II and other security certifications, and the
+    presence of a properly handled deviation log entry within the separate QA
+    tracking system?
+  Gold Std :
+    21 CFR 11.30 requires that open systems, such as NovaBio's cloud-based SaaS
+    platform, employ additional controls including document encryption and
+    digital signatures to ensure record authenticity and integrity. The use of
+    TLS for transport encryption does not satisfy the encryption requirement for
+    records at rest, and third-party security certifications (SOC 2 Type II, ISO
+    27001, HIPAA) do not substitute for compliance with 21 CFR 11.30. The
+    properly handled deviation log entry and the use of a separate, compliant
+    legacy system for deviation tracking are red herrings, as they do not
+    address the lack of encryption for records at rest and the absence of a
+    cryptographic mechanism to detect unauthorized record alterations, which are
+    the actual compliance gaps under 21 CFR 11.30.
+
+  Task ID  : TASK-21CFR11-63691EF9
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., batch records are generated electronically using the
+    'eBatch' system, version 3.2.1, and then printed out for quality control
+    (QC) review. The QC officer reviews the printed record, signs it with a wet-
+    ink signature, and then scans the signed page back into the 'DocuCentral'
+    electronic document management system (EDMS) as a JPEG image. Every
+    finalized batch record has a visible ink signature and a scan date stamp,
+    which has led the company to believe that their process is compliant. The
+    EDMS automatically assigns a unique document ID and timestamp to each
+    scanned record. During a recent audit, the auditor confirmed that every
+    batch record was 'signed' and had a timestamp, noting that the legacy 'eLog'
+    system, which is still in read-only mode for historical data, had been
+    properly migrated to the new 'eBatch' system. The 'eLog' system's data is
+    accessible but not editable, and all deviations had been properly logged and
+    addressed in accordance with 21 CFR 11.10(e).
+  Question :
+    Is NovaBio Inc.'s process for capturing and storing batch records compliant
+    with 21 CFR Part 11 regulations regarding electronic signatures and records?
+  Gold Std :
+    No, NovaBio Inc.'s process is not compliant because the scanned image of a
+    handwritten signature attached to an electronic record constitutes an
+    'electronic signature' under 21 CFR 11.3(b)(7), which must satisfy all Part
+    11 e-signature requirements, including 11.70 for cryptographic linkage to
+    the record. A JPEG scan cannot meet 11.70 linkage requirements. The Red
+    Herring of the legacy 'eLog' system being in read-only mode is actually a
+    compliant process, as it ensures data integrity and immutability. The subtle
+    violation lies in treating the scanned JPEG image as equivalent to a
+    handwritten signature on a paper record, which does not satisfy the
+    electronic signature requirements of 21 CFR Part 11.
+
+  Task ID  : TASK-21CFR11-8B1DC9A4
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the IT department applied a 'security-only' OS patch to the
+    server hosting the validated Electronic Document Management System (EDMS),
+    version 4.2.1, on February 10, 2023. The patch was classified as 'low risk,
+    no functional change' and was installed without generating a formal change
+    control record or conducting an impact assessment. Post-patch, all 50 user
+    acceptance tests were executed by QA engineer John Doe, and no functionality
+    was altered. The vendor's release notes also confirmed 'no application
+    changes.' QA closed the event as 'validated state unaffected — no re-
+    validation required' on February 12, 2023. Notably, the EDMS system has been
+    running in parallel with a legacy document management system, which has been
+    properly configured in read-only mode since its retirement on January 1,
+    2022, as per the company's data migration plan.
+  Question :
+    Does the actions taken by NovaBio Inc. regarding the OS patch on the EDMS
+    server comply with the regulatory requirements for change control and
+    validation as per 21 CFR Part 11?
+  Gold Std :
+    The actions taken by NovaBio Inc. do not comply with 21 CFR 11.10(a) and
+    FDA's 2003 Part 11 guidance Section IV, which require that any change to a
+    validated system, including infrastructure changes, undergo a documented
+    impact assessment. The decision not to re-validate must be documented and
+    justified. The fact that the patch was classified as 'low risk' and did not
+    alter functionality, and that the legacy system was properly configured in
+    read-only mode, does not exempt NovaBio Inc. from conducting an impact
+    assessment and documenting the decision not to re-validate. The Red Herring
+    of the legacy system running correctly in read-only mode draws attention
+    away from the actual violation, which is the lack of a documented impact
+    assessment and justification for not re-validating the EDMS system after the
+    OS patch.
+
+  Task ID  : TASK-21CFR11-34ADE578
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., a biopharmaceutical company, the QA lead, Rachel, oversaw
+    the migration of historical data from LegacyLIMS v2.3 to a new Laboratory
+    Information Management System (LIMS), LabGenius v4.1, on February 10, 2023.
+    The migration involved reformating date fields, normalizing units of
+    measurement, and mapping old column names to the new schema, affecting
+    approximately 10,000 records. Post-migration, reconciliation scripts
+    verified that record counts, checksums, and a 5% random sample spot-check of
+    500 records matched between the two systems. Additionally, the legacy system
+    was placed in read-only mode to prevent any accidental modifications. Rachel
+    certified the migration as 'validated and fully traceable' based on these
+    verifications. However, the audit trail in LabGenius v4.1 recorded only a
+    single entry per migration task: 'Batch migration from LegacyLIMS v2.3 on
+    February 10, 2023,' without capturing field-level changes for each record.
+  Question :
+    Does the NovaBio Inc. data migration process comply with FDA requirements
+    for audit trail entries as specified in 21 CFR Part 11, given the single
+    bulk entry for the entire migration task?
+  Gold Std :
+    The process does not comply with 21 CFR 11.10(e), which requires that audit
+    trails capture the original value, the new value, who made the change, when,
+    and why at the individual record/field level. The Red Herring, the post-
+    migration verification of record counts, checksums, and a random sample,
+    though reassuring, does not compensate for the lack of granular audit trail
+    entries. Furthermore, the legacy system being in read-only mode is a
+    compliant practice, not a violation. The actual violation lies in the
+    failure to capture field-level changes, preventing the reconstruction of
+    original values for each field before migration, as mandated by 21 CFR
+    11.10(e).
+
+  Task ID  : TASK-21CFR11-DC2C7FA8
+  Domain   : 21cfr11
+  Context  :
+    NovaBio Inc.'s GLP laboratory uses a fully Part 11-compliant electronic
+    study management system, 'Eclipse,' version 3.2.1. All raw data is archived
+    in the proprietary binary format (.esm) within the active Laboratory
+    Information Management System (LIMS). The system has robust Part 11
+    controls, including validated backup procedures, access controls, and audit
+    trails, as confirmed by the recent IT audit. However, the vendor contract
+    for Eclipse includes a 5-year support window ending next year, and there is
+    no plan to export data to a human-readable or open format before
+    decommissioning. Meanwhile, NovaBio's Quality Assurance team has been
+    diligently maintaining the deviation log, which includes an entry for a
+    minor software patch delay that was properly handled and documented
+    according to 21 CFR 11.10(k). The compliance reviewer noted that the Eclipse
+    system met all Part 11 requirements, but did not further investigate the
+    archiving process.
+  Question :
+    Is NovaBio's Eclipse system compliant with FDA regulations regarding the
+    retention and accessibility of electronic raw data, and if not, what
+    specific regulatory requirement is not being met?
+  Gold Std :
+    21 CFR 58.130(e) requires that raw data remain readily retrievable for the
+    retention period, which includes after the originating system is
+    decommissioned. Part 11 compliance does not substitute for this predicate
+    rule's archive accessibility obligation. The subtle violation is the lack of
+    a plan to export data to a human-readable format before decommissioning, not
+    the compliant Part 11 controls or the properly handled deviation log entry,
+    which is a red herring drawing attention away from the actual gap in
+    compliance with the GLP predicate rule.
+
+  Task ID  : TASK-21CFR11-53446315
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the quality management system (QMS), named 'NovaQMS', was
+    initially validated in 2018 with three access roles: QA Analyst, QA Manager,
+    and Administrator. The system used Oracle Database 12c and ran on a
+    virtualized server with regular security updates. In 2020, two new roles
+    were added operationally: Regulatory Liaison and External Auditor Read-Only.
+    Although all five roles are actively enforced within the system and an IT
+    security review confirmed no privilege escalation, the External Auditor role
+    being read-only raised questions about its necessity for full audit trails.
+    Notably, the system behaves as intended, with audit logs properly capturing
+    all actions by all users. However, the addition of these new roles was done
+    by modifying the system configuration without generating a formal validation
+    addendum or updating the User Requirements Specification (URS). Meanwhile,
+    NovaBio's internal audit process, which includes reviewing system access
+    logs, has been fully compliant with regulatory expectations, including
+    proper documentation and timely execution.
+  Question :
+    What regulatory requirement is not met by NovaBio Inc.'s actions regarding
+    the addition of new roles to their validated NovaQMS system?
+  Gold Std :
+    The regulatory requirement not met is the failure to generate a formal
+    validation addendum and update the User Requirements Specification (URS) for
+    the addition of new roles, as mandated by 21 CFR 11.10(a) and 11.10(d),
+    which require that access privilege controls be validated and documented.
+    The fact that all roles are enforced correctly and the External Auditor role
+    is genuinely read-only does not negate the need for formal validation of
+    system changes, including the addition of new user roles. The red herring of
+    the External Auditor role's read-only access and the system's correct
+    behavior draws attention away from the procedural lapse of not following the
+    change control and validation requirements for the added roles.
+
+  Task ID  : TASK-21CFR11-537F9534
+  Domain   : 21cfr11
+  Context  :
+    NovaBio Inc. uses a hybrid system for recording clinical trial data, with
+    both paper and electronic records. The paper records are stored in a binder
+    and the electronic records are maintained in a validated Laboratory
+    Information Management System (LIMS) version 3.2.1. The data is identical in
+    both systems, and the company considers this duplication as a compliance
+    safeguard. An auditor reviewing the records on February 10, 2023, noted that
+    the paper binder was updated on January 25, 2023, at 10:00 AM by a clinical
+    research associate, and the LIMS was updated on the same day at 10:05 AM by
+    the same associate. However, the company has a legacy system, 'TrialMaster'
+    version 1.0, running in read-only mode since 2018, which appears to be
+    outdated but has been properly documented as permissible under a deviation
+    log entry from March 2018. The auditor noticed that TrialMaster's data
+    matched the LIMS data but had a delayed timestamp of January 26, 2023, due
+    to a scheduled weekly synchronization process, which was correctly
+    implemented according to the SOP-001, last revised on August 15, 2022.
+  Question :
+    What is the primary compliance issue with NovaBio Inc.'s hybrid system for
+    recording clinical trial data?
+  Gold Std :
+    The primary compliance issue is the lack of a formal designation of the
+    predicate record as required by 21 CFR 11.2(a), which states that for hybrid
+    systems, 'predicate records means the paper or electronic record that serves
+    as the original or master record from which the other record is derived.'
+    The fact that the data matches between the paper and electronic records does
+    not substitute for this formal designation. The delayed timestamp in
+    TrialMaster, despite appearing suspicious, is actually compliant due to the
+    properly documented deviation and implementation of SOP-001, making it a red
+    herring. The critical violation hinges on the absence of a clear designation
+    of the predicate record, which is essential for relying on the electronic
+    record as the official record under 21 CFR 11.2(a).
+
+  Task ID  : TASK-21CFR11-FEC723D2
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the Quality Control team utilizes a legacy laboratory
+    information management system (LIMS) named 'LabGenius,' which was initially
+    installed in 1995. The system has undergone three major software patches
+    (Versions 2.1, 3.0, and 3.5) and was migrated from Windows NT to Windows 10
+    in 2018. Despite these changes, NovaBio considers LabGenius exempt from 21
+    CFR Part 11 because it was deployed before August 1997. The company has
+    meticulously maintained a thick binder of Installation Qualification (IQ),
+    Operational Qualification (OQ), and Performance Qualification (PQ)
+    documentation from 1996, including a detailed description of the original
+    system installation, training records for all users, and validation reports.
+    Furthermore, the system's audit trails have been consistently reviewed and
+    found to be accurate, with any discrepancies promptly addressed and
+    documented. Notably, the post-1997 software patches included the addition of
+    new user authentication protocols and enhanced data encryption, which were
+    not part of the original system configuration. However, these updates were
+    not subjected to a comprehensive re-validation, as the company believed the
+    legacy exemption still applied.
+  Question :
+    Does NovaBio's approach to maintaining and updating LabGenius comply with
+    FDA's 21 CFR Part 11 regulations, specifically in regards to system
+    modifications and validation requirements?
+  Gold Std :
+    According to the FDA's 2003 Part 11 Guidance (Section III, 'Scope'),
+    substantial modifications to a legacy system after the effective date bring
+    it under Part 11 scope, as stated: 'If a computer system was in use before
+    August 1997, and it has been upgraded or significantly modified since then,
+    the upgraded or modified system is subject to Part 11.' Additionally, 21 CFR
+    11.10(a) emphasizes the continuous validation obligation, stating that
+    'validation of computer systems is a process, not an event.' Therefore,
+    NovaBio's failure to re-validate the system after each post-1997
+    modification constitutes a subtle but significant procedural lapse. The
+    meticulously maintained IQ/OQ/PQ documentation from 1996 serves as a red
+    herring, as it does not negate the need for re-validation following
+    substantial system changes. The correct answer hinges on understanding that
+    the legacy exemption does not carry forward through material changes and
+    that each modification requires a fresh impact assessment.
+
+  Task ID  : TASK-21CFR11-23332F63
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the Quality Control department uses a validated Laboratory
+    Information Management System (LIMS), version 8.2, to track and manage test
+    results for its pharmaceutical products. The system has been capturing audit
+    trails for all operator-initiated entries since its deployment in 2018 and
+    was validated for audit trail completeness at that time. Recently, an
+    internal audit reviewed a sample of 200 audit trail records and found no
+    gaps or discrepancies. However, the LIMS also performs automated batch
+    import jobs and scheduled calculation updates through a service account,
+    which bypasses the audit trigger, resulting in system-initiated changes
+    being invisible in the log. The audit trail itself is quite voluminous, with
+    over 10,000 entries spanning the past year, which has led some staff to
+    believe that the sheer volume of data ensures compliance. The LIMS
+    administrator, Jane Smith, has confirmed that the system's automated
+    processes have been running smoothly, and the service account has not been
+    used for any manual entries. Meanwhile, the company's legacy Electronic Data
+    Capture (EDC) system, which is still in use but only in read-only mode for
+    historical data, has been flagged for replacement due to its outdated
+    software, version 5.1, but this change is not scheduled to occur until Q4
+    2024.
+  Question :
+    Does NovaBio Inc.'s current LIMS configuration meet the requirements of 21
+    CFR Part 11 for capturing audit trails, given that it only captures
+    operator-initiated changes and not system-initiated changes from automated
+    batch jobs?
+  Gold Std :
+    The correct answer is no, NovaBio Inc.'s LIMS configuration does not meet
+    the requirements of 21 CFR Part 11. According to 21 CFR 11.10(e), audit
+    trails must capture all changes to electronic records, including system-
+    initiated changes. The fact that the system was validated for audit trail
+    completeness at deployment and that an internal audit found no gaps in a
+    sample of records is irrelevant, as these evaluations did not consider
+    system-initiated changes. The Red Herring of the legacy EDC system being in
+    read-only mode and the large volume of audit trail entries does not address
+    the specific requirement that all changes, including automated ones, must be
+    captured. Therefore, NovaBio Inc. must modify its LIMS to capture system-
+    initiated changes to comply with 21 CFR 11.10(e).
+
+  Task ID  : TASK-21CFR11-EF5B4A3B
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the Electronic Document Management System (EDMS), version
+    3.2.1, captures all approval events with a timestamp and the approver's user
+    ID, which is clearly linked to the approver's full name in the system's user
+    management module. Every approved record in the system shows the exact date
+    and time of approval, and each approver's user ID is accurately reflected.
+    The system also has a 'review log' feature that allows auditors to trace
+    each record back to its approver with certainty, including for records
+    approved during the system's monthly maintenance window, when approvals are
+    batch-processed overnight. Notably, the EDMS is configured to require a
+    secondary approval for all documents, which always occurs within 30 minutes
+    of the initial approval, well within the allowed 2-hour window. However,
+    upon closer inspection, it appears that while the EDMS does log the
+    approver's login credential event as the electronic signature, the signature
+    record itself does not display the human-readable meaning of the signature,
+    such as 'reviewed and approved' or 'authored', alongside the signer's name
+    and timestamp.
+  Question :
+    Does the NovaBio Inc. EDMS comply with 21 CFR 11 requirements for electronic
+    signatures, given the provided configuration and operational details?
+  Gold Std :
+    21 CFR 11.50(a) requires each electronic signature to include (1) the
+    printed name of the signer, (2) the date and time of the signature, and (3)
+    the meaning (such as review, approval, responsibility, or authorship)
+    associated with the signing. Although the system captures the approver's
+    user ID and timestamp, which could misleadingly suggest compliance, the
+    absence of the 'meaning' component of the electronic signature alongside the
+    signer's name and timestamp constitutes a direct Part 11 violation. The red
+    herring here is the batch-processing of approvals during the maintenance
+    window and the secondary approval feature, which are compliant processes
+    that distract from the actual violation: the lack of the human-readable
+    meaning of the electronic signature in the signature record itself, as
+    mandated by 21 CFR 11.50(a)(1)-(3).
+
+  Task ID  : TASK-21CFR11-6B093406
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the IT security team recently conducted a review of their
+    cloud-based SaaS platform, BioStore, used for storing validated electronic
+    records. The review found that BioStore uses TLS encryption for all data
+    transmissions and has implemented SOC 2 Type II access controls, leading the
+    team to conclude that the system is 'fully secured.' Additionally, the
+    vendor holds ISO 27001 and HIPAA certifications. However, it was noted that
+    while BioStore encrypts data in transit using TLS, it does not encrypt
+    records at rest. The system also lacks a cryptographic mechanism to detect
+    unauthorized record alteration. The IT team, focused on the TLS encryption
+    and security certifications, did not flag this as a compliance issue.
+    Meanwhile, the regulatory affairs team at NovaBio is preparing for an FDA
+    inspection and is reviewing all electronic record systems for compliance
+    with 21 CFR Part 11.
+  Question :
+    Is the BioStore system, as described, compliant with 21 CFR Part 11
+    requirements for open systems, and if not, what specific regulatory
+    requirement is not being met?
+  Gold Std :
+    The BioStore system is not compliant with 21 CFR Part 11 because it fails to
+    meet the requirements of 21 CFR 11.30, which mandates that open systems,
+    unlike closed systems under 21 CFR 11.10, employ additional controls,
+    including document encryption and digital signatures, to ensure record
+    authenticity and integrity. The use of TLS for transport encryption and the
+    possession of SOC 2 Type II, ISO 27001, and HIPAA certifications do not
+    satisfy the 21 CFR 11.30 requirements for ensuring record authenticity and
+    integrity in an open system. The Red Herring of focusing on transport
+    encryption and third-party security certifications distracts from the actual
+    violation of not encrypting records at rest and lacking a mechanism for
+    detecting unauthorized alterations, as required for open systems under 21
+    CFR 11.30.
+
+  Task ID  : TASK-21CFR11-D5E910CC
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the quality control team uses an electronic data capture
+    system (EDCS) to record batch production data. Once the batch is complete,
+    they print a formatted report, obtain a wet-ink signature from the QC
+    supervisor on the printout, and then scan the signed page back into their
+    electronic document management system (EDMS) using Adobe Acrobat 20.12.
+    Every finalized record has a visible ink signature and a scan date stamp,
+    which the team considers equivalent to a handwritten signature on a paper
+    record. The auditor confirmed that every batch record was 'signed' and had a
+    scan date stamp. Notably, the legacy system used for label generation, which
+    is read-only and correctly configured, was recently reviewed and found to be
+    compliant with all relevant regulations. However, the EDCS system's audit
+    trail logs show that all electronic signatures are captured as JPEG scans,
+    without any cryptographic linkage to the underlying electronic record.
+  Question :
+    Does NovaBio Inc.'s process for electronically capturing batch production
+    data, printing it, obtaining a wet-ink signature on the printout, and then
+    scanning the signed page back into their EDMS comply with 21 CFR Part 11
+    requirements for electronic signatures?
+  Gold Std :
+    According to 21 CFR 11.3(b)(7), a scanned image of a handwritten signature
+    attached to an electronic record constitutes an 'electronic signature',
+    which must satisfy all Part 11 e-signature requirements, including 11.70 for
+    cryptographic linkage to the record. Since a JPEG scan cannot meet 11.70
+    linkage requirements, NovaBio Inc.'s process does not comply with 21 CFR
+    Part 11. The presence of a visible ink signature and a scan date stamp (Red
+    Herring) does not rectify this non-compliance, as the regulatory requirement
+    is specifically for electronic signatures to have a cryptographic linkage to
+    the electronic record, not just a visible or scanned representation of a
+    signature.
+
+  Task ID  : TASK-21CFR11-72C7FB8B
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the IT department applied a 'security-only' OS patch to the
+    server hosting the validated Electronic Document Management System (EDMS),
+    version 4.2.1, on February 10, 2023. The patch, classified as 'low risk, no
+    functional change', was installed without generating a formal change control
+    record or conducting an impact assessment. The vendor's release notes
+    confirmed 'no application changes', and post-patch, all 50 user acceptance
+    tests passed, with no functionality altered. QA closed the event as
+    'validated state unaffected — no re-validation required' on February 12,
+    2023. Meanwhile, a separate, compliant process was underway: the EDMS's
+    automated backup system, running on a legacy schedule, successfully
+    completed a read-only backup of all system data to an external drive on
+    February 11, 2023, as required by NovaBio's SOP-DOC-001, which permits read-
+    only access to system data for backup purposes.
+  Question :
+    Does the manner in which NovaBio Inc. handled the OS patch update to its
+    EDMS comply with FDA regulatory requirements for change control and
+    validation?
+  Gold Std :
+    The handling of the OS patch update does not comply with FDA regulatory
+    requirements. According to 21 CFR 11.10(a) and FDA's 2003 Part 11 guidance
+    Section IV, ANY change to a validated system, including infrastructure
+    changes, must undergo a documented impact assessment. The decision not to
+    re-validate must be documented and justified; absent that record, the
+    validation status is unsubstantiated. The fact that the patch was classified
+    as 'low risk, no functional change' and the vendor's release notes confirmed
+    'no application changes' does not exempt NovaBio from conducting an impact
+    assessment. The Red Herring — the compliant, automated backup process — is
+    not the violation, as it is explicitly permitted by NovaBio's SOP and does
+    not alter system functionality.
+
+  Task ID  : TASK-21CFR11-DD036611
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., a biopharma company, the IT department recently migrated
+    historical data from the outdated LegacyLIMS v2.3 system to a new Laboratory
+    Information Management System (LIMS). The migration involved reformating
+    date fields from 'DD-MMM-YYYY' to 'YYYY-MM-DD', normalizing units of
+    measurement for consistency, and mapping old column names to the new schema.
+    A single bulk audit entry was recorded for each migration task: 'Batch
+    migration from LegacyLIMS v2.3 on 2022-02-15'. Although the post-migration
+    reconciliation scripts verified that record counts, checksums, and a 5%
+    random sample spot-check matched perfectly, the QA lead certified the
+    migration as 'validated and fully traceable'. Notably, the LegacyLIMS v2.3
+    system was placed in read-only mode after the migration to preserve
+    historical data integrity, which might raise initial concerns about data
+    availability. However, this read-only setup is part of the company's
+    compliant data retention policy.
+  Question :
+    Does the described data migration process at NovaBio Inc. comply with the
+    FDA's requirements for electronic records and audit trails as specified in
+    21 CFR Part 11, specifically regarding the granularity of audit trail
+    entries for changes made during data migration?
+  Gold Std :
+    The process does not comply with 21 CFR 11.10(e), which requires that audit
+    trails capture the original value, the new value, who made the change, when,
+    and why, at the individual record/field level. The bulk migration log entry
+    does not meet this requirement because it does not allow for the
+    reconstruction of what any individual field contained before migration. The
+    read-only mode of the LegacyLIMS v2.3 system after migration is a compliant
+    data preservation measure and not the violation. The verification of record
+    counts, checksums, and the random sample spot-check, while indicative of
+    data integrity, does not negate the need for field-level audit trail entries
+    as mandated by 21 CFR 11.10(e).
+
+  Task ID  : TASK-21CFR11-04CD46A3
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the GLP laboratory utilizes a fully Part 11-compliant
+    electronic study management system, 'LabPro 5.2', to manage all study data.
+    The system has robust access controls, audit trails, and backup procedures
+    as per 21 CFR 11.10(c), with daily validated backups stored on a secure
+    offsite server. The system's vendor contract, which expires next year,
+    includes a 5-year support window. Notably, the system's data is archived in
+    a proprietary binary format (.esm) within the active LIMS, but the IT staff
+    has meticulously maintained the system's compliance, including regular
+    security updates and timely resolution of all audit trail findings. For
+    instance, a recent audit trail review revealed a delayed timestamp on a
+    single study file, but this was properly logged and resolved within the
+    permissible 24-hour window, as per the company's SOP. Meanwhile, the
+    laboratory staff has been diligent in maintaining detailed deviation logs,
+    which are regularly reviewed and approved by the Quality Assurance
+    department. However, there is no plan in place to export the archived data
+    to a human-readable or open format before the system's eventual
+    decommissioning.
+  Question :
+    What specific regulatory requirement is not being met by NovaBio Inc.'s
+    current archival practices for raw data in the LabPro 5.2 system?
+  Gold Std :
+    21 CFR 58.130(e) requires that raw data remain readily retrievable for the
+    retention period, including after the originating system is decommissioned.
+    This predicate rule's obligation for archive accessibility is not satisfied
+    by Part 11 compliance alone. The Red Herring of the delayed timestamp, which
+    was properly handled, draws attention away from the actual violation: the
+    lack of a plan to ensure raw data remains accessible after system
+    decommissioning. Part 11 controls, such as backup and access controls, do
+    not substitute for the predicate rule's requirement for long-term data
+    accessibility.
+
+  Task ID  : TASK-21CFR11-F8763114
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the QMS-Tracker system, version 3.2.1, was initially
+    validated in 2018 with defined access roles for QA Analyst, QA Manager, and
+    Administrator. In 2020, two new roles were operationally added by modifying
+    the system configuration: Regulatory Liaison and External Auditor Read-Only.
+    Although an IT security review verified that all five roles are actively
+    enforced, with the External Auditor role correctly restricted to read-only
+    and no evidence of privilege escalation, no formal validation addendum or
+    updated User Requirements Specification was generated for these additions.
+    The system currently behaves as intended, with all access controls and audit
+    trails functioning properly.
+  Question :
+    What specific regulatory requirement is not met by NovaBio Inc.'s current
+    configuration and use of the QMS-Tracker system, despite the IT security
+    review's findings and the system's functional behavior?
+  Gold Std :
+    The regulatory requirement not met is related to the addition of new user
+    roles to a validated system without a formal validation addendum, as
+    mandated by 21 CFR 11.10(a) and 21 CFR 11.10(d), which state that validation
+    of computer systems is required to ensure accuracy, reliability, and
+    consistency of records, and that changes to a validated system must be
+    documented and subject to validation. The red herring of the correctly
+    enforced read-only External Auditor role and the lack of privilege
+    escalation draws attention away from the procedural lapse of not generating
+    a validation addendum for the new roles, which is the actual compliance gap.
+
+  Task ID  : TASK-21CFR11-8BA4D363
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the Quality Assurance department uses a hybrid system for
+    recording batch release data, consisting of both paper binders and a
+    validated Laboratory Information Management System (LIMS), version 5.2. The
+    LIMS is used by 10 QC analysts, and all data entries are timestamped with a
+    delay of 5 seconds due to a network latency issue that has been properly
+    documented and accepted by the IT department as a deviation. The company has
+    been using this system since January 2022, and during a recent audit, it was
+    noted that there are matching data in both the paper binders and the LIMS,
+    which seems to provide an extra layer of compliance. The auditors observed
+    that the paper binders are updated daily by the QC analysts, and then the
+    data is manually entered into the LIMS by the same analysts, with electronic
+    signatures applied by the QC manager within 24 hours of data entry. The
+    company believes this hybrid approach ensures data integrity and provides a
+    compliant backup in case one system fails.
+  Question :
+    Does NovaBio Inc.'s current hybrid system for batch release data meet the
+    regulatory requirements under 21 CFR Part 11, considering the presence of
+    both paper and electronic records?
+  Gold Std :
+    21 CFR 11.2(a) requires that for hybrid systems, where both paper and
+    electronic records are used, a formal designation of the predicate record
+    must be made. In this case, despite having both paper and electronic records
+    with matching data, NovaBio Inc. has not formally designated which record is
+    the official predicate record. The fact that the data matches between the
+    two systems does not substitute for the formal designation requirement. The
+    observed delay in timestamping and the use of electronic signatures within
+    24 hours are compliant processes but draw attention away from the actual
+    gap. The subtle violation lies in the lack of a formal Standard Operating
+    Procedure (SOP) designating the predicate record, as mandated by 21 CFR
+    11.2(a), making the company's current system non-compliant with the
+    regulatory requirements.
+
+  Task ID  : TASK-21CFR11-B58E3F01
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the legacy Laboratory Information Management System (LIMS),
+    'Eclipse', was initially installed in 1995, with a thorough IQ/OQ/PQ
+    validation package completed in 1996. Recently, the QA team, led by Senior
+    Quality Assurance Specialist, Rachel Lee, conducted a review of Eclipse in
+    light of its pre-1997 deployment and concluded it was exempt from 21 CFR
+    Part 11 requirements due to its legacy status. However, Eclipse has
+    undergone three significant software patches (in 2001, 2005, and 2010) and
+    was migrated to a new operating system in 2012. The LIMS stores nearly
+    100,000 laboratory test results and is accessed by over 50 users. Despite
+    these changes, the original 1996 validation documentation remains intact and
+    is regularly reviewed. Interestingly, a separate read-only archive system,
+    containing historical data from 1990 to 1997, was recently set up, which the
+    company believes demonstrates its commitment to data integrity, as it
+    remains unchanged and untouched since its creation, thus seemingly compliant
+    with 21 CFR 11.10(a) through its static nature.
+  Question :
+    Is NovaBio Inc.'s Eclipse LIMS, as modified and updated post-1997, subject
+    to the requirements of 21 CFR Part 11, and if so, what specific regulatory
+    obligation must it fulfill to ensure compliance?
+  Gold Std :
+    Yes, NovaBio Inc.'s Eclipse LIMS is subject to the requirements of 21 CFR
+    Part 11 because, as stated in the FDA's 2003 Part 11 Guidance (Section III,
+    'Scope'), substantial modifications to a legacy system after the effective
+    date of August 1997 bring it under Part 11 scope. The original pre-date
+    status does not carry forward through material changes. Each post-1997
+    upgrade required a fresh impact assessment and validation, as per 21 CFR
+    11.10(a) which mandates continuous validation. The red herring of having a
+    thick binder of IQ/OQ/PQ documentation from 1996 and a compliant read-only
+    archive system does not negate the need for re-validation post-
+    modifications.
+
+  Task ID  : TASK-21CFR11-3328D542
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the LIMS (Laboratory Information Management System) named
+    'NovaLink' version 5.2, was validated on January 10, 2022, for audit trail
+    completeness as per 21 CFR 11 requirements. The system captures all
+    operator-initiated changes to electronic records. Recently, an internal
+    audit on February 15, 2023, reviewed a random sample of 200 audit trail
+    entries and found no gaps or discrepancies, confirming the system's
+    integrity. However, NovaLink uses a service account to run automated batch
+    import jobs, which update thousands of records daily, and scheduled
+    calculation updates, which are executed nightly. These system-initiated
+    changes are not captured by the audit trail, as they bypass the audit
+    trigger mechanism. The company points to the successful validation and the
+    clean internal audit as evidence of compliance. Furthermore, NovaBio Inc.
+    correctly follows a legacy system (NovaVault) in read-only mode for storing
+    archived records, ensuring that no alterations are made to historical data,
+    seemingly demonstrating their commitment to data integrity.
+  Question :
+    Does NovaBio Inc.'s LIMS system comply with the requirements for capturing
+    all changes to electronic records as stipulated under 21 CFR 11, given the
+    described validation, internal audit findings, and system operation
+    specifics?
+  Gold Std :
+    21 CFR 11.10(e) requires that audit trails capture all changes to electronic
+    records, including both operator-initiated and system-initiated (automated)
+    changes. The fact that system-initiated changes from batch jobs are not
+    captured violates this provision. The red herring of a clean internal audit
+    and successful initial validation does not negate the obligation to capture
+    all changes. The compliant process of maintaining a legacy system in read-
+    only mode, while commendable, does not address the gap in capturing system-
+    initiated changes, making NovaBio Inc.'s LIMS non-compliant with 21 CFR
+    11.10(e).
+
+  Task ID  : TASK-21CFR11-6737F095
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the Electronic Document Management System (EDMS), version
+    4.2, is used for document approval. The system captures a login credential
+    event as the signature for document approval and displays the approver's
+    user ID and timestamp. Every approved record has a timestamp and the
+    approver's user ID clearly linked, allowing the auditor to trace each record
+    to its approver with certainty. Notably, the EDMS has a legacy module
+    running in read-only mode, which is often mistaken for an active module, but
+    it has been properly decommissioned and documented in the system's
+    validation records. Given that the system has been validated and all
+    approved records have a clear audit trail, the compliance officer is
+    reviewing the system's electronic signatures for adherence to FDA
+    regulations.
+  Question :
+    Does the electronic signature captured by NovaBio Inc.'s EDMS, which
+    includes the approver's user ID and timestamp but does not display the
+    human-readable meaning of the signature, comply with 21 CFR Part 11
+    requirements?
+  Gold Std :
+    The correct answer hinges on 21 CFR 11.50(a)(1)-(3), which requires each
+    electronic signature to include (1) the printed name of the signer, (2) the
+    date and time of the signature, and (3) the meaning (such as review,
+    approval, etc.) associated with the signing. The Red Herring of the legacy
+    module running in read-only mode, though initially suspicious, is actually
+    compliant as it is properly decommissioned and documented. However, the
+    EDMS's failure to display the meaning of the signature alongside the
+    signer's name and timestamp directly violates 21 CFR 11.50(a), despite the
+    presence of timestamps and approver user IDs, which are necessary but not
+    sufficient on their own to meet the regulatory requirement.
+
+  Task ID  : TASK-21CFR11-D8FC5B45
+  Domain   : 21cfr11
+  Context  :
+    NovaBio Inc., a biopharmaceutical company, stores validated electronic
+    records in a cloud SaaS platform called 'CloudKeeper' (version 3.2), an open
+    system under 21 CFR 11.3(b)(9). CloudKeeper uses TLS 1.3 for data
+    transmissions and has implemented SOC 2 Type II access controls, holding
+    certifications for SOC 2 Type II, ISO 27001, and HIPAA. The IT security
+    review conducted on February 10, 2023, by the company's security team marked
+    the system as 'fully secured' due to these security measures. However, upon
+    closer inspection, it is noted that while all data transmissions between the
+    client and server are TLS-encrypted, the records at rest are not encrypted,
+    and there is no cryptographic mechanism in place to detect unauthorized
+    alterations to the electronic records. Meanwhile, a legacy system,
+    'LabArchive' (version 1.5), running in read-only mode since January 2022,
+    continues to store historical records, with all access attempts properly
+    logged and reviewed weekly by the quality assurance team.
+  Question :
+    What specific regulatory requirement concerning electronic record integrity
+    and authenticity is not being met by NovaBio Inc.'s current use of
+    CloudKeeper for storing validated electronic records?
+  Gold Std :
+    21 CFR 11.30 requires that open systems, such as the CloudKeeper SaaS
+    platform used by NovaBio Inc., employ additional controls including document
+    encryption and digital signatures to ensure the authenticity, integrity, and
+    confidentiality of electronic records. This is distinct from the
+    requirements for closed systems under 21 CFR 11.10. The Red Herring of SOC 2
+    Type II, ISO 27001, and HIPAA certifications, along with TLS encryption for
+    data transmissions, does not substitute for the specific compliance
+    requirements outlined in 21 CFR 11.30. Therefore, the lack of encryption at
+    rest and the absence of a cryptographic mechanism to detect unauthorized
+    record alterations constitute a violation of 21 CFR 11.30, as these measures
+    are necessary to ensure the integrity and authenticity of electronic records
+    in an open system.
+
+  Task ID  : TASK-21CFR11-C6A8B29D
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the Quality Assurance team uses an electronic data
+    management system (EDMS) to capture batch records. As part of their process,
+    they print a formatted report, obtain a handwritten signature on the
+    printout from the Production Manager, and then scan the signed page back
+    into the EDMS. Notably, every finalized record has a visible ink signature
+    and a scan date stamp, which appears to be in compliance. The EDMS, named
+    'NovaDoc', has been configured to auto-generate a PDF copy of each batch
+    record upon completion, and these PDFs are stamped with the date and time
+    they were generated. The company treats the scanned image of the handwritten
+    signature as equivalent to a handwritten signature on a paper record.
+    Recently, an auditor confirmed that every batch record had been 'signed' by
+    the Production Manager. However, the EDMS also has a legacy module,
+    'BatchLog', running in read-only mode for historical data access, which
+    seems suspicious but has been deemed acceptable by internal IT as it does
+    not interact with current data and is only used for archival purposes.
+  Question :
+    Does NovaBio Inc.'s process of scanning a handwritten signature onto an
+    electronic record and treating the scanned image as an equivalent to a
+    handwritten signature on a paper record comply with FDA regulations
+    regarding electronic signatures?
+  Gold Std :
+    According to 21 CFR 11.3(b)(7), a scanned image of a handwritten signature
+    attached to an electronic record constitutes an 'electronic signature'.
+    Therefore, it must satisfy all Part 11 e-signature requirements, including
+    11.70, which requires that electronic signatures be linked to their
+    respective electronic records through the use of cryptographic methods. A
+    JPEG scan of a handwritten signature does not meet this requirement. The
+    presence of a visible ink signature and a scan date stamp (Red Herring) does
+    not negate the requirement for cryptographic linkage. If the intent is for
+    the paper to be the predicate record, then the paper original must be
+    retained as the official record, and the EDMS copy treated as a copy only,
+    as per the understanding of electronic records and signatures under 21 CFR
+    11.
+
+  Task ID  : TASK-21CFR11-0136B9C2
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the IT department applied a 'security-only' OS patch to the
+    server hosting the validated Electronic Document Management System (EDMS),
+    version 3.4.1, on February 10, 2023. The patch was classified as 'low risk,
+    no functional change' by IT, and the vendor's release notes confirmed 'no
+    application changes.' Post-patch, all user acceptance tests passed, and no
+    functionality was altered.QA closed the event as 'validated state unaffected
+    — no re-validation required' after reviewing the test results and vendor
+    documentation, including a successful smoke test performed on February 12,
+    2023. The legacy system, running in read-only mode, was unaffected by the
+    patch and continued to operate correctly, with the last backup performed on
+    February 9, 2023, and successfully restored on February 11, 2023, for
+    verification. Notably, the IT staff documented the patch installation,
+    including the date, time, and version of the patch, but did not generate a
+    formal impact assessment or change control record, believing the 'security-
+    only' nature of the patch and successful tests were sufficient.
+  Question :
+    Did NovaBio Inc. comply with 21 CFR Part 11 requirements for the OS patch
+    applied to the EDMS server, considering the patch was deemed 'low risk' and
+    'no functional change' with passing user acceptance tests and no apparent
+    impact on the system's functionality?
+  Gold Std :
+    No, NovaBio Inc. did not comply with 21 CFR Part 11 requirements. According
+    to 21 CFR 11.10(a) and FDA's 2003 Part 11 guidance, Section IV, any change
+    to a validated system, including infrastructure changes like the OS patch,
+    requires a documented impact assessment. The decision not to re-validate
+    must be documented and justified. The red herring of the legacy system
+    running correctly in read-only mode is compliant and not the violation. The
+    subtle violation is the lack of a documented impact assessment and
+    justification for not re-validating the system after the patch, despite the
+    IT department's belief that the 'security-only' patch and successful tests
+    were sufficient. This omission leaves the validation status unsubstantiated,
+    as required by 21 CFR 11.10(a) and the FDA's guidance.
+
+  Task ID  : TASK-21CFR11-70AD7641
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the QA team completed a migration of 500,000 records from
+    LegacyLIMS v2.3 to the new Laboratory Information Management System (LIMS),
+    HelixLab v5.1, on February 10, 2023. The migration involved reformatting
+    date fields from MMDDYY to YYYY-MM-DD, normalizing units of measurement, and
+    mapping old column names to the new schema. Although the LegacyLIMS system
+    had been running correctly in read-only mode since January 2022, the
+    migration was necessary due to the system's vendor discontinuing support.
+    Post-migration, reconciliation scripts verified record counts, checksums,
+    and a 5% random sample spot-check, all of which matched. The QA lead, Rachel
+    Lee, certified the migration as 'validated and fully traceable' in the
+    migration report. The single audit trail entry for the migration task reads:
+    'Batch migration from LegacyLIMS v2.3 on 2023-02-10'. Meanwhile, a review of
+    system logs revealed a one-hour delay between when data was actually
+    migrated and when the migration task was timestamped in the audit trail,
+    which was deemed acceptable due to a scheduled network maintenance window.
+  Question :
+    Does the NovaBio Inc. migration of historical data to the new LIMS comply
+    with the regulatory requirements for audit trail entries, as evidenced by
+    the provided information?
+  Gold Std :
+    The migration does not comply with 21 CFR 11.10(e), which requires that
+    audit trail entries capture the original value, the new value, who made the
+    change, when, and why at the individual record/field level. The single
+    'Batch migration' log entry does not meet this requirement because it does
+    not allow for the reconstruction of what any individual field contained
+    before migration. The Red Herring, the one-hour delay between data migration
+    and audit trail timestamping, is not the violation because it is deemed
+    acceptable due to scheduled maintenance and does not pertain to the content
+    or granularity of audit trail entries as specified by 21 CFR 11.10(e).
+
+  Task ID  : TASK-21CFR11-459EE22B
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the Quality Assurance team led by Dr. Rachel Kim has
+    thoroughly validated the electronic study management system, StudyMaster
+    v3.2, to ensure compliance with 21 CFR Part 11. The system features robust
+    access controls, audit trails, and validated backup procedures in accordance
+    with 21 CFR 11.10(c). Notably, the system's backup process involves daily
+    incremental backups and weekly full backups, all of which are stored
+    securely offsite. Despite these controls, all raw data from recent studies
+    are archived solely in the proprietary .esm format within the active
+    Laboratory Information Management System (LIMS). The vendor contract expires
+    next year, with a 5-year support window that will end, leaving concerns
+    about long-term data accessibility. Meanwhile, the IT department has been
+    praised for implementing a delayed timestamp feature for audit trail
+    entries, which aligns with 21 CFR 11.10(e) and has been properly documented.
+    However, no plan is in place to export this data into a human-readable or
+    open format before the system's decommissioning. The compliance reviewer,
+    Mr. John Lee, has concluded that the system is fully compliant due to its
+    adherence to Part 11 requirements.
+  Question :
+    Does NovaBio Inc.'s electronic study management system comply with all
+    relevant FDA regulations regarding the retention and accessibility of raw
+    data, given its reliance on proprietary binary files and the impending end
+    of the vendor support window?
+  Gold Std :
+    The correct answer hinges on 21 CFR 58.130(e), which requires that raw data
+    remain readily retrievable for the retention period, including after the
+    originating system is decommissioned. This predicate rule's requirement for
+    archive accessibility is not satisfied by Part 11 compliance alone. The Red
+    Herring, the delayed timestamp feature, is actually compliant with 21 CFR
+    11.10(e) and thus not the violation. The subtle violation lies in the lack
+    of planning to ensure long-term accessibility of raw data in a readable
+    format after system decommissioning, which directly contravenes the
+    requirements of 21 CFR 58.130(e).
+
+  Task ID  : TASK-21CFR11-1749CC26
+  Domain   : 21cfr11
+  Context  :
+    At NovaBio Inc., the Quality Management System (QMS) version 3.4 was
+    validated in 2018 with strict access controls for three initial roles: QA
+    Analyst, QA Manager, and Administrator. Although an IT security review in
+    2022 confirmed no privilege escalation and that all access controls,
+    including those for the two additional roles (Regulatory Liaison and
+    External Auditor Read-Only) added in 2020, are enforced correctly, the
+    system's User Requirements Specification (URS) and validation report were
+    not updated to reflect these new roles. Notably, the External Auditor role,
+    despite being read-only, was not part of the original validation scope. The
+    system has been functioning as intended, with audit logs confirming access
+    controls are enforced for all roles, including the new ones. The IT
+    department, in a recent review, highlighted that since the system behaves as
+    expected and all roles are properly restricted, no further validation should
+    be necessary for these operational changes.
+  Question :
+    Does the addition of the Regulatory Liaison and External Auditor Read-Only
+    roles to the NovaBio Inc. QMS without updating the validation report and URS
+    comply with FDA regulations for electronic records and electronic
+    signatures?
+  Gold Std :
+    The addition of new roles to a validated system constitutes a system change
+    under 21 CFR 11.10(a) and requires validation addendum as per 21 CFR
+    11.10(d), which states that 'procedures and controls shall be established to
+    ensure that changes to a system do not affect the ability to meet the
+    requirements' of Part 11. The correct functioning of the new roles and the
+    lack of privilege escalation, including the compliant implementation of the
+    External Auditor Read-Only role, do not negate the requirement for formal
+    change control and re-validation. The absence of documented validation for
+    these new roles means access controls for those roles are unvalidated,
+    violating the access privilege controls mandated by 21 CFR 11.10.
+
+────────────────────────────────────────────────────────────────
+  Stage 2 — Calibration (15-Profile Synthetic Population)
+────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────
+  Stage 3 — Results
+────────────────────────────────────────────────────────────────
+
+  Retained 38/50 targeted 21 CFR Part 11 items.
+
+  Tasks generated    : 1123
+  Calibrations run   : 1123
+  Retained (hard)    : 139
+  Retained (easy)    : 40
+  Discarded too-hard : 949
+  Discarded anomalous: 3
+
+╔════════════════════════════════════════════════════════════════╗
+║  Targeted Generation Complete                                  ║
+╚════════════════════════════════════════════════════════════════╝
