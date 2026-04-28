@@ -3590,3 +3590,102 @@ ValueError: invalid literal for int() with base 10: 'null'
 [2026-04-10T02:44:24Z]   Adopted 0/121 proposals
 [2026-04-10T02:44:24Z]   θ trajectory: 2.5353 → -4.0
 [2026-04-10T02:44:24Z] ======================================================================
+[2026-04-28T02:27:59Z] ======================================================================
+[2026-04-28T02:27:59Z] autoevolve started: 10 iterations, test_items=40, min_delta=0.5
+[2026-04-28T02:27:59Z] ======================================================================
+[2026-04-28T02:27:59Z] 
+────────────────────────────────────────────────────────────
+[2026-04-28T02:27:59Z] ITERATION 1/10
+[2026-04-28T02:27:59Z] ────────────────────────────────────────────────────────────
+[2026-04-28T02:27:59Z]   Current θ_augmented = 1.1114
+[2026-04-28T02:27:59Z]   Domain failure rates: {'21cfr11': 0.182, 'informed_consent': 0.646, 'gmp_deviation': 0.493, 'promo_review': 0.372, 'gcp_deviation': 0.639}
+[2026-04-28T02:27:59Z]   Too-hard items: 348 / 1823
+[2026-04-28T02:27:59Z]   [Proposer] Generating improvement proposal…
+[2026-04-28T02:28:01Z]   [Proposer] Hypothesis  : The high failure rates in certain domains, such as informed consent and GCP deviation, suggest that the current model may not be adequately trained on these specific areas of regulatory compliance, leading to incorrect or incomplete analysis in Step 1.
+[2026-04-28T02:28:01Z]   [Proposer] Change type : step_model  step=1
+[2026-04-28T02:28:01Z]   [Proposer] Description : Swap the current model in Step 1 to deepseek-r1-distill-llama-70b, a reasoning model specifically designed for multi-step compliance analysis, to potentially improve performance on tasks that require rigorous, structured analysis of regulatory sections and obligations.
+[2026-04-28T02:28:01Z]   [Proposer] Self-critique: This proposal may not address the root cause of failures if the issue lies not with the model's ability to analyze regulatory sections, but rather with the quality of the input it receives from the triage step or the complexity of the questions being asked.
+[2026-04-28T02:28:01Z]   [Test] Testing on 40 items…
+[2026-04-28T02:33:43Z]   [Test] θ_current=0.3165  θ_proposed=0.3165
+[2026-04-28T02:33:43Z]   [Test] Δθ = +0.0000  (threshold: +0.5000)
+[2026-04-28T02:33:43Z]   [Decision] REJECTED (Δθ=+0.0000 < 0.5)
+[2026-04-28T02:33:43Z] 
+────────────────────────────────────────────────────────────
+[2026-04-28T02:33:43Z] ITERATION 2/10
+[2026-04-28T02:33:43Z] ────────────────────────────────────────────────────────────
+[2026-04-28T02:33:43Z]   Current θ_augmented = 1.1114
+[2026-04-28T02:33:43Z]   Domain failure rates: {'21cfr11': 0.182, 'informed_consent': 0.646, 'gmp_deviation': 0.493, 'promo_review': 0.372, 'gcp_deviation': 0.639}
+[2026-04-28T02:33:43Z]   Too-hard items: 348 / 1823
+[2026-04-28T02:33:43Z]   [Proposer] Generating improvement proposal…
+[2026-04-28T02:33:44Z]   [Proposer] Hypothesis  : The high failure rates in specific domains such as informed consent, GCP deviation, and GMP deviation suggest that the current model in Step 1 may not be adequately analyzing the regulatory sections and obligations, leading to incorrect rulings and ultimately incorrect verdicts.
+[2026-04-28T02:33:44Z]   [Proposer] Change type : step_model  step=1
+[2026-04-28T02:33:44Z]   [Proposer] Description : Swap the current model in Step 1 to qwen-qwq-32b, a reasoning model that excels at structured step-by-step analysis, to potentially improve performance on tasks that require rigorous and structured regulatory analysis.
+[2026-04-28T02:33:44Z]   [Proposer] Self-critique: This proposal assumes that the primary issue lies in the analysis step and that a different model would improve performance, but it may overlook potential issues in the triage or verdict steps that could also be contributing to the failures.
+[2026-04-28T02:33:44Z]   [Test] Testing on 40 items…
+[2026-04-28T02:39:32Z]   [Test] θ_current=0.0754  θ_proposed=-0.2826
+[2026-04-28T02:39:32Z]   [Test] Δθ = -0.3580  (threshold: +0.5000)
+[2026-04-28T02:39:32Z]   [Decision] REJECTED (Δθ=-0.3580 < 0.5)
+[2026-04-28T02:39:32Z] 
+────────────────────────────────────────────────────────────
+[2026-04-28T02:39:32Z] ITERATION 3/10
+[2026-04-28T02:39:32Z] ────────────────────────────────────────────────────────────
+[2026-04-28T02:39:32Z]   Current θ_augmented = 1.1114
+[2026-04-28T02:39:32Z]   Domain failure rates: {'21cfr11': 0.182, 'informed_consent': 0.646, 'gmp_deviation': 0.493, 'promo_review': 0.372, 'gcp_deviation': 0.639}
+[2026-04-28T02:39:32Z]   Too-hard items: 348 / 1823
+[2026-04-28T02:39:32Z]   [Proposer] Generating improvement proposal…
+[2026-04-28T02:39:33Z]   [Proposer] Hypothesis  : The high failure rates in specific domains such as informed consent, gcp deviation, and gmp deviation suggest that the primary issue lies in the analysis step where the model is required to provide section-level CFR/ICH citation and violation/compliant/uncertain rulings per element.
+[2026-04-28T02:39:33Z]   [Proposer] Change type : step_model  step=1
+[2026-04-28T02:39:33Z]   [Proposer] Description : Swap the current model in Step 1 to qwen-qwq-32b, a reasoning model that excels at structured step-by-step analysis, to potentially improve performance on tasks that require rigorous and structured regulatory analysis of specific sections and obligations.
+[2026-04-28T02:39:33Z]   [Proposer] Self-critique: The assumption that swapping the model to qwen-qwq-32b will improve performance might be wrong if the issue is not with the model's capability for structured analysis but rather with the quality of the input or the complexity of the regulatory domains being analyzed.
+[2026-04-28T02:39:33Z]   [Test] Testing on 40 items…
+[2026-04-28T02:45:16Z]   [Test] θ_current=-1.0512  θ_proposed=-1.3067
+[2026-04-28T02:45:16Z]   [Test] Δθ = -0.2555  (threshold: +0.5000)
+[2026-04-28T02:45:16Z]   [Decision] REJECTED (Δθ=-0.2555 < 0.5)
+[2026-04-28T02:45:16Z] 
+────────────────────────────────────────────────────────────
+[2026-04-28T02:45:16Z] ITERATION 4/10
+[2026-04-28T02:45:16Z] ────────────────────────────────────────────────────────────
+[2026-04-28T02:45:16Z]   Current θ_augmented = 1.1114
+[2026-04-28T02:45:16Z]   Domain failure rates: {'21cfr11': 0.182, 'informed_consent': 0.646, 'gmp_deviation': 0.493, 'promo_review': 0.372, 'gcp_deviation': 0.639}
+[2026-04-28T02:45:16Z]   Too-hard items: 348 / 1823
+[2026-04-28T02:45:16Z]   [Proposer] Generating improvement proposal…
+[2026-04-28T02:45:17Z]   [Proposer] Hypothesis  : The high failure rates in domains such as informed consent, gcp_deviation, and gmp_deviation suggest that the current model in Step 1 may not be adequately analyzing regulatory sections and obligations, leading to incorrect or incomplete rulings.
+[2026-04-28T02:45:17Z]   [Proposer] Change type : step_model  step=1
+[2026-04-28T02:45:17Z]   [Proposer] Description : Swap the current model in Step 1 to deepseek-r1-distill-llama-70b, a reasoning model specifically designed for multi-step compliance analysis, to potentially improve performance on tasks that require rigorous, structured analysis of regulatory sections and obligations.
+[2026-04-28T02:45:17Z]   [Proposer] Self-critique: This proposal might be flawed if the deepseek-r1-distill-llama-70b model's strengths in multi-step analysis do not translate to the specific regulatory analysis tasks required in Step 1, or if the model's output format, including <think> tags, interferes with downstream processing.
+[2026-04-28T02:45:17Z]   [Test] Testing on 40 items…
+[2026-04-28T02:51:03Z]   [Test] θ_current=-0.5543  θ_proposed=-0.7952
+[2026-04-28T02:51:03Z]   [Test] Δθ = -0.2409  (threshold: +0.5000)
+[2026-04-28T02:51:03Z]   [Decision] REJECTED (Δθ=-0.2409 < 0.5)
+[2026-04-28T02:51:03Z] 
+────────────────────────────────────────────────────────────
+[2026-04-28T02:51:03Z] ITERATION 5/10
+[2026-04-28T02:51:03Z] ────────────────────────────────────────────────────────────
+[2026-04-28T02:51:03Z]   Current θ_augmented = 1.1114
+[2026-04-28T02:51:03Z]   Domain failure rates: {'21cfr11': 0.182, 'informed_consent': 0.646, 'gmp_deviation': 0.493, 'promo_review': 0.372, 'gcp_deviation': 0.639}
+[2026-04-28T02:51:03Z]   Too-hard items: 348 / 1823
+[2026-04-28T02:51:03Z]   [Proposer] Generating improvement proposal…
+[2026-04-28T02:51:04Z]   [Proposer] Hypothesis  : The current failures are most likely due to insufficient detail in the regulatory analysis provided by Step 1, leading to incorrect or incomplete rulings on suspicious elements.
+[2026-04-28T02:51:04Z]   [Proposer] Change type : step_model  step=1
+[2026-04-28T02:51:05Z]   [Proposer] Description : Swap the current model in Step 1 to deepseek-r1-distill-llama-70b, with an increased max_tokens to 2048, to potentially improve the depth and accuracy of regulatory analysis.
+[2026-04-28T02:51:05Z]   [Proposer] Self-critique: This proposal might not succeed if the deepseek-r1-distill-llama-70b model's strengths in multi-step analysis do not effectively translate to the specific task of regulatory section-level analysis.
+[2026-04-28T02:51:05Z]   [Test] Testing on 40 items…
+[2026-04-28T02:56:52Z]   [Test] θ_current=0.4652  θ_proposed=-0.4234
+[2026-04-28T02:56:52Z]   [Test] Δθ = -0.8886  (threshold: +0.5000)
+[2026-04-28T02:56:52Z]   [Decision] REJECTED (Δθ=-0.8886 < 0.5)
+[2026-04-28T02:56:52Z] 
+────────────────────────────────────────────────────────────
+[2026-04-28T02:56:52Z] ITERATION 6/10
+[2026-04-28T02:56:52Z] ────────────────────────────────────────────────────────────
+[2026-04-28T02:56:52Z]   Current θ_augmented = 1.1114
+[2026-04-28T02:56:52Z]   Domain failure rates: {'21cfr11': 0.182, 'informed_consent': 0.646, 'gmp_deviation': 0.493, 'promo_review': 0.372, 'gcp_deviation': 0.639}
+[2026-04-28T02:56:52Z]   Too-hard items: 348 / 1823
+[2026-04-28T02:56:52Z]   [Proposer] Generating improvement proposal…
+[2026-04-28T02:56:53Z]   [Proposer] Hypothesis  : The high failure rates, especially in the 21cfr11 domain and the large number of identical sample failure reasons, suggest that the current solver struggles with accurately identifying and interpreting regulatory sections, which is most critical in Step 1 where section-level analysis is performed.
+[2026-04-28T02:56:53Z]   [Proposer] Change type : step_model  step=1
+[2026-04-28T02:56:53Z]   [Proposer] Description : Swap the current model in Step 1 to deepseek-r1-distill-llama-70b, a reasoning model specifically designed for multi-step compliance analysis, to potentially improve performance on tasks that require rigorous, structured analysis of regulatory sections and obligations.
+[2026-04-28T02:56:53Z]   [Proposer] Self-critique: This proposal assumes that the reasoning capabilities of deepseek-r1-distill-llama-70b will significantly outperform the current model without overfitting or requiring excessive computational resources, which might not be the case if the model's strengths do not align well with the specific regulatory analysis tasks.
+[2026-04-28T02:56:53Z]   [Test] Testing on 40 items…
+[2026-04-28T03:02:44Z]   [Test] θ_current=-0.6281  θ_proposed=0.4762
+[2026-04-28T03:02:44Z]   [Test] Δθ = +1.1043  (threshold: +0.5000)
+[2026-04-28T03:02:44Z]   [Decision] ADOPTED (Δθ=+1.1043 ≥ 0.5)

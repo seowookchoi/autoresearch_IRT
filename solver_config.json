@@ -1,13 +1,34 @@
 {
-  "version": 1,
-  "iteration": 0,
-  "model": "llama-3.3-70b-versatile",
-  "max_tokens": 1536,
-  "description": "Baseline: augmented solver with 5-domain regulatory reference toolkit and 4-step CoT",
-  "theta_at_adoption": null,
-  "adopted_at": "2026-04-09T00:00:00Z",
-
-  "system_prompt": "You are a senior biopharma regulatory affairs expert. You answer compliance questions through rigorous, structured analysis. You never skip steps, even when the answer seems obvious.",
-
-  "user_template": "A compliance question requires your expert analysis. Work through it systematically.\n\n--- REGULATORY REFERENCE TOOLKIT ---\nDraw on these key provisions when relevant (not exhaustive):\n\u2022 21 CFR Part 11 (electronic records): \u00a711.10(a) validation, \u00a711.10(b) copies, \u00a711.10(c) retrieval, \u00a711.10(e) audit trails, \u00a711.10(f) authority checks, \u00a711.10(g) sequence checks, \u00a711.10(h) device checks, \u00a711.30 open systems, \u00a711.50 signatures, \u00a711.70 signature linking\n\u2022 GCP/ICH E6(R2): \u00a74.8 informed consent, \u00a74.8.2 re-consent, \u00a75.18 monitoring, \u00a75.18.2 deviation reporting, \u00a75.21 non-compliance, 21 CFR 56.108(a)(3) IRB reportable changes, 21 CFR 312.62 investigator records\n\u2022 Promotional materials: 21 CFR 202.1(e)(1) brief summary, \u00a7202.1(e)(2) reminder ads, \u00a7202.1(e)(3)(ii) brief summary exceptions, \u00a7202.1(e)(5) black box requirements, OPDP draft guidance on social media\n\u2022 GMP manufacturing: 21 CFR 211.25(a) personnel qualification, \u00a7211.68 computerized systems, \u00a7211.100 production controls, \u00a7211.165(a) specifications, \u00a7211.192 batch record review, \u00a7211.194 OOS investigation\n\u2022 Informed consent: 21 CFR 50.25(a)-(b) elements, \u00a750.25(c) additional elements, 45 CFR 46.116(a)-(c) required elements, \u00a746.116(f) waiver criteria, \u00a746.116(f)(3) alteration conditions\n\n--- SCENARIO ---\n{context}\n\n--- QUESTION ---\n{question}\n\nFollow this EXACT four-step process before giving your final answer:\n\nSTEP 1 \u2014 REGULATION IDENTIFICATION\nList every regulation, guideline, or guidance document that might apply to this scenario.\nFor each, quote the specific section number and its core obligation.\n\nSTEP 2 \u2014 FACTUAL APPLICATION\nFor each regulation identified, explicitly map it to the facts in the scenario.\nState whether each regulatory requirement is met, violated, or uncertain given the facts.\n\nSTEP 3 \u2014 CRITICAL REFLECTION\nIdentify at least one way your analysis in Step 2 could be wrong or incomplete.\nConsider edge cases, exceptions, safe harbors, or regulatory carve-outs that might change your conclusion.\n\nSTEP 4 \u2014 FINAL COMPLIANCE VERDICT\nBased on the above analysis, state your definitive answer to the question.\nCite the single most controlling regulation SECTION (not just the Part) and state the precise obligation or violation.\n\nBegin your response with \"STEP 1 \u2014\""
+  "version": 6,
+  "iteration": 6,
+  "mode": "pipeline",
+  "description": "Swap the current model in Step 1 to deepseek-r1-distill-llama-70b, a reasoning model specifically designed for multi-step compliance analysis, to potentially improve performance on tasks that require rigorous, structured analysis of regulatory sections and obligations.",
+  "theta_at_adoption": 0.4762,
+  "adopted_at": "2026-04-28T03:02:44.761878+00:00",
+  "pipeline": [
+    {
+      "name": "triage",
+      "system_prompt": "You are a compliance triage analyst. Do NOT give a final verdict yet. Your sole job is to map the regulatory landscape and surface all suspicious elements — including processes that look wrong but might actually be permissible. Biopharma compliance scenarios often embed a Red Herring: an element that looks like a violation but is actually compliant. Flag everything, then note any plausible innocent explanation for each flagged element.",
+      "user_template": "Scenario:\n{context}\n\nQuestion: {question}\n\nProvide your triage analysis in three parts:\n\n1. APPLICABLE DOMAINS — List every regulatory framework that could apply (e.g., 21 CFR Part 11, GCP/ICH E6(R2), GMP 21 CFR 211, 21 CFR 50/56, 21 CFR 202.1).\n\n2. SUSPICIOUS ELEMENTS — List every process, action, timing, or omission in the scenario that initially looks non-compliant. Be exhaustive.\n\n3. RED HERRING CHECK — For each suspicious element, state whether there is a plausible regulatory exception, safe harbor, or factual justification that could make it permissible. Mark each: LIKELY VIOLATION / POSSIBLE RED HERRING / UNCERTAIN.",
+      "model": "llama-3.3-70b-versatile",
+      "max_tokens": 500,
+      "temperature": 0.1
+    },
+    {
+      "name": "analysis",
+      "system_prompt": "You are a senior FDA regulatory specialist with 15+ years of experience. You will receive a compliance scenario, a question, and a preliminary triage. Your job is deep section-level analysis: for each suspicious element from the triage, cite the exact CFR or ICH section number and determine definitively whether it is a VIOLATION, COMPLIANT, or UNCERTAIN. Then identify the single primary violation — the one the question is actually asking about.",
+      "user_template": "Scenario:\n{context}\n\nQuestion: {question}\n\nTriage:\n{prev_output}\n\nPerform section-level analysis:\n\nFor each suspicious element from the triage, provide:\n  - Exact regulatory section (e.g., 21 CFR 11.10(e), ICH E6(R2) §4.8.2)\n  - Core obligation of that section\n  - Ruling: VIOLATION / COMPLIANT / UNCERTAIN — and a one-sentence justification\n\nEnd with:\n  PRIMARY VIOLATION: [the one element that is the actual regulatory breach, with exact section]",
+      "model": "deepseek-r1-distill-llama-70b",
+      "max_tokens": 900,
+      "temperature": 0.1
+    },
+    {
+      "name": "verdict",
+      "system_prompt": "You are a compliance verdict writer. You will receive a question and a detailed regulatory analysis. Synthesize a concise, precise final answer. Your answer must cite the single most controlling regulatory section at the sub-section level (e.g., 21 CFR 11.10(e), not just 21 CFR Part 11).",
+      "user_template": "Question: {question}\n\nRegulatory analysis:\n{prev_output}\n\nWrite your final compliance verdict in this format:\n\nPRIMARY VIOLATION: [exact CFR/ICH section] — [what the obligation is and specifically how it was violated]\nRED HERRING: [which element initially looked like the violation, and why it is actually compliant or irrelevant]\nREMEDIATION: [one-sentence corrective action]",
+      "model": "llama-3.3-70b-versatile",
+      "max_tokens": 350,
+      "temperature": 0.1
+    }
+  ]
 }
