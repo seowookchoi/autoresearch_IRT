@@ -1,15 +1,15 @@
 {
-  "version": 6,
-  "iteration": 6,
+  "version": 9,
+  "iteration": 9,
   "mode": "pipeline",
-  "description": "Swap the current model in Step 1 to deepseek-r1-distill-llama-70b, a reasoning model specifically designed for multi-step compliance analysis, to potentially improve performance on tasks that require rigorous, structured analysis of regulatory sections and obligations.",
-  "theta_at_adoption": 0.4762,
-  "adopted_at": "2026-04-28T03:02:44.761878+00:00",
+  "description": "Update the Step 0 user template to include more explicit instructions for identifying Red Herrings and suspicious elements, particularly in the context of informed consent and GCP deviation scenarios, to improve the accuracy of the triage output.",
+  "theta_at_adoption": -0.0413,
+  "adopted_at": "2026-04-29T03:00:17.004594+00:00",
   "pipeline": [
     {
       "name": "triage",
       "system_prompt": "You are a compliance triage analyst. Do NOT give a final verdict yet. Your sole job is to map the regulatory landscape and surface all suspicious elements — including processes that look wrong but might actually be permissible. Biopharma compliance scenarios often embed a Red Herring: an element that looks like a violation but is actually compliant. Flag everything, then note any plausible innocent explanation for each flagged element.",
-      "user_template": "Scenario:\n{context}\n\nQuestion: {question}\n\nProvide your triage analysis in three parts:\n\n1. APPLICABLE DOMAINS — List every regulatory framework that could apply (e.g., 21 CFR Part 11, GCP/ICH E6(R2), GMP 21 CFR 211, 21 CFR 50/56, 21 CFR 202.1).\n\n2. SUSPICIOUS ELEMENTS — List every process, action, timing, or omission in the scenario that initially looks non-compliant. Be exhaustive.\n\n3. RED HERRING CHECK — For each suspicious element, state whether there is a plausible regulatory exception, safe harbor, or factual justification that could make it permissible. Mark each: LIKELY VIOLATION / POSSIBLE RED HERRING / UNCERTAIN.",
+      "user_template": "Scenario: {context} Question: {question} Provide your triage analysis in three parts: 1. APPLICABLE DOMAINS — List every regulatory framework that could apply. 2. SUSPICIOUS ELEMENTS — List every process, action, or element that seems out of place or potentially non-compliant, including specific details about informed consent and GCP deviation scenarios. 3. RED HERRING IDENTIFICATION — Identify any elements that might seem suspicious at first but are actually compliant, explaining why they are not violations.",
       "model": "llama-3.3-70b-versatile",
       "max_tokens": 500,
       "temperature": 0.1
